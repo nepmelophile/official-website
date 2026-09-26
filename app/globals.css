@@ -1,26 +1,319 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Melophile design tokens. Values MUST stay identical to docs/visual-design.md.
+ * `static` makes Tailwind always emit these as CSS variables on :root so they can be
+ * used from plain CSS / inline styles as well as via utilities.
+ */
+@theme static {
+  /* ---- Raw palette ---- */
+  --color-ink-950: #0b0a09;
+  --color-ink-900: #131110;
+  --color-ink-850: #1a1715;
+  --color-ink-800: #221f1c;
+  --color-ink-700: #2e2a26;
+  --color-ink-600: #403a35;
+  --color-ink-500: #5e5750;
+  --color-ink-400: #948b81;
+  --color-ink-300: #aea498;
+  --color-ink-200: #d3c9bc;
+  --color-ink-100: #eae2d6;
+  --color-paper: #f5eee3;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-vermilion-300: #ff8a7a;
+  --color-vermilion-400: #ff5a45;
+  --color-vermilion-500: #e8391f;
+  --color-vermilion-600: #d4321a;
+  --color-vermilion-700: #a82613;
+  --color-vermilion-900: #3a120b;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-marigold-300: #ffd27a;
+  --color-marigold-400: #ffba3b;
+  --color-marigold-500: #f29f05;
+  --color-marigold-900: #3a2805;
+
+  --color-success: #4cc38a;
+  --color-warning: #ffba3b;
+  --color-danger: #ff5a5f;
+  --color-info: #6cb4ee;
+
+  /* ---- Semantic aliases ---- */
+  --color-bg: #0b0a09;
+  --color-bg-alt: #131110;
+  --color-surface: #1a1715;
+  --color-surface-raised: #221f1c;
+  --color-line: #2e2a26;
+  --color-line-strong: #403a35;
+  --color-fg: #f5eee3;
+  --color-fg-muted: #aea498;
+  --color-fg-subtle: #948b81;
+  --color-accent: #d4321a;
+  --color-accent-hover: #bf2d16;
+  --color-accent-fg: #fff7f0;
+  --color-highlight: #ffba3b;
+  --color-highlight-fg: #1a1204;
+
+  /* ---- Type scale (fluid display sizes) ---- */
+  --text-display-2xl: clamp(3.5rem, 1.6rem + 8vw, 10rem);
+  --text-display-2xl--line-height: 0.86;
+  --text-display-2xl--letter-spacing: -0.04em;
+  --text-display-xl: clamp(2.75rem, 1.5rem + 5.2vw, 6.5rem);
+  --text-display-xl--line-height: 0.9;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-lg: clamp(2.25rem, 1.4rem + 3.4vw, 4.5rem);
+  --text-display-lg--line-height: 0.95;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-display-md: clamp(1.75rem, 1.3rem + 1.9vw, 3rem);
+  --text-display-md--line-height: 1;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-display-sm: clamp(1.375rem, 1.15rem + 0.9vw, 2rem);
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.015em;
+
+  /* ---- Spacing & containers ---- */
+  --spacing-gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --spacing-section: clamp(4rem, 2.8rem + 5vw, 8.5rem);
+  --container-content: 88rem;
+  --container-reading: 44rem;
+  --container-narrow: 36rem;
+
+  /* ---- Radii ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 24px 48px -28px rgb(0 0 0 / 0.9);
+  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.06) inset, 0 32px 64px -24px rgb(0 0 0 / 0.95);
+  --shadow-glow: 0 0 0 1px rgb(232 57 31 / 0.45), 0 18px 50px -18px rgb(232 57 31 / 0.55);
+  --shadow-glow-marigold: 0 0 0 1px rgb(255 186 59 / 0.4), 0 18px 50px -18px rgb(255 186 59 / 0.45);
+
+  /* ---- Motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-fast: 150ms;
+  --duration-base: 280ms;
+  --duration-slow: 600ms;
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-fade-up: fade-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-pulse-dot: pulse-dot 1.8s ease-in-out infinite;
+
+  /* ---- Breakpoints (Tailwind defaults + xs) ---- */
+  --breakpoint-xs: 30rem;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.8);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/*
+ * Font families reference the CSS variables that next/font sets on <html> (app/layout.tsx).
+ * `inline` makes utilities use the var() reference directly.
+ */
+@theme inline {
+  --font-display: var(--font-bricolage), "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-bg);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Film grain overlay (disable with body.no-grain, e.g. in /admin). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* :has() hides it from the first server-rendered paint in /admin (no client flash). */
+  body.no-grain::before,
+  body:has([data-admin-shell])::before {
+    display: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-highlight);
+    outline-offset: 3px;
+  }
+
+  /* Elements that draw their own ring via utilities opt out of the default outline. */
+  .focus-ring-custom:focus-visible {
+    outline: none;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-ink-500);
+  }
+
+  hr {
+    border-color: var(--color-line);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Soft vermilion + marigold radial glow for heroes and CTA bands. */
+  .bg-glow {
+    background-image:
+      radial-gradient(60% 55% at 12% 8%, rgb(232 57 31 / 0.18), transparent 70%),
+      radial-gradient(50% 50% at 92% 96%, rgb(255 186 59 / 0.1), transparent 70%);
+  }
+
+  /* Marquee track: duplicate children once; the track translates -50%. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: var(--animate-marquee);
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+    }
+
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* Markdown prose colours (use with `prose prose-invert prose-melophile`). */
+  .prose-melophile {
+    --tw-prose-invert-body: var(--color-fg-muted);
+    --tw-prose-invert-headings: var(--color-fg);
+    --tw-prose-invert-lead: var(--color-ink-200);
+    --tw-prose-invert-links: var(--color-vermilion-300);
+    --tw-prose-invert-bold: var(--color-fg);
+    --tw-prose-invert-counters: var(--color-fg-subtle);
+    --tw-prose-invert-bullets: var(--color-accent);
+    --tw-prose-invert-hr: var(--color-line);
+    --tw-prose-invert-quotes: var(--color-fg);
+    --tw-prose-invert-quote-borders: var(--color-accent);
+    --tw-prose-invert-captions: var(--color-fg-subtle);
+    --tw-prose-invert-code: var(--color-marigold-300);
+    --tw-prose-invert-pre-code: var(--color-ink-100);
+    --tw-prose-invert-pre-bg: var(--color-surface);
+    --tw-prose-invert-th-borders: var(--color-line-strong);
+    --tw-prose-invert-td-borders: var(--color-line);
+  }
+
+  .prose-melophile :where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  .prose-melophile :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.35em;
+    line-height: 1.35;
+  }
+
+  .prose-melophile :where(a):not(:where(.not-prose, .not-prose *)) {
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+}
+
+/*
+ * Editors type their own quotation marks, so don't let the typography plugin add a second pair.
+ * Unlayered on purpose: the plugin's prose rules live in the utilities layer, which would
+ * otherwise win over anything in @layer components.
+ */
+.prose-melophile blockquote p:first-of-type::before,
+.prose-melophile blockquote p:last-of-type::after {
+  content: none;
 }

@@ -1,0 +1,10 @@
+export { CtaBand, type CtaBandProps } from "./CtaBand";
+export { RecordSticker, VinylGrooves, type RecordStickerProps, type VinylGroovesProps } from "./decor";
+export { stripAccentMarkers, withAccent } from "./emphasis";
+export { FeaturedArtists, type FeaturedArtistsProps } from "./FeaturedArtists";
+export { HomeHero, type HomeHeroProps } from "./HomeHero";
+export { ImpactSection, type ImpactSectionProps } from "./ImpactSection";
+export { LatestNews, type LatestNewsProps } from "./LatestNews";
+export { ServicesTeaser, type ServicesTeaserProps } from "./ServicesTeaser";
+export { Testimonials, type TestimonialsProps } from "./Testimonials";
+export { TrendingStrip, type TrendingStripProps } from "./TrendingStrip";

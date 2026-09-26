@@ -1,0 +1,21 @@
+# Local MongoDB for Melophile development.
+#   docker compose up -d
+#   MONGODB_URI=mongodb://127.0.0.1:27018/melophile
+# Host port 27018 (27017 is used by another project on this machine).
+services:
+  mongo:
+    image: mongo:7
+    container_name: melophile-mongo
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - melophile-mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  melophile-mongo-data:
