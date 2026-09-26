@@ -247,9 +247,3 @@ proxy.ts             optimistic /admin gate (Next 16 "proxy", formerly middlewar
 scripts/seed.ts      sample content
 docs/                design.md (stack brief), requirements.md, visual-design.md, admin-kit.md
 ```
-
-More docs:
-- [`docs/requirements.md`](docs/requirements.md): page-by-page scope
-- [`docs/visual-design.md`](docs/visual-design.md): visual system and tokens
-- [`docs/admin-kit.md`](docs/admin-kit.md): how admin sections are built (for developers)
-- [`docs/design.md`](docs/design.md): the original stack and deployment brief
