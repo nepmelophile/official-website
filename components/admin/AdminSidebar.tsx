@@ -111,8 +111,9 @@ function Wordmark({ brand, stacked = false }: { brand?: BrandAssetsDTO; stacked?
 function NavContent({ pathname, unread, email, onNavigate }: { pathname: string; unread: number; email: string; onNavigate?: () => void }) {
   const current = activeHref(pathname);
   return (
-    <div className="flex h-full flex-col">
-      <nav aria-label="Admin" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+    // min-h-0 + flex-1 (not h-full): fills what's left under the header, so only the nav scrolls.
+    <div className="flex min-h-0 flex-1 flex-col">
+      <nav aria-label="Admin" className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain px-3 py-5">
         {NAV_GROUPS.map((group) => (
           <div key={group.label}>
             <p className="mb-1.5 px-3 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-fg-subtle">{group.label}</p>
@@ -149,7 +150,7 @@ function NavContent({ pathname, unread, email, onNavigate }: { pathname: string;
         ))}
       </nav>
 
-      <div className="space-y-1 border-t border-line px-3 py-4">
+      <div className="shrink-0 space-y-1 border-t border-line px-3 py-4">
         <ThemeSwitch size="sm" hideLabel className="px-0.5 pb-2" />
         <a
           href="/"
@@ -244,7 +245,7 @@ export function AdminSidebar({ email, unreadMessages, brand }: AdminSidebarProps
             open ? "translate-x-0" : "-translate-x-full",
           )}
         >
-          <div className="flex h-14 items-center justify-between border-b border-line px-4">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-4">
             <Wordmark brand={brand} />
             <button
               ref={closeRef}
@@ -261,8 +262,8 @@ export function AdminSidebar({ email, unreadMessages, brand }: AdminSidebarProps
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-line bg-bg-alt lg:flex">
-        <div className="flex items-center border-b border-line px-6 py-4">
+      <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col self-start overflow-hidden border-r border-line bg-bg-alt lg:flex">
+        <div className="flex shrink-0 items-center border-b border-line px-6 py-4">
           <Wordmark brand={brand} stacked />
         </div>
         <NavContent pathname={pathname} unread={unreadMessages} email={email} />
