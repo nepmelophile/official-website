@@ -105,7 +105,7 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
           <ul className="space-y-3 text-sm">
             {PLACES.map((place) => (
               <li key={place.label} className="flex gap-3">
-                <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-pill bg-vermilion-500" />
+                <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-pill bg-accent" />
                 <span>
                   <span className="block font-medium text-fg">{place.label}</span>
                   <span className="block text-xs text-fg-subtle">{place.detail}</span>
@@ -115,7 +115,7 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
           </ul>
           <p className="text-xs text-fg-subtle">
             Messages sent through the contact form land in the{" "}
-            <Link href="/admin/messages" className="text-vermilion-300 underline-offset-4 hover:underline">
+            <Link href="/admin/messages" className="text-orchid-300 underline-offset-4 hover:underline">
               inbox
             </Link>
             .

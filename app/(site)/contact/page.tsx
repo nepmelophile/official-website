@@ -55,7 +55,7 @@ export default async function ContactPage() {
           <div className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
             <div className="rounded-xl border border-line bg-surface p-5 shadow-card sm:p-8 md:p-10">
               <p className="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-                <span aria-hidden="true" className="inline-block size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+                <span aria-hidden="true" className="inline-block size-1.5 animate-pulse-dot rounded-pill bg-accent" />
                 Inbox open
               </p>
               <h2 id="contact-form-title" className="font-display text-display-sm font-bold text-fg">
@@ -83,7 +83,7 @@ export default async function ContactPage() {
             id="contact-map-title"
             className="mb-6 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle"
           >
-            <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-vermilion-500" />
+            <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-accent" />
             Find the studio
           </h2>
           <ContactMap src={mapSrc} address={info.address} />

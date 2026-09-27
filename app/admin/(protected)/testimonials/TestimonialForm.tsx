@@ -22,6 +22,9 @@ interface TestimonialFormValues {
   quote: string;
   order: number | undefined;
   active: boolean;
+  featured: boolean;
+  /** Both blank = no source (the validator drops it). */
+  source: { label: string; url: string };
 }
 
 function toValues(t: TestimonialDTO | undefined, nextOrder: number): TestimonialFormValues {
@@ -32,6 +35,8 @@ function toValues(t: TestimonialDTO | undefined, nextOrder: number): Testimonial
     quote: t?.quote ?? "",
     order: t?.order ?? nextOrder,
     active: t?.active ?? true,
+    featured: t?.featured ?? false,
+    source: { label: t?.source?.label ?? "", url: t?.source?.url ?? "" },
   };
 }
 
@@ -56,7 +61,7 @@ export function TestimonialForm({ testimonial, nextOrder = 0 }: TestimonialFormP
     action: (values) => (testimonial ? updateTestimonial(testimonial.id, values) : createTestimonial(values)),
     redirectTo: isNew ? (data) => (data ? `/admin/testimonials/${data.id}` : undefined) : undefined,
   });
-  const { values, setter, error } = form;
+  const { values, set, setter, error } = form;
   const label = testimonial ? `${testimonial.name}’s testimonial` : "";
 
   return (
@@ -78,9 +83,15 @@ export function TestimonialForm({ testimonial, nextOrder = 0 }: TestimonialFormP
           <FormSection title="Visibility">
             <Toggle
               label="Active"
-              description="Shown on the homepage and Services page"
+              description="Shown on the homepage, the Services page and /testimonials"
               checked={values.active}
               onChange={setter("active")}
+            />
+            <Toggle
+              label="Featured"
+              description="Shown large at the top of /testimonials"
+              checked={values.featured}
+              onChange={setter("featured")}
             />
             <NumberInput
               label="Order"
@@ -140,6 +151,32 @@ export function TestimonialForm({ testimonial, nextOrder = 0 }: TestimonialFormP
           maxLength={800}
           showCount
         />
+      </FormSection>
+      <FormSection
+        title="Source"
+        description="Optional. Where the quote first appeared, e.g. an interview or a post. Shown as “Via …” on /testimonials."
+      >
+        <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+          <TextInput
+            label="Source"
+            optional
+            value={values.source.label}
+            onChange={(label) => set("source", { ...values.source, label })}
+            error={error("source.label") ?? error("source")}
+            maxLength={80}
+            placeholder="Interview, The Kathmandu Post"
+          />
+          <TextInput
+            label="Source link"
+            optional
+            type="url"
+            hint="A full https:// URL. Needs a source label."
+            value={values.source.url}
+            onChange={(url) => set("source", { ...values.source, url: url.trim() })}
+            error={error("source.url")}
+            placeholder="https://…"
+          />
+        </div>
       </FormSection>
       <FormSection title="Preview" description="As it appears on the site.">
         <div inert className="select-none">

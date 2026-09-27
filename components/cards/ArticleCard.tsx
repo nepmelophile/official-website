@@ -91,7 +91,7 @@ export function ArticleCard({
         />
         <div className="flex flex-col justify-end lg:col-span-5 lg:pb-2">
           <p className={cn(META, "mb-5 flex items-center gap-2 text-fg-subtle")}>
-            <span aria-hidden="true" className="size-1.5 rounded-pill bg-vermilion-500" />
+            <span aria-hidden="true" className="size-1.5 rounded-pill bg-accent" />
             Lead story
           </p>
           <Meta article={article} />
@@ -113,7 +113,7 @@ export function ArticleCard({
             ) : null}
             <span
               aria-hidden="true"
-              className={cn(META, "ml-auto inline-flex items-center gap-2 text-fg transition-colors group-hover:text-vermilion-300")}
+              className={cn(META, "ml-auto inline-flex items-center gap-2 text-fg transition-colors group-hover:text-orchid-300")}
             >
               Read story
               <ArrowRight size={16} strokeWidth={1.75} className="transition-transform duration-300 ease-out-expo group-hover:translate-x-1" />

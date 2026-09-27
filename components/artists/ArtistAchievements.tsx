@@ -20,7 +20,7 @@ function sortAchievements(items: Achievement[]): Achievement[] {
     .map(({ item }) => item);
 }
 
-/** Career milestones as a vertical timeline (year column + vermilion nodes on a hairline). */
+/** Career milestones as a vertical timeline (year column + accent nodes on a hairline). */
 export function ArtistAchievements({ achievements, index, tone = "alt" }: ArtistAchievementsProps) {
   const items = sortAchievements(achievements.filter((a) => a.title?.trim()));
   if (items.length === 0) return null;
@@ -61,7 +61,7 @@ export function ArtistAchievements({ achievements, index, tone = "alt" }: Artist
               <div className="relative border-l border-line pb-12 pl-6 group-last:border-transparent group-last:pb-0 sm:pl-8">
                 <span
                   aria-hidden="true"
-                  className={`absolute top-1.5 -left-[5px] size-2.5 rounded-pill bg-vermilion-500 ring-4 ${ringTone}`}
+                  className={`absolute top-1.5 -left-[5px] size-2.5 rounded-pill bg-accent ring-4 ${ringTone}`}
                 />
                 <h3 className="font-display text-xl leading-tight font-bold text-fg md:text-2xl">{achievement.title}</h3>
                 {achievement.description ? (

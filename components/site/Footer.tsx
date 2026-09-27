@@ -3,8 +3,9 @@ import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { SITE_DESCRIPTION, SITE_DOMAIN, SITE_NAME } from "@/lib/constants";
+import { getNavLinks } from "@/lib/queries/nav";
 import { getSiteChromeContactInfo } from "@/lib/queries/settings";
-import { HEADER_CTA, SITE_NAV } from "./nav";
+import { HEADER_CTA } from "./nav";
 import { Wordmark } from "./Wordmark";
 
 const HEADING = "font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle";
@@ -16,14 +17,14 @@ function telHref(phone: string): string {
 
 /** Public footer: contact details and socials from ContactInfo, nav, copyright. */
 export async function Footer() {
-  const contact = await getSiteChromeContactInfo();
+  const [contact, links] = await Promise.all([getSiteChromeContactInfo(), getNavLinks()]);
   const year = new Date().getFullYear();
 
   return (
     <footer className="relative overflow-hidden border-t border-line bg-bg-alt">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -left-40 size-[36rem] rounded-full bg-[radial-gradient(circle,rgb(232_57_31/0.12),transparent_65%)]"
+        className="pointer-events-none absolute -top-40 -left-40 size-[36rem] rounded-full bg-[radial-gradient(circle,rgb(221_68_221/0.12),transparent_65%)]"
       />
       <Container className="relative pt-16 pb-10 md:pt-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
@@ -52,7 +53,7 @@ export async function Footer() {
           <nav aria-label="Footer" className="lg:col-span-2 lg:col-start-7">
             <h2 className={HEADING}>Explore</h2>
             <ul className="mt-4 flex flex-col">
-              {SITE_NAV.map((item) => (
+              {links.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={LINK}>
                     {item.label}
@@ -104,7 +105,7 @@ export async function Footer() {
             © {year} {SITE_NAME} · {SITE_DOMAIN}
           </p>
           <p className="flex items-center gap-2">
-            <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+            <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
             Made in Kathmandu, Nepal
           </p>
         </div>

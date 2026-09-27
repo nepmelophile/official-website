@@ -35,7 +35,7 @@ function AuthorMark({ author }: { author?: string }) {
         initials(author)
       ) : (
         <>
-          M<span className="text-vermilion-500">.</span>
+          M<span className="text-accent">.</span>
         </>
       )}
     </span>
@@ -113,7 +113,7 @@ export function ArticleHero({ article, readingMinutes, titleId, listen }: Articl
             {listen ? (
               <ButtonLink
                 href={listen.href}
-                variant="marigold"
+                variant="cobalt"
                 size="sm"
                 leadingIcon={<ListenIcon size={14} strokeWidth={2} aria-hidden="true" />}
               >

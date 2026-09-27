@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TRENDING_TYPES } from "@/lib/constants";
+import { TRENDING_MOVEMENTS, TRENDING_TYPES } from "@/lib/constants";
 import {
   booleanish,
   intField,
@@ -12,6 +12,12 @@ import {
 
 /** Highest rank (position) an item can have. */
 export const TRENDING_MAX_RANK = 1000;
+
+/** Optional chart arrow; blank ("" from the select) means none. */
+export const trendingMovementSchema = z.preprocess(
+  (value) => (value === undefined || value === null || (typeof value === "string" && value.trim() === "") ? undefined : value),
+  z.enum(TRENDING_MOVEMENTS, { error: "Choose new, up, down or steady" }).optional(),
+);
 
 /**
  * Admin create/update payload for a TrendingItem.
@@ -34,6 +40,7 @@ export const trendingItemSchema = z
     image: optionalMediaRefSchema,
     href: optionalLinkSchema,
     embedUrl: optionalEmbedUrlSchema,
+    movement: trendingMovementSchema,
   })
   .superRefine((data, ctx) => {
     if (!data.refId && !data.title) {

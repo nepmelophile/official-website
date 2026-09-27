@@ -1,6 +1,6 @@
 import mongoose, { Schema, type Model, type Types } from "mongoose";
-import { TRENDING_TYPES } from "@/lib/constants";
-import type { TrendingType } from "@/types/content";
+import { TRENDING_MOVEMENTS, TRENDING_TYPES } from "@/lib/constants";
+import type { TrendingMovement, TrendingType } from "@/types/content";
 import { MediaRefSchema, type Lean, type MediaRefDoc, type TimestampsDoc } from "./shared";
 
 export interface TrendingItemDoc extends TimestampsDoc {
@@ -16,6 +16,8 @@ export interface TrendingItemDoc extends TimestampsDoc {
   image?: MediaRefDoc;
   href?: string;
   embedUrl?: string;
+  /** Chart arrow on /trending (optional; older documents have none). */
+  movement?: TrendingMovement;
 }
 
 export type TrendingItemLean = Lean<TrendingItemDoc>;
@@ -32,6 +34,7 @@ const TrendingItemSchema = new Schema<TrendingItemDoc>(
     image: { type: MediaRefSchema },
     href: { type: String, trim: true },
     embedUrl: { type: String, trim: true },
+    movement: { type: String, enum: TRENDING_MOVEMENTS },
   },
   { timestamps: true },
 );

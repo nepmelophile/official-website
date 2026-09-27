@@ -10,7 +10,7 @@ export interface WordmarkProps {
   asLink?: boolean;
 }
 
-/** "MELOPHILE●" wordmark with a vermilion dot. */
+/** "MELOPHILE●" wordmark with a brand-gradient (orchid → cobalt) dot. */
 export function Wordmark({ className, size = "sm", asLink = true }: WordmarkProps) {
   const mark = (
     <span
@@ -23,7 +23,7 @@ export function Wordmark({ className, size = "sm", asLink = true }: WordmarkProp
       <span
         aria-hidden="true"
         className={cn(
-          "inline-block rounded-pill bg-vermilion-500",
+          "inline-block rounded-pill bg-brand-gradient",
           size === "sm" ? "ml-0.5 size-[0.3em]" : "ml-[0.04em] size-[0.18em]",
         )}
       />

@@ -4,6 +4,7 @@ export * from "./Service";
 export * from "./Testimonial";
 export * from "./TrendingItem";
 export * from "./HomepageSettings";
+export * from "./PageSettings";
 export * from "./ContactInfo";
 export * from "./ContactMessage";
 export * from "./shared";

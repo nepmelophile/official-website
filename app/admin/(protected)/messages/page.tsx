@@ -56,7 +56,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
           <span className="flex items-start gap-2.5">
             <span
               aria-hidden
-              className={cn("mt-1.5 size-2 shrink-0 rounded-pill", unread ? "bg-vermilion-500" : "bg-transparent")}
+              className={cn("mt-1.5 size-2 shrink-0 rounded-pill", unread ? "bg-accent" : "bg-transparent")}
             />
             <span className="min-w-0">
               <span className={cn("block max-w-[14rem] truncate", unread ? "font-semibold text-fg" : "font-normal text-fg-muted")}>
@@ -168,7 +168,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
         columns={columns}
         rowKey={({ message }) => message.id}
         rowHref={({ message }) => detailHref(message.id)}
-        rowClassName={({ message }) => (message.status === "new" ? "bg-vermilion-900/15" : undefined)}
+        rowClassName={({ message }) => (message.status === "new" ? "bg-orchid-900/15" : undefined)}
         empty={q ? { title: "No matches", description: "Try a different search, or look in another folder." } : EMPTY_TEXT[view]}
       />
 

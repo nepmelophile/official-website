@@ -5,12 +5,14 @@ import type {
   ArtistSummary,
   ContactInfoDTO,
   HomepageSettingsDTO,
+  PageSettingsMap,
   ServiceDTO,
   TestimonialDTO,
   TrendingCard,
 } from "@/types/content";
 import { getFeaturedArticles, getLatestArticles } from "./articles";
 import { getFeaturedArtists } from "./artists";
+import { getAllPageSettings } from "./page-settings";
 import { getActiveServices } from "./services";
 import { getContactInfo, getHomepageSettings } from "./settings";
 import { getActiveTestimonials } from "./testimonials";
@@ -25,6 +27,8 @@ export const HOME_SERVICE_COUNT = 3;
 
 export interface HomePageData {
   settings: HomepageSettingsDTO;
+  /** /trending and /testimonials settings (homepage limits, "view all" links when live). */
+  pages: PageSettingsMap;
   contact: ContactInfoDTO;
   trending: TrendingCard[];
   articles: ArticleSummary[];
@@ -52,10 +56,13 @@ async function getHomeArticles(limit: number): Promise<ArticleSummary[]> {
  * degrades to empty lists / defaults without a database, so this never throws.
  */
 export const getHomePageData = cache(async (): Promise<HomePageData> => {
-  const [settings, contact, trending, articles, artists, services, testimonials] = await Promise.all([
+  const pagesPromise = getAllPageSettings();
+  const [settings, pages, contact, trending, articles, artists, services, testimonials] = await Promise.all([
     getHomepageSettings(),
+    pagesPromise,
     getContactInfo(),
-    getTrending(),
+    // The strip length is set in the Trending page settings.
+    pagesPromise.then((pages) => getTrending(pages.trending.homepageLimit)),
     getHomeArticles(HOME_ARTICLE_COUNT),
     getFeaturedArtists(HOME_ARTIST_COUNT),
     getActiveServices(),
@@ -64,11 +71,12 @@ export const getHomePageData = cache(async (): Promise<HomePageData> => {
 
   return {
     settings,
+    pages,
     contact,
     trending,
     articles,
     artists,
     services: services.slice(0, HOME_SERVICE_COUNT),
-    testimonials,
+    testimonials: testimonials.slice(0, pages.testimonials.homepageLimit),
   };
 });

@@ -82,10 +82,10 @@ export default async function AdminDashboardPage() {
       </PageHeader>
 
       {data.dbError ? (
-        <div role="status" className="mb-6 flex items-start gap-3 rounded-md border border-highlight/40 bg-marigold-900/40 px-4 py-3 text-sm text-fg">
-          <Database aria-hidden className="mt-0.5 size-4 shrink-0 text-highlight" strokeWidth={1.75} />
+        <div role="status" className="mb-6 flex items-start gap-3 rounded-md border border-warning/40 bg-warning/10 px-4 py-3 text-sm text-fg">
+          <Database aria-hidden className="mt-0.5 size-4 shrink-0 text-warning" strokeWidth={1.75} />
           <p>
-            {data.dbError} Check <code className="font-mono text-xs text-marigold-300">MONGODB_URI</code> and that the
+            {data.dbError} Check <code className="font-mono text-xs text-warning">MONGODB_URI</code> and that the
             database is running.
           </p>
         </div>
@@ -95,14 +95,14 @@ export default async function AdminDashboardPage() {
         {tiles.map((tile) => (
           <StatTile key={tile.href} tile={tile} />
         ))}
-        <li className="group relative flex flex-col justify-between gap-6 rounded-md border border-accent/40 bg-vermilion-900/30 p-5 transition-colors duration-150 hover:border-accent">
+        <li className="group relative flex flex-col justify-between gap-6 rounded-md border border-accent/40 bg-orchid-900/30 p-5 transition-colors duration-150 hover:border-accent">
           <div className="flex items-start justify-between gap-3">
-            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-vermilion-300">
+            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-orchid-300">
               <Link href="/admin/messages?status=new" className="after:absolute after:inset-0 hover:text-fg">
                 New messages
               </Link>
             </h2>
-            {counts.messages.new > 0 ? <span aria-hidden className="size-2 animate-pulse-dot rounded-pill bg-vermilion-500" /> : null}
+            {counts.messages.new > 0 ? <span aria-hidden className="size-2 animate-pulse-dot rounded-pill bg-accent" /> : null}
           </div>
           <div>
             <p className="font-display text-4xl font-extrabold leading-none tracking-tight tabular-nums text-fg">
@@ -137,7 +137,7 @@ export default async function AdminDashboardPage() {
                   key={message.id}
                   className={cn(
                     "relative flex items-start gap-4 px-4 py-3 transition-colors duration-150 hover:bg-surface",
-                    message.status === "new" && "bg-vermilion-900/15",
+                    message.status === "new" && "bg-orchid-900/15",
                   )}
                 >
                   <div className="min-w-0 flex-1">
@@ -145,7 +145,7 @@ export default async function AdminDashboardPage() {
                       <Link
                         href={`/admin/messages/${message.id}`}
                         className={cn(
-                          "after:absolute after:inset-0 hover:text-vermilion-300",
+                          "after:absolute after:inset-0 hover:text-orchid-300",
                           message.status === "new" ? "font-semibold text-fg" : "text-fg",
                         )}
                       >

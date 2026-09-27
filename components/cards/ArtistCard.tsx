@@ -52,7 +52,7 @@ export function ArtistCard({
         {index !== undefined ? (
           <span
             aria-hidden="true"
-            className={cn(META, "absolute top-3 left-3 rounded-xs bg-ink-950/70 px-2 py-1 text-highlight backdrop-blur-sm")}
+            className={cn(META, "absolute top-3 left-3 rounded-xs bg-ink-950/85 px-2 py-1 text-highlight backdrop-blur-sm")}
           >
             {String(index).padStart(2, "0")}
           </span>

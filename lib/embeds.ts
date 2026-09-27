@@ -117,7 +117,7 @@ function spotify(url: URL): EmbedInfo | null {
 function soundcloudPlayer(trackUrl: string, isSet: boolean): EmbedInfo {
   const params = new URLSearchParams({
     url: trackUrl,
-    color: "#e8391f",
+    color: "#dd44dd",
     auto_play: "false",
     hide_related: "true",
     show_comments: "false",

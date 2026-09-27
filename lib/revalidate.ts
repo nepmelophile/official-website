@@ -1,5 +1,7 @@
 import "server-only";
 import { revalidatePath } from "next/cache";
+import { PAGE_PATHS } from "@/lib/constants";
+import type { PageKey } from "@/types/content";
 
 /*
  * On-demand revalidation helpers. Call the matching helper from every admin mutation
@@ -18,6 +20,15 @@ import { revalidatePath } from "next/cache";
 const ARTICLE_PAGE_PATTERN = "/(site)/news/[slug]";
 const ARTIST_PAGE_PATTERN = "/(site)/artists/[slug]";
 
+/*
+ * The managed pages (app/(site)/trending, app/(site)/testimonials) are static routes, so their
+ * literal URL paths ("/trending", "/testimonials" from PAGE_PATHS) are enough — no route-group
+ * pattern is needed for them. /trending reads ?type=, so it renders per request anyway; it is
+ * still purged so a router-cached copy is refreshed.
+ */
+const TRENDING_PATH = PAGE_PATHS.trending;
+const TESTIMONIALS_PATH = PAGE_PATHS.testimonials;
+
 const SITEMAP = "/sitemap.xml";
 
 function safeRevalidate(path: string, type?: "page" | "layout"): void {
@@ -30,22 +41,24 @@ function safeRevalidate(path: string, type?: "page" | "layout"): void {
   }
 }
 
-/** Articles: news listing, article pages, home (latest/featured/trending), artist pages (related news). */
+/** Articles: news listing, article pages, home (latest/featured/trending), artist pages (related news), the trending chart. */
 export function revalidateArticles(slug?: string | null): void {
   safeRevalidate("/news");
   if (slug) safeRevalidate(`/news/${slug}`);
   safeRevalidate(ARTICLE_PAGE_PATTERN, "page");
   safeRevalidate(ARTIST_PAGE_PATTERN, "page");
   safeRevalidate("/");
+  safeRevalidate(TRENDING_PATH);
   safeRevalidate(SITEMAP);
 }
 
-/** Artists: listing, artist pages, home (featured artists / trending). */
+/** Artists: listing, artist pages, home (featured artists / trending), the trending chart. */
 export function revalidateArtists(slug?: string | null): void {
   safeRevalidate("/artists");
   if (slug) safeRevalidate(`/artists/${slug}`);
   safeRevalidate(ARTIST_PAGE_PATTERN, "page");
   safeRevalidate("/");
+  safeRevalidate(TRENDING_PATH);
   safeRevalidate(SITEMAP);
 }
 
@@ -56,15 +69,29 @@ export function revalidateServices(): void {
   safeRevalidate("/");
 }
 
-/** Testimonials: home and services pages. */
+/** Testimonials: home, services and the /testimonials page. */
 export function revalidateTestimonials(): void {
   safeRevalidate("/");
   safeRevalidate("/services");
+  safeRevalidate(TESTIMONIALS_PATH);
 }
 
-/** Trending strip: home page. */
+/** Trending: the home page strip and the /trending chart. */
 export function revalidateTrending(): void {
   safeRevalidate("/");
+  safeRevalidate(TRENDING_PATH);
+}
+
+/**
+ * Page settings (/trending, /testimonials): the page itself, the home page ("view all" links,
+ * homepage limits), the sitemap, and — because the menu is data-driven — every page under the
+ * root layout (header, mobile menu and footer links).
+ */
+export function revalidatePageSettings(page: PageKey): void {
+  safeRevalidate(PAGE_PATHS[page]);
+  safeRevalidate("/");
+  safeRevalidate(SITEMAP);
+  safeRevalidate("/", "layout");
 }
 
 /** Homepage settings (hero, stats, featured picks). */

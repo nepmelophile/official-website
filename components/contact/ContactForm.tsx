@@ -203,7 +203,7 @@ function ContactFormBody({
                 You can also email us at{" "}
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="font-medium text-fg underline decoration-accent underline-offset-4 hover:text-vermilion-300"
+                  className="font-medium text-fg underline decoration-accent underline-offset-4 hover:text-orchid-300"
                 >
                   {contactEmail}
                 </a>

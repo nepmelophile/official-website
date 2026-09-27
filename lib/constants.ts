@@ -1,4 +1,4 @@
-import type { ContactInfoDTO, HomepageSettingsDTO } from "@/types/content";
+import type { ContactInfoDTO, HomepageSettingsDTO, PageSettingsMap } from "@/types/content";
 
 /* ------------------------------------------------------------------ */
 /* Site identity                                                       */
@@ -65,6 +65,29 @@ export const TRENDING_TYPE_LABELS: Record<(typeof TRENDING_TYPES)[number], strin
   song: "Song",
   update: "Update",
 };
+/** Plural labels for the /trending type filter chips. */
+export const TRENDING_TYPE_PLURALS: Record<(typeof TRENDING_TYPES)[number], string> = {
+  artist: "Artists",
+  song: "Songs",
+  update: "Updates",
+};
+
+/** Chart arrows on /trending (optional per item). */
+export const TRENDING_MOVEMENTS = ["new", "up", "down", "steady"] as const;
+export const TRENDING_MOVEMENT_LABELS: Record<(typeof TRENDING_MOVEMENTS)[number], string> = {
+  new: "New entry",
+  up: "Moving up",
+  down: "Moving down",
+  steady: "Holding steady",
+};
+
+/** Public pages whose content and visibility are managed through PageSettings documents. */
+export const PAGE_SETTINGS_KEYS = ["trending", "testimonials"] as const;
+/** URL of each managed page. */
+export const PAGE_PATHS: Record<(typeof PAGE_SETTINGS_KEYS)[number], string> = {
+  trending: "/trending",
+  testimonials: "/testimonials",
+};
 
 export const CONTACT_MESSAGE_STATUSES = ["new", "read", "archived"] as const;
 
@@ -75,8 +98,18 @@ export const CONTACT_MESSAGE_STATUSES = ["new", "read", "archived"] as const;
 export const NEWS_PAGE_SIZE = 9;
 export const HOME_LATEST_NEWS_COUNT = 6;
 export const HOME_FEATURED_ARTISTS_COUNT = 6;
+/** Default number of items in the homepage trending strip (editable: Trending page settings). */
 export const TRENDING_LIMIT = 10;
+/** Default number of entries on /trending (editable: Trending page settings). */
+export const TRENDING_PAGE_LIMIT = 20;
+/** Default number of testimonials in the homepage carousel (editable: Testimonials page settings). */
+export const HOME_TESTIMONIALS_LIMIT = 12;
 export const RELATED_ARTICLES_COUNT = 3;
+
+/* Bounds for the page-settings number fields (shared by the validators and the admin forms). */
+export const TRENDING_PAGE_LIMIT_MAX = 50;
+export const TRENDING_HOME_LIMIT_MAX = 30;
+export const TESTIMONIALS_HOME_LIMIT_MAX = 24;
 
 /**
  * ISR fallback interval (seconds). NOTE: route segment config must be a literal, so pages
@@ -119,4 +152,45 @@ export const DEFAULT_CONTACT_INFO: ContactInfoDTO = {
     { platform: "youtube", url: "https://www.youtube.com/@melophilenp" },
     { platform: "spotify", url: "https://open.spotify.com/user/melophilenp" },
   ],
+};
+
+/**
+ * Page settings used when no PageSettings document exists yet (the production database starts
+ * without any) or the DB is unavailable: both pages are live and shown in the menu. Each stored
+ * document is also merged over these, so fields added later always have a value.
+ */
+export const DEFAULT_PAGE_SETTINGS: PageSettingsMap = {
+  trending: {
+    page: "trending",
+    enabled: true,
+    showInNav: true,
+    navLabel: "Trending",
+    eyebrow: "Melophile Trending",
+    heading: "What Nepal is *playing* right now",
+    intro:
+      "The artists, songs and stories moving the Nepali scene this week, ranked by the Melophile team from streams, shares and the conversations we keep having.",
+    metaTitle: undefined,
+    metaDescription: undefined,
+    ogImage: undefined,
+    pageLimit: TRENDING_PAGE_LIMIT,
+    homepageLimit: TRENDING_LIMIT,
+    showTypeFilter: true,
+  },
+  testimonials: {
+    page: "testimonials",
+    enabled: true,
+    showInNav: true,
+    navLabel: "Testimonials",
+    eyebrow: "Testimonials",
+    heading: "Straight from the *artists*",
+    intro:
+      "Artists, bands and promoters on what it’s like to work with Melophile: the releases we planned together, the stages we shared and the listeners we reached.",
+    metaTitle: undefined,
+    metaDescription: undefined,
+    ogImage: undefined,
+    homepageLimit: HOME_TESTIMONIALS_LIMIT,
+    ctaEnabled: true,
+    ctaLabel: "Work with us",
+    ctaHref: "/contact",
+  },
 };

@@ -13,7 +13,7 @@ function Grooves() {
       {[96, 84, 72, 60, 48, 36].map((r) => (
         <circle key={r} cx="100" cy="100" r={r} stroke="currentColor" strokeWidth="1.25" />
       ))}
-      <circle cx="100" cy="100" r="20" className="fill-vermilion-500" />
+      <circle cx="100" cy="100" r="20" className="fill-accent" />
       <circle cx="100" cy="100" r="4" className="fill-bg" />
     </svg>
   );
@@ -26,7 +26,7 @@ export default function ArtistNotFound() {
       <Container className="grid items-center gap-12 py-section md:grid-cols-12">
         <div className="md:col-span-7">
           <p className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-            <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-vermilion-500" />
+            <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-accent" />
             404 — Artist not found
           </p>
           <h1

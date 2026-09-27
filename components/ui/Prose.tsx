@@ -62,7 +62,7 @@ export function Prose({ children, size = "lg", className }: ProseProps) {
       className={cn(
         "prose prose-invert prose-melophile max-w-reading",
         size === "lg" ? "prose-base md:prose-lg" : "prose-base",
-        "prose-headings:font-extrabold prose-headings:tracking-tight prose-a:decoration-vermilion-500/60 prose-a:hover:decoration-vermilion-300",
+        "prose-headings:font-extrabold prose-headings:tracking-tight prose-a:decoration-accent/60 prose-a:hover:decoration-orchid-300",
         "prose-strong:font-semibold prose-code:before:content-none prose-code:after:content-none prose-img:rounded-md",
         className,
       )}

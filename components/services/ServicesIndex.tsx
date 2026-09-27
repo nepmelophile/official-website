@@ -32,7 +32,7 @@ export function ServicesIndex({ services, className }: ServicesIndexProps) {
                 aria-hidden="true"
                 className={cn(
                   "shrink-0 text-fg-subtle transition-[transform,color] duration-300 ease-out-expo",
-                  "group-hover:translate-y-0.5 group-hover:text-vermilion-300",
+                  "group-hover:translate-y-0.5 group-hover:text-orchid-300",
                 )}
               />
             </a>

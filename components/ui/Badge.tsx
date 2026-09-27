@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 
 const TONES = {
   default: "border-line text-fg-muted",
-  category: "border-marigold-900 bg-marigold-900/40 text-highlight",
-  active: "border-accent bg-vermilion-900 text-vermilion-300",
-  accent: "border-accent/60 text-vermilion-300",
+  category: "border-orchid-900 bg-orchid-950/40 text-highlight",
+  active: "border-accent bg-orchid-900 text-orchid-300",
+  accent: "border-accent/60 text-orchid-300",
   success: "border-success/40 text-success",
   muted: "border-line text-fg-subtle",
 } as const;
@@ -49,7 +49,7 @@ export function Tag({ href, active = false, tone, className, children }: TagProp
         BASE,
         TONES[resolvedTone],
         "min-h-8 px-2.5 transition-colors duration-150 hover:border-line-strong hover:text-fg",
-        active && "hover:border-accent hover:text-vermilion-300",
+        active && "hover:border-accent hover:text-orchid-300",
         className,
       )}
     >

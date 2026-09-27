@@ -59,11 +59,11 @@ export function FilterChips({
         className={cn(
           CHIP,
           current
-            ? "border-accent bg-vermilion-900 text-vermilion-300"
+            ? "border-accent bg-orchid-900 text-orchid-300"
             : "border-line text-fg-muted hover:border-line-strong hover:text-fg",
         )}
       >
-        {current ? <span aria-hidden="true" className="size-1.5 rounded-pill bg-vermilion-400" /> : null}
+        {current ? <span aria-hidden="true" className="size-1.5 rounded-pill bg-orchid-400" /> : null}
         {text}
       </Link>
     </li>

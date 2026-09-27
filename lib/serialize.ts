@@ -3,14 +3,16 @@
  * Pure functions — safe for server components, server actions and scripts.
  */
 import type { Types } from "mongoose";
+import { DEFAULT_PAGE_SETTINGS } from "@/lib/constants";
 import type { ArticleLean } from "@/models/Article";
 import type { ArtistLean } from "@/models/Artist";
 import type { ContactInfoLean } from "@/models/ContactInfo";
 import type { ContactMessageLean } from "@/models/ContactMessage";
 import type { HomepageSettingsLean } from "@/models/HomepageSettings";
+import type { PageSettingsLean } from "@/models/PageSettings";
 import type { ServiceLean } from "@/models/Service";
 import type { MediaRefDoc, SocialLinkDoc } from "@/models/shared";
-import type { TestimonialLean } from "@/models/Testimonial";
+import type { TestimonialLean, TestimonialSourceDoc } from "@/models/Testimonial";
 import type { TrendingItemLean } from "@/models/TrendingItem";
 import type {
   ArticleDTO,
@@ -21,10 +23,14 @@ import type {
   ContactMessageDTO,
   HomepageSettingsDTO,
   MediaRef,
+  PageSettingsDTO,
   ServiceDTO,
   SocialLink,
   TestimonialDTO,
+  TestimonialsPageSettingsDTO,
+  TestimonialSource,
   TrendingItemDTO,
+  TrendingPageSettingsDTO,
 } from "@/types/content";
 
 type IdLike = Types.ObjectId | string | { toString(): string };
@@ -179,6 +185,13 @@ export function serializeService(doc: ServiceLean): ServiceDTO {
   };
 }
 
+function serializeTestimonialSource(source: TestimonialSourceDoc | null | undefined): TestimonialSource | undefined {
+  const label = source?.label?.trim();
+  if (!label) return undefined;
+  const url = optional(source?.url);
+  return url ? { label, url } : { label };
+}
+
 export function serializeTestimonial(doc: TestimonialLean): TestimonialDTO {
   return {
     id: toId(doc._id),
@@ -188,6 +201,9 @@ export function serializeTestimonial(doc: TestimonialLean): TestimonialDTO {
     quote: doc.quote,
     order: doc.order ?? 0,
     active: Boolean(doc.active),
+    // Added after launch: older documents have neither field.
+    featured: Boolean(doc.featured),
+    source: serializeTestimonialSource(doc.source),
     createdAt: toIso(doc.createdAt),
     updatedAt: toIso(doc.updatedAt),
   };
@@ -206,6 +222,7 @@ export function serializeTrendingItem(doc: TrendingItemLean): TrendingItemDTO {
     image: serializeMedia(doc.image),
     href: optional(doc.href),
     embedUrl: optional(doc.embedUrl),
+    movement: doc.movement ?? undefined,
     createdAt: toIso(doc.createdAt),
     updatedAt: toIso(doc.updatedAt),
   };
@@ -231,6 +248,55 @@ export function serializeHomepageSettings(doc: HomepageSettingsLean): HomepageSe
     featuredArtistIds: toIds(doc.featuredArtistIds),
     updatedAt: optionalIso(doc.updatedAt),
   };
+}
+
+/** A stored whole number ≥ 1, else the fallback. */
+function positiveInt(value: number | null | undefined, fallback: number): number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 1 ? value : fallback;
+}
+
+/** Common page fields merged over the page's defaults ("" is kept for eyebrow/intro: it means "none"). */
+function pageSettingsBase<T extends PageSettingsDTO>(doc: PageSettingsLean, defaults: T) {
+  return {
+    id: toId(doc._id),
+    enabled: doc.enabled ?? defaults.enabled,
+    showInNav: doc.showInNav ?? defaults.showInNav,
+    navLabel: doc.navLabel?.trim() || defaults.navLabel,
+    eyebrow: doc.eyebrow ?? defaults.eyebrow,
+    heading: doc.heading?.trim() || defaults.heading,
+    intro: doc.intro ?? defaults.intro,
+    metaTitle: optional(doc.metaTitle),
+    metaDescription: optional(doc.metaDescription),
+    ogImage: serializeMedia(doc.ogImage),
+    updatedAt: optionalIso(doc.updatedAt),
+  };
+}
+
+export function serializeTrendingPageSettings(doc: PageSettingsLean): TrendingPageSettingsDTO {
+  const defaults = DEFAULT_PAGE_SETTINGS.trending;
+  return {
+    ...pageSettingsBase(doc, defaults),
+    page: "trending",
+    pageLimit: positiveInt(doc.pageLimit, defaults.pageLimit),
+    homepageLimit: positiveInt(doc.homepageLimit, defaults.homepageLimit),
+    showTypeFilter: doc.showTypeFilter ?? defaults.showTypeFilter,
+  };
+}
+
+export function serializeTestimonialsPageSettings(doc: PageSettingsLean): TestimonialsPageSettingsDTO {
+  const defaults = DEFAULT_PAGE_SETTINGS.testimonials;
+  return {
+    ...pageSettingsBase(doc, defaults),
+    page: "testimonials",
+    homepageLimit: positiveInt(doc.homepageLimit, defaults.homepageLimit),
+    ctaEnabled: doc.ctaEnabled ?? defaults.ctaEnabled,
+    ctaLabel: doc.ctaLabel?.trim() || defaults.ctaLabel,
+    ctaHref: doc.ctaHref?.trim() || defaults.ctaHref,
+  };
+}
+
+export function serializePageSettings(doc: PageSettingsLean): PageSettingsDTO {
+  return doc.page === "trending" ? serializeTrendingPageSettings(doc) : serializeTestimonialsPageSettings(doc);
 }
 
 export function serializeContactInfo(doc: ContactInfoLean): ContactInfoDTO {

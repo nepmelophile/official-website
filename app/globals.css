@@ -7,52 +7,73 @@
  * used from plain CSS / inline styles as well as via utilities.
  */
 @theme static {
-  /* ---- Raw palette ---- */
-  --color-ink-950: #0b0a09;
-  --color-ink-900: #131110;
-  --color-ink-850: #1a1715;
-  --color-ink-800: #221f1c;
-  --color-ink-700: #2e2a26;
-  --color-ink-600: #403a35;
-  --color-ink-500: #5e5750;
-  --color-ink-400: #948b81;
-  --color-ink-300: #aea498;
-  --color-ink-200: #d3c9bc;
-  --color-ink-100: #eae2d6;
-  --color-paper: #f5eee3;
+  /*
+   * ---- Raw palette ----
+   * Brand colours from the client's brand guidelines (2026-09-27):
+   * primary #DD44DD (orchid-500), secondary #3D4CF5 (cobalt-500).
+   * Neutrals are a cool, slightly violet-tinted near-black ramp.
+   */
+  --color-ink-950: #0a090f;
+  --color-ink-900: #121117;
+  --color-ink-850: #18161e;
+  --color-ink-800: #201e28;
+  --color-ink-700: #2b2934;
+  --color-ink-600: #3b3946;
+  --color-ink-500: #585665;
+  --color-ink-400: #8e8c9c;
+  --color-ink-300: #a8a5b5;
+  --color-ink-200: #cac9d6;
+  --color-ink-100: #e3e2eb;
+  --color-paper: #f0eff5;
 
-  --color-vermilion-300: #ff8a7a;
-  --color-vermilion-400: #ff5a45;
-  --color-vermilion-500: #e8391f;
-  --color-vermilion-600: #d4321a;
-  --color-vermilion-700: #a82613;
-  --color-vermilion-900: #3a120b;
+  --color-orchid-50: #fff2fe;
+  --color-orchid-100: #fee3fd;
+  --color-orchid-200: #fecbfb;
+  --color-orchid-300: #f3a1f0;
+  --color-orchid-400: #e46fe3;
+  --color-orchid-500: #dd44dd;
+  --color-orchid-600: #ba32ba;
+  --color-orchid-700: #932694;
+  --color-orchid-800: #6c1b6c;
+  --color-orchid-900: #431242;
+  --color-orchid-950: #2a0a29;
 
-  --color-marigold-300: #ffd27a;
-  --color-marigold-400: #ffba3b;
-  --color-marigold-500: #f29f05;
-  --color-marigold-900: #3a2805;
+  --color-cobalt-50: #f0f3ff;
+  --color-cobalt-100: #e1e7fe;
+  --color-cobalt-200: #c6d0fd;
+  --color-cobalt-300: #a2b2fd;
+  --color-cobalt-400: #7288fb;
+  --color-cobalt-500: #3d4cf5;
+  --color-cobalt-600: #313cd2;
+  --color-cobalt-700: #2732ab;
+  --color-cobalt-800: #1d277e;
+  --color-cobalt-900: #141e55;
+  --color-cobalt-950: #0c1336;
 
   --color-success: #4cc38a;
-  --color-warning: #ffba3b;
-  --color-danger: #ff5a5f;
-  --color-info: #6cb4ee;
+  --color-warning: #fbbf24;
+  --color-danger: #fe674c;
+  --color-info: #4cd1ee;
 
   /* ---- Semantic aliases ---- */
-  --color-bg: #0b0a09;
-  --color-bg-alt: #131110;
-  --color-surface: #1a1715;
-  --color-surface-raised: #221f1c;
-  --color-line: #2e2a26;
-  --color-line-strong: #403a35;
-  --color-fg: #f5eee3;
-  --color-fg-muted: #aea498;
-  --color-fg-subtle: #948b81;
-  --color-accent: #d4321a;
-  --color-accent-hover: #bf2d16;
-  --color-accent-fg: #fff7f0;
-  --color-highlight: #ffba3b;
-  --color-highlight-fg: #1a1204;
+  --color-bg: #0a090f;
+  --color-bg-alt: #121117;
+  --color-surface: #18161e;
+  --color-surface-raised: #201e28;
+  --color-line: #2b2934;
+  --color-line-strong: #3b3946;
+  --color-fg: #f0eff5;
+  --color-fg-muted: #a8a5b5;
+  --color-fg-subtle: #8e8c9c;
+  --color-accent: #dd44dd;
+  --color-accent-hover: #e46fe3;
+  --color-accent-fg: #160716;
+  --color-secondary: #3d4cf5;
+  --color-secondary-hover: #313cd2;
+  --color-secondary-fg: #ffffff;
+  --color-secondary-soft: #7288fb;
+  --color-highlight: #e46fe3;
+  --color-highlight-fg: #160716;
 
   /* ---- Type scale (fluid display sizes) ---- */
   --text-display-2xl: clamp(3.5rem, 1.6rem + 8vw, 10rem);
@@ -89,8 +110,11 @@
   /* ---- Shadows ---- */
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 24px 48px -28px rgb(0 0 0 / 0.9);
   --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.06) inset, 0 32px 64px -24px rgb(0 0 0 / 0.95);
-  --shadow-glow: 0 0 0 1px rgb(232 57 31 / 0.45), 0 18px 50px -18px rgb(232 57 31 / 0.55);
-  --shadow-glow-marigold: 0 0 0 1px rgb(255 186 59 / 0.4), 0 18px 50px -18px rgb(255 186 59 / 0.45);
+  --shadow-glow: 0 0 0 1px rgb(221 68 221 / 0.45), 0 18px 50px -18px rgb(221 68 221 / 0.55);
+  --shadow-glow-secondary: 0 0 0 1px rgb(61 76 245 / 0.5), 0 18px 50px -18px rgb(61 76 245 / 0.6);
+
+  /* ---- Brand gradient (orchid-500 → cobalt-500); see bg-brand-gradient / text-brand-gradient ---- */
+  --gradient-brand: linear-gradient(120deg, #dd44dd 0%, #3d4cf5 100%);
 
   /* ---- Motion ---- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -240,11 +264,11 @@
 }
 
 @layer components {
-  /* Soft vermilion + marigold radial glow for heroes and CTA bands. */
+  /* Soft orchid + cobalt radial glow for heroes and CTA bands. */
   .bg-glow {
     background-image:
-      radial-gradient(60% 55% at 12% 8%, rgb(232 57 31 / 0.18), transparent 70%),
-      radial-gradient(50% 50% at 92% 96%, rgb(255 186 59 / 0.1), transparent 70%);
+      radial-gradient(60% 55% at 12% 8%, rgb(221 68 221 / 0.16), transparent 70%),
+      radial-gradient(50% 50% at 92% 96%, rgb(61 76 245 / 0.2), transparent 70%);
   }
 
   /* Marquee track: duplicate children once; the track translates -50%. */
@@ -274,7 +298,7 @@
     --tw-prose-invert-body: var(--color-fg-muted);
     --tw-prose-invert-headings: var(--color-fg);
     --tw-prose-invert-lead: var(--color-ink-200);
-    --tw-prose-invert-links: var(--color-vermilion-300);
+    --tw-prose-invert-links: var(--color-orchid-300);
     --tw-prose-invert-bold: var(--color-fg);
     --tw-prose-invert-counters: var(--color-fg-subtle);
     --tw-prose-invert-bullets: var(--color-accent);
@@ -282,7 +306,7 @@
     --tw-prose-invert-quotes: var(--color-fg);
     --tw-prose-invert-quote-borders: var(--color-accent);
     --tw-prose-invert-captions: var(--color-fg-subtle);
-    --tw-prose-invert-code: var(--color-marigold-300);
+    --tw-prose-invert-code: var(--color-cobalt-300);
     --tw-prose-invert-pre-code: var(--color-ink-100);
     --tw-prose-invert-pre-bg: var(--color-surface);
     --tw-prose-invert-th-borders: var(--color-line-strong);
@@ -316,4 +340,40 @@
 .prose-melophile blockquote p:first-of-type::before,
 .prose-melophile blockquote p:last-of-type::after {
   content: none;
+}
+
+/*
+ * Brand gradient (magenta → blue). Signature moments only: the hero highlight word, the CTA
+ * band headline accent, the logo dot, the OG image. Never as a large background wash.
+ */
+@utility bg-brand-gradient {
+  background-image: var(--gradient-brand);
+}
+
+/*
+ * The same gradient clipped to text. LARGE text only (≥ 24px, or ≥ 19px bold): the cobalt end
+ * is 3.3:1 on bg. The inline padding, cancelled by an equal negative margin, keeps italic
+ * overhangs inside the painted area without moving anything.
+ */
+@utility text-brand-gradient {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.08em;
+  margin-inline: -0.08em;
+
+  &::selection {
+    color: var(--color-accent-fg);
+    -webkit-text-fill-color: var(--color-accent-fg);
+  }
+
+  @media (forced-colors: active) {
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
 }

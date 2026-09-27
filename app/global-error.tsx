@@ -27,7 +27,7 @@ export default function GlobalError({ error, retry }: GlobalErrorProps) {
         <main className="mx-auto flex w-full max-w-content flex-1 flex-col justify-center px-gutter py-20">
           <p className="font-display text-2xl font-extrabold tracking-[-0.03em] uppercase">
             {SITE_NAME}
-            <span aria-hidden="true" className="text-vermilion-500">
+            <span aria-hidden="true" className="text-accent">
               .
             </span>
           </p>

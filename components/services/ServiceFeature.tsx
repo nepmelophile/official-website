@@ -43,7 +43,7 @@ function ServiceDetails({ details, serviceName }: { details: string; serviceName
         <summary
           className={cn(
             META,
-            "flex min-h-13 cursor-pointer list-none items-center justify-between gap-4 text-fg transition-colors hover:text-vermilion-300 [&::-webkit-details-marker]:hidden",
+            "flex min-h-13 cursor-pointer list-none items-center justify-between gap-4 text-fg transition-colors hover:text-orchid-300 [&::-webkit-details-marker]:hidden",
           )}
         >
           <span>
@@ -70,7 +70,7 @@ function ServiceDetails({ details, serviceName }: { details: string; serviceName
 }
 
 /**
- * One service on /services: image + big marigold index + name, description, markdown details
+ * One service on /services: image + big highlight index + name, description, markdown details
  * and a CTA to its form link. `id={slug}` is the anchor ServiceCard links to (/services#slug).
  */
 export function ServiceFeature({ service, index, total, reverse = false, preload = false }: ServiceFeatureProps) {

@@ -35,7 +35,7 @@ function HeroCtas({ ctas }: { ctas: HeroCta[] }) {
 }
 
 /**
- * Landing hero: a full-width poster headline (one serif-italic marigold accent), then an
+ * Landing hero: a full-width poster headline (one serif-italic brand-gradient accent), then an
  * asymmetric 5/7 row with the subcopy + CTAs and the optional hero image. Without an image
  * the copy shifts right and the record sticker takes the left column.
  */
@@ -50,7 +50,7 @@ export function HomeHero({ settings }: HomeHeroProps) {
       <Container className="relative pt-8 pb-14 md:pt-12 md:pb-20 lg:pb-24">
         <div className={cn(META, "flex animate-fade-up items-center justify-between gap-4 text-fg-subtle")}>
           <p className="flex items-center gap-2">
-            <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+            <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
             Live from Kathmandu
           </p>
           <p className="hidden sm:block">News / Artists / Services</p>
@@ -60,7 +60,7 @@ export function HomeHero({ settings }: HomeHeroProps) {
           id="home-hero-title"
           className={cn(
             "mt-8 animate-fade-up font-display text-display-2xl font-extrabold tracking-[-0.02em] text-fg [font-stretch:86%] [animation-delay:80ms] md:mt-12",
-            "max-w-[16ch] [&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.02em] [&_em]:text-highlight [&_em]:italic [&_em]:[font-stretch:100%]",
+            "max-w-[16ch] [&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.02em] [&_em]:text-brand-gradient [&_em]:italic [&_em]:[font-stretch:100%]",
           )}
         >
           {withAccent(heroHeadline)}
@@ -74,7 +74,7 @@ export function HomeHero({ settings }: HomeHeroProps) {
             )}
           >
             <div className="flex items-start gap-5">
-              <span aria-hidden="true" className="mt-3.5 hidden h-px w-12 shrink-0 bg-vermilion-500 sm:block" />
+              <span aria-hidden="true" className="mt-3.5 hidden h-px w-12 shrink-0 bg-accent sm:block" />
               <p className="max-w-prose text-lg/relaxed text-fg-muted md:text-xl/relaxed">{heroSubcopy}</p>
             </div>
             <div className="mt-9 sm:pl-17">

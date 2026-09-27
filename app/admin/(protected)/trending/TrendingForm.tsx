@@ -11,6 +11,7 @@ import {
   ImageField,
   NumberInput,
   RefMultiSelect,
+  Select,
   StatusBadge,
   TextInput,
   Toggle,
@@ -18,9 +19,9 @@ import {
   type RefOption,
 } from "@/components/admin";
 import type { TrendingRefOptions } from "@/lib/admin/queries/trending";
-import { TRENDING_TYPE_LABELS, TRENDING_TYPES } from "@/lib/constants";
+import { TRENDING_MOVEMENT_LABELS, TRENDING_MOVEMENTS, TRENDING_TYPE_LABELS, TRENDING_TYPES } from "@/lib/constants";
 import { cn, formatDate } from "@/lib/utils";
-import type { MediaRef, TrendingItemDTO, TrendingType } from "@/types/content";
+import type { MediaRef, TrendingItemDTO, TrendingMovement, TrendingType } from "@/types/content";
 import { createTrendingItem, deleteTrendingItem, updateTrendingItem } from "./actions";
 import {
   buildRefLookup,
@@ -44,6 +45,8 @@ interface TrendingFormValues {
   image: MediaRef;
   href: string;
   embedUrl: string;
+  /** "" = no chart arrow. */
+  movement: TrendingMovement | "";
 }
 
 export interface TrendingFormDefaults {
@@ -64,6 +67,7 @@ function toValues(item: TrendingItemDTO | undefined, defaults: TrendingFormDefau
     image: item?.image ?? { url: "" },
     href: item?.href ?? "",
     embedUrl: item?.embedUrl ?? "",
+    movement: item?.movement ?? "",
   };
 }
 
@@ -116,7 +120,7 @@ function TypePicker({ value, onChange, error }: { value: TrendingType; onChange:
               key={type}
               className={cn(
                 "flex min-h-11 cursor-pointer items-start gap-3 rounded-sm border px-3 py-2.5 transition-colors duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-highlight",
-                selected ? "border-accent bg-vermilion-900/40 text-fg" : "border-line bg-surface-raised text-fg-muted hover:border-line-strong hover:text-fg",
+                selected ? "border-accent bg-orchid-900/40 text-fg" : "border-line bg-surface-raised text-fg-muted hover:border-line-strong hover:text-fg",
               )}
             >
               <input
@@ -127,7 +131,7 @@ function TypePicker({ value, onChange, error }: { value: TrendingType; onChange:
                 onChange={() => onChange(type)}
                 className="sr-only"
               />
-              <Icon aria-hidden className={cn("mt-0.5 size-4 shrink-0", selected ? "text-vermilion-300" : "text-fg-subtle")} strokeWidth={1.75} />
+              <Icon aria-hidden className={cn("mt-0.5 size-4 shrink-0", selected ? "text-orchid-300" : "text-fg-subtle")} strokeWidth={1.75} />
               <span className="min-w-0">
                 <span className="block text-sm font-semibold">{TRENDING_TYPE_LABELS[type]}</span>
                 <span className="block text-xs text-fg-subtle">{description}</span>
@@ -141,6 +145,8 @@ function TypePicker({ value, onChange, error }: { value: TrendingType; onChange:
 }
 
 const LINK_SUGGESTIONS = ["/news", "/artists", "/services", "/contact"];
+
+const MOVEMENT_OPTIONS = TRENDING_MOVEMENTS.map((value) => ({ value, label: TRENDING_MOVEMENT_LABELS[value] }));
 
 export interface TrendingFormProps {
   item?: TrendingItemDTO;
@@ -235,6 +241,16 @@ export function TrendingForm({ item, options, defaults = {}, loadError }: Trendi
               onChange={setter("rank")}
               error={error("rank")}
             />
+            <Select<TrendingMovement>
+              label="Chart movement"
+              optional
+              hint="The arrow or NEW badge next to the position on /trending."
+              placeholder="None"
+              options={MOVEMENT_OPTIONS}
+              value={values.movement}
+              onChange={setter("movement")}
+              error={error("movement")}
+            />
           </FormSection>
           <FormSection title="Live preview" description="What visitors will see, updated as you edit.">
             <TrendingPreview resolution={resolution} type={values.type} rank={values.rank ?? 1} />
@@ -291,7 +307,7 @@ export function TrendingForm({ item, options, defaults = {}, loadError }: Trendi
               {linkedInfo.state !== "missing" ? (
                 <Link
                   href={linkedInfo.adminHref}
-                  className="inline-flex items-center gap-1 text-vermilion-300 underline-offset-4 hover:underline"
+                  className="inline-flex items-center gap-1 text-orchid-300 underline-offset-4 hover:underline"
                 >
                   <Pencil aria-hidden className="size-3.5" strokeWidth={1.75} />
                   Edit {linkedInfo.kind}

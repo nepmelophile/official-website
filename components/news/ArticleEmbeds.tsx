@@ -46,7 +46,7 @@ export function ArticleEmbeds({ embeds, articleTitle, className }: ArticleEmbeds
       className={cn("max-w-reading scroll-mt-28 border-t border-line pt-8", className)}
     >
       <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-        <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+        <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
         {heading.kicker}
       </p>
       <h2 id="listen-heading" className="mt-3 font-display text-display-sm font-bold text-fg">

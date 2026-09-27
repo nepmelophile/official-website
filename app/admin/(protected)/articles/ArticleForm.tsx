@@ -151,7 +151,7 @@ function SearchPreview({ title, description, slug }: { title: string; descriptio
         <p className="truncate font-mono text-xs text-fg-subtle">
           {SITE_DOMAIN} › news › {slug || "…"}
         </p>
-        <p className="mt-1 line-clamp-1 text-base font-semibold text-vermilion-300">
+        <p className="mt-1 line-clamp-1 text-base font-semibold text-orchid-300">
           {title ? `${title} | ${SITE_NAME}` : "Add a title"}
         </p>
         <p className="mt-1 line-clamp-2 text-sm text-fg-muted">{description || "Add an excerpt or meta description."}</p>
@@ -262,9 +262,9 @@ export function ArticleForm({
             {scheduled ? (
               <p
                 role="status"
-                className="flex items-start gap-2 rounded-sm border border-highlight/40 bg-marigold-900/30 px-3 py-2 text-xs text-fg"
+                className="flex items-start gap-2 rounded-sm border border-secondary/50 bg-cobalt-950/50 px-3 py-2 text-xs text-fg"
               >
-                <CalendarClock aria-hidden className="mt-0.5 size-4 shrink-0 text-highlight" strokeWidth={1.75} />
+                <CalendarClock aria-hidden className="mt-0.5 size-4 shrink-0 text-secondary-soft" strokeWidth={1.75} />
                 <span>
                   Scheduled — it goes live on {formatDate(values.publishedAt, "medium")} (within an hour of that time).
                 </span>

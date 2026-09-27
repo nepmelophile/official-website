@@ -11,7 +11,8 @@ const AUTO_ACCENT = /\bNepal(?:i)?\b/;
  * - Without markers, the first "Nepal"/"Nepali" is accented, which matches the brand line.
  * - Otherwise the text is returned as-is.
  *
- * The accent is an `<em>`; SectionHeading and the hero style `em` as marigold serif italic.
+ * The accent is an `<em>`, styled as serif italic: highlight colour in SectionHeading, the
+ * brand gradient in the hero.
  */
 export function withAccent(text: string): ReactNode {
   const source = text.trim();

@@ -125,7 +125,7 @@ export default async function MessagePage({
                 <dd className="mt-0.5">
                   <a
                     href={`mailto:${message.email}`}
-                    className="inline-flex items-center gap-1.5 break-all text-vermilion-300 underline-offset-4 hover:underline"
+                    className="inline-flex items-center gap-1.5 break-all text-orchid-300 underline-offset-4 hover:underline"
                   >
                     <Mail aria-hidden className="size-3.5 shrink-0" strokeWidth={1.75} />
                     {message.email}
@@ -138,7 +138,7 @@ export default async function MessagePage({
                   <dd className="mt-0.5">
                     <a
                       href={`tel:${message.phone.replace(/[^\d+]/g, "")}`}
-                      className="text-vermilion-300 underline-offset-4 hover:underline"
+                      className="text-orchid-300 underline-offset-4 hover:underline"
                     >
                       {message.phone}
                     </a>

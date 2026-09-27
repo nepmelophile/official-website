@@ -8,7 +8,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-dvh flex-col">
       <a
         href="#main"
-        className="sr-only rounded-pill bg-highlight px-5 py-3 text-sm font-semibold text-highlight-fg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:shadow-glow-marigold"
+        className="sr-only rounded-pill bg-highlight px-5 py-3 text-sm font-semibold text-highlight-fg focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:shadow-glow"
       >
         Skip to content
       </a>

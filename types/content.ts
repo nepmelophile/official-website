@@ -7,8 +7,10 @@ import type {
   ARTIST_MEDIA_TYPES,
   CONTACT_MESSAGE_STATUSES,
   CONTENT_STATUSES,
+  PAGE_SETTINGS_KEYS,
   RELEASE_TYPES,
   SOCIAL_PLATFORMS,
+  TRENDING_MOVEMENTS,
   TRENDING_TYPES,
 } from "@/lib/constants";
 
@@ -21,7 +23,10 @@ export type SocialPlatform = (typeof SOCIAL_PLATFORMS)[number];
 export type ReleaseType = (typeof RELEASE_TYPES)[number];
 export type ArtistMediaType = (typeof ARTIST_MEDIA_TYPES)[number];
 export type TrendingType = (typeof TRENDING_TYPES)[number];
+export type TrendingMovement = (typeof TRENDING_MOVEMENTS)[number];
 export type ContactMessageStatus = (typeof CONTACT_MESSAGE_STATUSES)[number];
+/** Public pages configured through PageSettings ("trending" → /trending, …). */
+export type PageKey = (typeof PAGE_SETTINGS_KEYS)[number];
 
 /** Reference to an image hosted on ImageKit (or any allowed remote host). */
 export interface MediaRef {
@@ -153,6 +158,13 @@ export interface ServiceDTO extends Timestamps {
   active: boolean;
 }
 
+/** Where a testimonial quote was first published (an interview, a post, …). */
+export interface TestimonialSource {
+  label: string;
+  /** Optional http(s) link to the original. */
+  url?: string;
+}
+
 export interface TestimonialDTO extends Timestamps {
   id: string;
   name: string;
@@ -161,6 +173,9 @@ export interface TestimonialDTO extends Timestamps {
   quote: string;
   order: number;
   active: boolean;
+  /** Shown large at the top of /testimonials. */
+  featured: boolean;
+  source?: TestimonialSource;
 }
 
 /* ------------------------------------------------------------------ */
@@ -181,6 +196,8 @@ export interface TrendingItemDTO extends Timestamps {
   image?: MediaRef;
   href?: string;
   embedUrl?: string;
+  /** Chart arrow on /trending (absent = no indicator). */
+  movement?: TrendingMovement;
 }
 
 /** Trending item resolved for display (refs resolved, manual overrides applied). */
@@ -193,6 +210,21 @@ export interface TrendingCard {
   image?: MediaRef;
   href?: string;
   embedUrl?: string;
+  movement?: TrendingMovement;
+}
+
+/** One row of the public /trending chart. */
+export interface TrendingChartEntry extends TrendingCard {
+  /** 1-based chart position among the items that are actually shown (no gaps). */
+  position: number;
+  /** ISO date the trending item was last edited. */
+  updatedAt: string;
+}
+
+export interface TrendingChart {
+  entries: TrendingChartEntry[];
+  /** Most recent edit among the entries (ISO), for the "Updated …" line. */
+  updatedAt?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -220,6 +252,55 @@ export interface HomepageSettingsDTO {
   featuredArticleIds: string[];
   featuredArtistIds: string[];
   updatedAt?: string;
+}
+
+/** Fields every PageSettings document has. */
+interface PageSettingsBase {
+  id?: string;
+  page: PageKey;
+  /** Off: the page 404s and is dropped from the menu, sitemap and homepage links. */
+  enabled: boolean;
+  showInNav: boolean;
+  /** Menu label (header, mobile menu, footer). */
+  navLabel: string;
+  /** Mono kicker above the heading ("" = none). */
+  eyebrow: string;
+  /** Page heading; wrap one word in *asterisks* to accent it. */
+  heading: string;
+  /** Short markdown or plain text under the heading ("" = none). */
+  intro: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: MediaRef;
+  updatedAt?: string;
+}
+
+export interface TrendingPageSettingsDTO extends PageSettingsBase {
+  page: "trending";
+  /** Entries listed on /trending. */
+  pageLimit: number;
+  /** Items in the homepage trending strip. */
+  homepageLimit: number;
+  /** All / Artists / Songs / Updates chips on /trending. */
+  showTypeFilter: boolean;
+}
+
+export interface TestimonialsPageSettingsDTO extends PageSettingsBase {
+  page: "testimonials";
+  /** Testimonials in the homepage carousel. */
+  homepageLimit: number;
+  /** Closing call-to-action band on /testimonials. */
+  ctaEnabled: boolean;
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+export type PageSettingsDTO = TrendingPageSettingsDTO | TestimonialsPageSettingsDTO;
+
+/** Settings for every managed page, keyed by page. */
+export interface PageSettingsMap {
+  trending: TrendingPageSettingsDTO;
+  testimonials: TestimonialsPageSettingsDTO;
 }
 
 export interface ContactInfoDTO {

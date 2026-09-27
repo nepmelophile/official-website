@@ -41,7 +41,7 @@ export function EmbedUrlInput({ value, hint, placeholder, ...props }: EmbedUrlIn
               type="button"
               onClick={() => setShowPreview((s) => !s)}
               aria-expanded={showPreview}
-              className="rounded-xs px-1 text-vermilion-300 underline-offset-4 hover:underline"
+              className="rounded-xs px-1 text-orchid-300 underline-offset-4 hover:underline"
             >
               {showPreview ? "Hide player" : "Preview player"}
             </button>

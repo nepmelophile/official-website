@@ -9,7 +9,7 @@ export interface RecordStickerProps {
 }
 
 /**
- * Marigold record-label sticker with type set on a circle and a vermilion spindle. It is
+ * Orchid (highlight) record-label sticker with type set on a circle and a cobalt spindle. It is
  * decorative (aria-hidden) and spins only while the pointer is over it, so nothing on the
  * page moves unprompted.
  */
@@ -39,7 +39,7 @@ export function RecordSticker({ text = `${SITE_NAME} ✦ The sound of Nepal ✦ 
             {text}
           </textPath>
         </text>
-        <circle cx="100" cy="100" r="30" className="fill-vermilion-500" />
+        <circle cx="100" cy="100" r="30" className="fill-secondary" />
         <circle cx="100" cy="100" r="30" fill="none" className="stroke-ink-950/20" strokeWidth="6" />
         <circle cx="100" cy="100" r="5" className="fill-ink-950" />
       </svg>
@@ -72,7 +72,7 @@ export function VinylGrooves({ className }: VinylGroovesProps) {
           strokeOpacity={i % 4 === 0 ? 0.9 : 0.55}
         />
       ))}
-      <circle cx="500" cy="500" r="64" className="fill-vermilion-900" />
+      <circle cx="500" cy="500" r="64" className="fill-orchid-900" />
       <circle cx="500" cy="500" r="10" className="fill-bg" />
     </svg>
   );

@@ -14,7 +14,7 @@ export function ListingSkeleton() {
       <Container className="py-16 md:py-24" aria-hidden="true">
         <div className="border-t border-line pt-6">
           <div className="flex items-center gap-2">
-            <span className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+            <span className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
             <div className={`${shimmer} h-3 w-28 rounded-xs`} />
           </div>
           <div className={`${shimmer} mt-6 h-[clamp(2.75rem,1.5rem+5.2vw,6.5rem)] w-4/5 max-w-3xl`} />

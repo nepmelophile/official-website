@@ -160,7 +160,7 @@ export function HomepageForm({
         <Repeater<HeroCta>
           label="Buttons"
           name="heroCtas"
-          hint="The first button is the primary (vermilion) one."
+          hint="The first button is the primary (magenta) one."
           items={values.heroCtas}
           onChange={setter("heroCtas")}
           createItem={() => ({ label: "", href: "" })}

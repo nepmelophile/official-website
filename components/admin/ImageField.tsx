@@ -226,7 +226,7 @@ export function ImageField({
         onDrop={onDrop}
         className={cn(
           "space-y-3 rounded-sm border bg-bg-alt p-3 transition-colors duration-150",
-          dragging ? "border-accent bg-vermilion-900/40" : shownError ? "border-danger/60" : "border-line",
+          dragging ? "border-accent bg-orchid-900/40" : shownError ? "border-danger/60" : "border-line",
         )}
       >
         <div className="relative">

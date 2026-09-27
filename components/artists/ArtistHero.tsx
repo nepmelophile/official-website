@@ -67,7 +67,7 @@ export function ArtistHero({ artist }: ArtistHeroProps) {
             <nav aria-label="Breadcrumb">
               <ol className={cn(META, "flex flex-wrap items-center gap-2 text-fg-subtle")}>
                 <li className="flex items-center gap-2">
-                  <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-vermilion-500" />
+                  <span aria-hidden="true" className="inline-block size-1.5 rounded-pill bg-accent" />
                   <Link
                     href="/artists"
                     className="inline-flex min-h-8 items-center transition-colors duration-150 hover:text-fg"
@@ -98,7 +98,7 @@ export function ArtistHero({ artist }: ArtistHeroProps) {
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
                 {artist.location ? (
                   <p className={cn(META, "flex items-center gap-2 text-fg-muted")}>
-                    <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="text-vermilion-400" />
+                    <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="text-orchid-400" />
                     <span className="sr-only">Based in </span>
                     {artist.location}
                   </p>

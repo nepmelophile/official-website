@@ -24,7 +24,9 @@ Shell: `app/admin/layout.tsx` sets `robots: noindex` and turns off the film grai
    - Client form: `…/<section>/<Entity>Form.tsx`
 
    The sidebar already links these sections: `articles`, `artists`, `services`, `testimonials`,
-   `trending`, `homepage`, `contact-info` and `messages`.
+   `trending`, `homepage`, `contact-info` and `messages`, plus the page-settings editors
+   `trending/settings` and `testimonials/settings` (the most specific matching link is the one
+   highlighted).
 2. **Every page** calls `await requireAdmin()` itself. The layout calls it too, but
    layouts and pages render in parallel, so don't rely on the layout alone. Every page also
    exports `metadata = { title: "…" }`. The admin template turns that into "Articles · Melophile

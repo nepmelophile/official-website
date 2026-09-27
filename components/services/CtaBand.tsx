@@ -28,7 +28,7 @@ function Rings() {
       {[196, 170, 146, 124, 104, 86, 70].map((r) => (
         <circle key={r} cx="200" cy="200" r={r} stroke="currentColor" strokeWidth="1" />
       ))}
-      <circle cx="200" cy="200" r="34" className="fill-vermilion-500/80" />
+      <circle cx="200" cy="200" r="34" className="fill-accent/80" />
       <circle cx="200" cy="200" r="6" className="fill-bg-alt" />
     </svg>
   );
@@ -57,7 +57,7 @@ export function CtaBand({
         <div className="lg:col-span-8">
           {eyebrow ? (
             <p className="mb-5 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-              <span aria-hidden="true" className="inline-block size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+              <span aria-hidden="true" className="inline-block size-1.5 animate-pulse-dot rounded-pill bg-accent" />
               {eyebrow}
             </p>
           ) : null}
@@ -65,7 +65,7 @@ export function CtaBand({
             id={id}
             className={cn(
               "font-display text-display-xl font-extrabold text-fg [font-stretch:85%]",
-              "[&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.01em] [&_em]:text-highlight [&_em]:italic [&_em]:[font-stretch:100%]",
+              "[&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.01em] [&_em]:text-brand-gradient [&_em]:italic [&_em]:[font-stretch:100%]",
             )}
           >
             {title}

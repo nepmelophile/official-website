@@ -80,7 +80,7 @@ function buildHtml(message: ContactNotification, inboxUrl: string): string {
     ["Name", escapeHtml(message.name)],
     [
       "Email",
-      `<a href="mailto:${escapeHtml(message.email)}" style="color:#d4321a;text-decoration:underline;">${escapeHtml(message.email)}</a>`,
+      `<a href="mailto:${escapeHtml(message.email)}" style="color:#ba32ba;text-decoration:underline;">${escapeHtml(message.email)}</a>`,
     ],
   ];
   if (message.phone) rows.push(["Phone", escapeHtml(message.phone)]);
@@ -91,7 +91,7 @@ function buildHtml(message: ContactNotification, inboxUrl: string): string {
   const rowHtml = rows
     .map(
       ([label, value]) =>
-        `<tr><td style="padding:6px 16px 6px 0;color:#857c73;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:0.12em;vertical-align:top;white-space:nowrap;">${label}</td><td style="padding:6px 0;color:#131110;font:15px/1.5 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;">${value}</td></tr>`,
+        `<tr><td style="padding:6px 16px 6px 0;color:#696774;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:0.12em;vertical-align:top;white-space:nowrap;">${label}</td><td style="padding:6px 0;color:#121117;font:15px/1.5 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;">${value}</td></tr>`,
     )
     .join("");
 
@@ -99,12 +99,12 @@ function buildHtml(message: ContactNotification, inboxUrl: string): string {
 
   return `<!doctype html>
 <html lang="en">
-  <body style="margin:0;padding:24px;background:#f5eee3;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #eae2d6;border-radius:8px;">
+  <body style="margin:0;padding:24px;background:#f0eff5;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e3e2eb;border-radius:8px;">
       <tr>
-        <td style="padding:24px 28px;border-bottom:3px solid #d4321a;font:800 20px/1.2 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0b0a09;letter-spacing:-0.01em;">
-          ${escapeHtml(SITE_NAME.toUpperCase())}<span style="color:#d4321a;">.</span>
-          <div style="margin-top:6px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#857c73;text-transform:uppercase;letter-spacing:0.12em;">New contact form message</div>
+        <td style="padding:24px 28px;border-bottom:3px solid #dd44dd;font:800 20px/1.2 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0a090f;letter-spacing:-0.01em;">
+          ${escapeHtml(SITE_NAME.toUpperCase())}<span style="color:#dd44dd;">.</span>
+          <div style="margin-top:6px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#696774;text-transform:uppercase;letter-spacing:0.12em;">New contact form message</div>
         </td>
       </tr>
       <tr>
@@ -114,13 +114,13 @@ function buildHtml(message: ContactNotification, inboxUrl: string): string {
       </tr>
       <tr>
         <td style="padding:12px 28px 24px;">
-          <div style="padding:16px 18px;background:#faf6ef;border-left:3px solid #d4321a;color:#131110;font:15px/1.65 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;white-space:normal;word-break:break-word;">${body}</div>
+          <div style="padding:16px 18px;background:#f6f5fa;border-left:3px solid #dd44dd;color:#121117;font:15px/1.65 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;white-space:normal;word-break:break-word;">${body}</div>
         </td>
       </tr>
       <tr>
-        <td style="padding:16px 28px 24px;border-top:1px solid #eae2d6;color:#5e5750;font:13px/1.6 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
+        <td style="padding:16px 28px 24px;border-top:1px solid #e3e2eb;color:#585665;font:13px/1.6 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
           Reply to this email to answer ${escapeHtml(message.name)} directly.<br />
-          <a href="${escapeHtml(inboxUrl)}" style="color:#d4321a;">Open the inbox</a> to manage all messages.
+          <a href="${escapeHtml(inboxUrl)}" style="color:#ba32ba;">Open the inbox</a> to manage all messages.
         </td>
       </tr>
     </table>

@@ -91,8 +91,8 @@ export function ListenButton({ track, className }: ListenButtonProps) {
       className={cn(
         "inline-flex size-11 shrink-0 items-center justify-center rounded-pill border transition-[background-color,border-color,color,box-shadow] duration-150",
         active
-          ? "border-highlight bg-highlight text-highlight-fg shadow-glow-marigold"
-          : "border-line-strong text-highlight hover:border-highlight hover:bg-marigold-900",
+          ? "border-secondary bg-secondary text-secondary-fg shadow-glow-secondary"
+          : "border-line-strong text-secondary-soft hover:border-secondary-soft hover:bg-cobalt-950",
         className,
       )}
     >
@@ -144,7 +144,7 @@ function NowPlayingDock() {
           <div className="mb-3 flex items-start gap-3">
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-fg-subtle">
-                <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+                <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
                 Now playing{provider ? ` · ${EMBED_PROVIDER_LABELS[provider]}` : ""}
               </p>
               <p id={titleId} className="mt-1 truncate font-display text-lg leading-snug font-semibold text-fg">

@@ -117,7 +117,8 @@ export async function updateTrendingItem(id: string, input: unknown): Promise<Ac
     const refProblem = await checkReference(data);
     if (refProblem) return refProblem;
 
-    const doc = await TrendingItem.findByIdAndUpdate(oid, toMongoUpdate(data, ["refId", ...MANUAL_FIELDS]), {
+    // "movement" is optional too: choosing "None" removes the chart arrow.
+    const doc = await TrendingItem.findByIdAndUpdate(oid, toMongoUpdate(data, ["refId", "movement", ...MANUAL_FIELDS]), {
       returnDocument: "after",
       runValidators: true,
     });

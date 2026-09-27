@@ -20,7 +20,7 @@ function Grooves() {
       {[56, 46, 38, 30, 22].map((r) => (
         <circle key={r} cx="60" cy="60" r={r} stroke="currentColor" strokeWidth="1.25" />
       ))}
-      <circle cx="60" cy="60" r="9" className="fill-vermilion-500" />
+      <circle cx="60" cy="60" r="9" className="fill-accent" />
       <circle cx="60" cy="60" r="2.5" className="fill-bg" />
     </svg>
   );

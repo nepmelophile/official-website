@@ -31,13 +31,20 @@ export async function GET(_request: Request, { params }: RouteContext<"/pwa-icon
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0b0a09",
-          backgroundImage: "radial-gradient(circle at 18% 12%, rgba(232,57,31,0.32), transparent 62%)",
+          backgroundColor: "#0a090f",
+          backgroundImage:
+            "radial-gradient(circle at 18% 12%, rgba(221,68,221,0.3), transparent 62%), radial-gradient(circle at 92% 96%, rgba(61,76,245,0.3), transparent 55%)",
         }}
       >
         <svg width={mark} height={mark} viewBox="6 10 52 44" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 48V16h7l10 16.5L38 16h7v32h-6.5V29L29.6 43.5h-3.2L17.5 29v19z" fill="#f5eee3" />
-          <circle cx="52.5" cy="44.5" r="4.5" fill="#e8391f" />
+          <defs>
+            <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#dd44dd" />
+              <stop offset="1" stopColor="#3d4cf5" />
+            </linearGradient>
+          </defs>
+          <path d="M11 48V16h7l10 16.5L38 16h7v32h-6.5V29L29.6 43.5h-3.2L17.5 29v19z" fill="#f0eff5" />
+          <circle cx="52.5" cy="44.5" r="4.5" fill="url(#brand)" />
         </svg>
       </div>
     ),

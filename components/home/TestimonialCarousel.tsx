@@ -145,7 +145,7 @@ export function TestimonialCarousel({ testimonials, heading, label = "Testimonia
                     aria-hidden="true"
                     className={cn(
                       "block h-0.5 w-full rounded-pill transition-colors duration-300",
-                      i === active ? "bg-vermilion-500" : "bg-line-strong group-hover:bg-ink-400",
+                      i === active ? "bg-accent" : "bg-line-strong group-hover:bg-ink-400",
                     )}
                   />
                   <span className="sr-only">

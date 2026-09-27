@@ -330,7 +330,7 @@ export function DateInput({
           <button
             type="button"
             onClick={() => onChange(new Date().toISOString())}
-            className="rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-vermilion-300 hover:text-fg"
+            className="rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-orchid-300 hover:text-fg"
           >
             {mode === "datetime" ? "Now" : "Today"}
           </button>

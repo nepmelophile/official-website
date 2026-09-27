@@ -8,7 +8,7 @@ import { LatestNews } from "@/components/home/LatestNews";
 import { ServicesTeaser } from "@/components/home/ServicesTeaser";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TrendingStrip } from "@/components/home/TrendingStrip";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { PAGE_PATHS, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { getHomePageData } from "@/lib/queries/home";
 import { requireLiveData } from "@/lib/queries/safe";
 import { absoluteUrl, buildMetadata, siteUrl } from "@/lib/site";
@@ -90,7 +90,7 @@ function organizationJsonLd(contact: ContactInfoDTO): Record<string, unknown> {
 export default async function HomePage() {
   // Cached (ISR) page: never store a DB-failure fallback (empty sections) as the fresh version.
   await requireLiveData();
-  const { settings, contact, trending, articles, artists, services, testimonials } = await getHomePageData();
+  const { settings, pages, contact, trending, articles, artists, services, testimonials } = await getHomePageData();
   const stats = visibleStats(settings.impactStats);
 
   const index = numberSections({
@@ -105,12 +105,17 @@ export default async function HomePage() {
     <>
       <JsonLd id="home-jsonld" data={organizationJsonLd(contact)} />
       <HomeHero settings={settings} />
-      <TrendingStrip items={trending} />
+      <TrendingStrip items={trending} chartHref={pages.trending.enabled ? PAGE_PATHS.trending : undefined} />
       <ImpactSection stats={stats} index={index.impact} />
       <LatestNews articles={articles} index={index.news} />
       <FeaturedArtists artists={artists} index={index.artists} />
       <ServicesTeaser services={services} index={index.services} />
-      <Testimonials testimonials={testimonials} index={index.testimonials} headingId="home-testimonials-title" />
+      <Testimonials
+        testimonials={testimonials}
+        index={index.testimonials}
+        headingId="home-testimonials-title"
+        allHref={pages.testimonials.enabled ? PAGE_PATHS.testimonials : undefined}
+      />
       <CtaBand email={contact.email} headingId="home-cta-title" />
     </>
   );

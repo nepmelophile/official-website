@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export interface StatCounterProps {
   value: number;
-  /** Rendered in vermilion after the number, e.g. "+", "M", "%". */
+  /** Rendered in the accent colour after the number, e.g. "+", "M", "%". */
   suffix?: string;
   label: string;
   /** Count-up duration in ms (default 1600). */

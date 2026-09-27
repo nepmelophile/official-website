@@ -8,7 +8,7 @@ const STYLES: Record<BadgeStatus, { label: string; className: string; dot?: stri
   active: { label: "Active", className: "border-success/40 text-success", dot: "bg-success" },
   draft: { label: "Draft", className: "border-line-strong text-fg-subtle", dot: "bg-ink-400" },
   inactive: { label: "Inactive", className: "border-line text-fg-subtle", dot: "bg-ink-500" },
-  new: { label: "New", className: "border-accent/40 text-vermilion-300", dot: "bg-vermilion-500" },
+  new: { label: "New", className: "border-accent/40 text-orchid-300", dot: "bg-accent" },
   read: { label: "Read", className: "border-line-strong text-fg-muted" },
   archived: { label: "Archived", className: "border-line text-fg-subtle" },
   featured: { label: "Featured", className: "border-highlight/40 text-highlight" },

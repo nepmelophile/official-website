@@ -6,12 +6,14 @@ import { usePathname } from "next/navigation";
 import {
   ArrowUpRight,
   BriefcaseBusiness,
+  ChartNoAxesColumnIncreasing,
   Contact,
   House,
   Inbox,
   LayoutDashboard,
   LogOut,
   Menu,
+  MessageSquareQuote,
   MicVocal,
   Newspaper,
   Quote,
@@ -51,6 +53,8 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Site",
     items: [
       { href: "/admin/homepage", label: "Homepage", icon: <House {...iconProps} /> },
+      { href: "/admin/trending/settings", label: "Trending page", icon: <ChartNoAxesColumnIncreasing {...iconProps} /> },
+      { href: "/admin/testimonials/settings", label: "Testimonials page", icon: <MessageSquareQuote {...iconProps} /> },
       { href: "/admin/contact-info", label: "Contact info", icon: <Contact {...iconProps} /> },
       { href: "/admin/messages", label: "Messages", icon: <Inbox {...iconProps} />, badge: "messages" },
     ],
@@ -62,6 +66,20 @@ function isActive(pathname: string, item: NavItem): boolean {
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
 }
 
+/**
+ * The one item to highlight: the longest matching href, so /admin/trending/settings marks
+ * "Trending page" rather than also "Trending".
+ */
+function activeHref(pathname: string): string | undefined {
+  let best: string | undefined;
+  for (const group of NAV_GROUPS) {
+    for (const item of group.items) {
+      if (isActive(pathname, item) && (!best || item.href.length > best.length)) best = item.href;
+    }
+  }
+  return best;
+}
+
 export interface AdminSidebarProps {
   email: string;
   unreadMessages: number;
@@ -71,7 +89,7 @@ function Wordmark() {
   return (
     <Link href="/admin" className="group inline-flex items-baseline gap-2 rounded-xs">
       <span className="font-display text-lg font-extrabold tracking-tight text-fg">
-        MELOPHILE<span className="text-vermilion-500">.</span>
+        MELOPHILE<span className="text-accent">.</span>
       </span>
       <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-fg-subtle group-hover:text-fg-muted">
         Admin
@@ -81,6 +99,7 @@ function Wordmark() {
 }
 
 function NavContent({ pathname, unread, email, onNavigate }: { pathname: string; unread: number; email: string; onNavigate?: () => void }) {
+  const current = activeHref(pathname);
   return (
     <div className="flex h-full flex-col">
       <nav aria-label="Admin" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
@@ -89,7 +108,7 @@ function NavContent({ pathname, unread, email, onNavigate }: { pathname: string;
             <p className="mb-1.5 px-3 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-fg-subtle">{group.label}</p>
             <ul className="space-y-0.5">
               {group.items.map((item) => {
-                const active = isActive(pathname, item);
+                const active = item.href === current;
                 return (
                   <li key={item.href}>
                     <Link
@@ -192,7 +211,7 @@ export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
           <Menu aria-hidden className="size-5" strokeWidth={1.75} />
           <span className="sr-only">Open admin menu</span>
           {unreadMessages > 0 ? (
-            <span aria-hidden className="absolute top-2 right-2 size-2 rounded-pill bg-vermilion-500" />
+            <span aria-hidden className="absolute top-2 right-2 size-2 rounded-pill bg-accent" />
           ) : null}
         </button>
       </div>

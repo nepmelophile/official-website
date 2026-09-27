@@ -1,11 +1,11 @@
 import "server-only";
 import { cache } from "react";
-import { TRENDING_LIMIT } from "@/lib/constants";
+import { TRENDING_LIMIT, TRENDING_PAGE_LIMIT } from "@/lib/constants";
 import { serializeMedia, serializeTrendingItem, toId } from "@/lib/serialize";
 import { Article, type ArticleLean } from "@/models/Article";
 import { Artist, type ArtistLean, type ReleaseDoc } from "@/models/Artist";
 import { TrendingItem, type TrendingItemLean } from "@/models/TrendingItem";
-import type { MediaRef, TrendingCard, TrendingItemDTO } from "@/types/content";
+import type { MediaRef, TrendingCard, TrendingChart, TrendingChartEntry, TrendingItemDTO } from "@/types/content";
 import { safeQuery } from "./safe";
 
 type ArtistRef = Pick<ArtistLean, "_id" | "name" | "slug" | "photo" | "genres" | "location" | "releases">;
@@ -87,66 +87,91 @@ function merge(item: TrendingItemDTO, ref: Resolved | undefined): Resolved {
  * Active trending items ordered by rank, with artist/article references resolved into a
  * uniform card shape. Items whose reference is unpublished/missing and that have no manual
  * title are skipped — so extra candidates are fetched and the list is cut to `limit` only
- * after filtering (otherwise one draft artist in the top N would leave the strip short).
+ * after filtering (otherwise one draft artist in the top N would leave the list short).
+ * `position` numbers the resulting entries 1…n (stored ranks can have gaps where hidden items sit).
  */
-export const getTrending = cache(async (limit: number = TRENDING_LIMIT): Promise<TrendingCard[]> => {
-  return safeQuery("getTrending", [], async () => {
-    const items = (
-      await TrendingItem.find({ active: true })
-        .sort({ rank: 1, updatedAt: -1 })
-        .limit(Math.max(limit * 3, limit + 20))
-        .lean<TrendingItemLean[]>()
-    ).map(serializeTrendingItem);
+async function loadTrendingEntries(limit: number): Promise<TrendingChartEntry[]> {
+  const items = (
+    await TrendingItem.find({ active: true })
+      .sort({ rank: 1, updatedAt: -1 })
+      .limit(Math.max(limit * 3, limit + 20))
+      .lean<TrendingItemLean[]>()
+  ).map(serializeTrendingItem);
 
-    const artistIds = items.filter((i) => i.refId && i.type !== "update").map((i) => i.refId!);
-    const articleIds = items.filter((i) => i.refId && i.type === "update").map((i) => i.refId!);
+  const artistIds = items.filter((i) => i.refId && i.type !== "update").map((i) => i.refId!);
+  const articleIds = items.filter((i) => i.refId && i.type === "update").map((i) => i.refId!);
 
-    const [artists, articles] = await Promise.all([
-      artistIds.length
-        ? Artist.find({ _id: { $in: artistIds }, status: "published" })
-            .select("name slug photo genres location releases")
-            .lean<ArtistRef[]>()
-        : Promise.resolve([] as ArtistRef[]),
-      articleIds.length
-        ? Article.find({ _id: { $in: articleIds }, status: "published", publishedAt: { $lte: new Date() } })
-            .select("title slug featuredImage category publishedAt")
-            .lean<ArticleRef[]>()
-        : Promise.resolve([] as ArticleRef[]),
-    ]);
+  const [artists, articles] = await Promise.all([
+    artistIds.length
+      ? Artist.find({ _id: { $in: artistIds }, status: "published" })
+          .select("name slug photo genres location releases")
+          .lean<ArtistRef[]>()
+      : Promise.resolve([] as ArtistRef[]),
+    articleIds.length
+      ? Article.find({ _id: { $in: articleIds }, status: "published", publishedAt: { $lte: new Date() } })
+          .select("title slug featuredImage category publishedAt")
+          .lean<ArticleRef[]>()
+      : Promise.resolve([] as ArticleRef[]),
+  ]);
 
-    const artistById = new Map(artists.map((a) => [toId(a._id), a]));
-    const articleById = new Map(articles.map((a) => [toId(a._id), a]));
+  const artistById = new Map(artists.map((a) => [toId(a._id), a]));
+  const articleById = new Map(articles.map((a) => [toId(a._id), a]));
 
-    const cards: TrendingCard[] = [];
-    for (const item of items) {
-      if (cards.length >= limit) break;
-      let ref: Resolved | undefined;
-      if (item.refId) {
-        if (item.type === "update") {
-          const article = articleById.get(item.refId);
-          if (article) ref = fromArticle(article);
-        } else {
-          const artist = artistById.get(item.refId);
-          if (artist) ref = fromArtist(item.type, artist);
-        }
-        // Referenced content gone/unpublished and not manually curated → skip.
-        if (!ref && !item.manualOverride && !item.title) continue;
+  const entries: TrendingChartEntry[] = [];
+  for (const item of items) {
+    if (entries.length >= limit) break;
+    let ref: Resolved | undefined;
+    if (item.refId) {
+      if (item.type === "update") {
+        const article = articleById.get(item.refId);
+        if (article) ref = fromArticle(article);
+      } else {
+        const artist = artistById.get(item.refId);
+        if (artist) ref = fromArtist(item.type, artist);
       }
-
-      const resolved = merge(item, ref);
-      if (!resolved.title) continue;
-
-      cards.push({
-        id: item.id,
-        type: item.type,
-        rank: item.rank,
-        title: resolved.title,
-        subtitle: resolved.subtitle,
-        image: resolved.image,
-        href: resolved.href,
-        embedUrl: resolved.embedUrl,
-      });
+      // Referenced content gone/unpublished and not manually curated → skip.
+      if (!ref && !item.manualOverride && !item.title) continue;
     }
-    return cards;
+
+    const resolved = merge(item, ref);
+    if (!resolved.title) continue;
+
+    entries.push({
+      id: item.id,
+      type: item.type,
+      rank: item.rank,
+      position: entries.length + 1,
+      title: resolved.title,
+      subtitle: resolved.subtitle,
+      image: resolved.image,
+      href: resolved.href,
+      embedUrl: resolved.embedUrl,
+      movement: item.movement,
+      updatedAt: item.updatedAt,
+    });
+  }
+  return entries;
+}
+
+/** The homepage strip: the first `limit` showable items (see loadTrendingEntries). */
+export const getTrending = cache(async (limit: number = TRENDING_LIMIT): Promise<TrendingCard[]> => {
+  return safeQuery("getTrending", [], () => loadTrendingEntries(limit));
+});
+
+/** Newest ISO date in the list, else undefined. */
+function newestDate(values: readonly string[]): string | undefined {
+  let latest: number | undefined;
+  for (const value of values) {
+    const time = Date.parse(value);
+    if (Number.isFinite(time) && (latest === undefined || time > latest)) latest = time;
+  }
+  return latest === undefined ? undefined : new Date(latest).toISOString();
+}
+
+/** The /trending chart: up to `limit` entries plus when the chart was last edited. */
+export const getTrendingChart = cache(async (limit: number = TRENDING_PAGE_LIMIT): Promise<TrendingChart> => {
+  return safeQuery<TrendingChart>("getTrendingChart", { entries: [] }, async () => {
+    const entries = await loadTrendingEntries(limit);
+    return { entries, updatedAt: newestDate(entries.map((e) => e.updatedAt)) };
   });
 });

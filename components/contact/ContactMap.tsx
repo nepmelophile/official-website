@@ -32,7 +32,7 @@ export function ContactMap({ src, address, className }: ContactMapProps) {
       {address ? (
         <figcaption className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <span className={cn(META, "flex items-start gap-2 text-fg-muted")}>
-            <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="mt-px shrink-0 text-vermilion-400" />
+            <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="mt-px shrink-0 text-orchid-400" />
             {address}
           </span>
           <a
@@ -41,7 +41,7 @@ export function ContactMap({ src, address, className }: ContactMapProps) {
             rel="noopener noreferrer"
             className={cn(
               META,
-              "group inline-flex min-h-11 items-center gap-2 self-start text-fg transition-colors hover:text-vermilion-300 sm:self-auto",
+              "group inline-flex min-h-11 items-center gap-2 self-start text-fg transition-colors hover:text-orchid-300 sm:self-auto",
             )}
           >
             Get directions

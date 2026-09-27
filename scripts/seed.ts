@@ -10,12 +10,14 @@
  */
 import { config } from "dotenv";
 import type { Types } from "mongoose";
+import { DEFAULT_PAGE_SETTINGS } from "@/lib/constants";
 import { connectToDatabase, disconnectFromDatabase } from "@/lib/db";
 import { Article, type ArticleDoc } from "@/models/Article";
 import { Artist, type ArtistDoc } from "@/models/Artist";
 import { ContactInfo } from "@/models/ContactInfo";
 import { ContactMessage } from "@/models/ContactMessage";
 import { HomepageSettings } from "@/models/HomepageSettings";
+import { PageSettings } from "@/models/PageSettings";
 import { Service } from "@/models/Service";
 import { SINGLETON_KEY } from "@/models/shared";
 import { Testimonial } from "@/models/Testimonial";
@@ -642,6 +644,8 @@ const testimonials = [
     quote: "Melophile helped me plan my first proper release. For the first time it felt like someone understood both the music and the business.",
     order: 1,
     active: true,
+    featured: true,
+    source: { label: "Interview, Melophile Sessions", url: "https://www.youtube.com/@melophilenp" },
   },
   {
     name: "Rojina Tamang",
@@ -650,6 +654,8 @@ const testimonials = [
     quote: "They got our record in front of people we'd never have reached on our own — and they never once asked us to change our sound.",
     order: 2,
     active: true,
+    featured: true,
+    source: { label: "Instagram post" },
   },
   {
     name: "Sunita Gurung",
@@ -702,13 +708,14 @@ async function main(): Promise<void> {
     Testimonial.deleteMany({}),
     TrendingItem.deleteMany({}),
     HomepageSettings.deleteMany({}),
+    PageSettings.deleteMany({}),
     ContactInfo.deleteMany({}),
     ...(args.has("--with-messages") ? [ContactMessage.deleteMany({})] : []),
   ]);
 
   console.log("Syncing indexes…");
   await Promise.all(
-    [Article, Artist, Service, Testimonial, TrendingItem, HomepageSettings, ContactInfo, ContactMessage].map((m) =>
+    [Article, Artist, Service, Testimonial, TrendingItem, HomepageSettings, PageSettings, ContactInfo, ContactMessage].map((m) =>
       m.syncIndexes(),
     ),
   );
@@ -752,9 +759,16 @@ async function main(): Promise<void> {
   console.log(`  ✓ ${testimonials.length} testimonials`);
 
   const trending = [
-    { type: "artist", refId: artistId("aakash-rai"), rank: 1, manualOverride: false, active: true },
-    { type: "song", refId: artistId("bhairav-beats"), rank: 2, manualOverride: false, active: true },
-    { type: "update", refId: articleId("jhamsikhel-sessions-returns-november"), rank: 3, manualOverride: false, active: true },
+    { type: "artist", refId: artistId("aakash-rai"), rank: 1, manualOverride: false, active: true, movement: "steady" },
+    { type: "song", refId: artistId("bhairav-beats"), rank: 2, manualOverride: false, active: true, movement: "up" },
+    {
+      type: "update",
+      refId: articleId("jhamsikhel-sessions-returns-november"),
+      rank: 3,
+      manualOverride: false,
+      active: true,
+      movement: "new",
+    },
     {
       type: "song",
       refId: artistId("maya-thapa"),
@@ -766,8 +780,9 @@ async function main(): Promise<void> {
       image: img("timro-yaad-live", 800, 800, "Maya Thapa performing live under purple lights"),
       href: "/artists/maya-thapa",
       embedUrl: "https://www.youtube.com/watch?v=Mt9kW3pLq5x",
+      movement: "up",
     },
-    { type: "artist", refId: artistId("the-kathmandu-drift"), rank: 5, manualOverride: false, active: true },
+    { type: "artist", refId: artistId("the-kathmandu-drift"), rank: 5, manualOverride: false, active: true, movement: "down" },
     { type: "update", refId: articleId("nepali-streaming-numbers-doubled"), rank: 6, manualOverride: false, active: true },
     {
       type: "artist",
@@ -810,6 +825,11 @@ async function main(): Promise<void> {
     ],
   });
   console.log("  ✓ homepage settings");
+
+  // Managed pages (/trending, /testimonials): the same defaults the site uses with no document
+  // (undefined SEO fields are simply not stored).
+  await PageSettings.insertMany(Object.values(DEFAULT_PAGE_SETTINGS));
+  console.log("  ✓ page settings (trending, testimonials)");
 
   await ContactInfo.create({
     key: SINGLETON_KEY,

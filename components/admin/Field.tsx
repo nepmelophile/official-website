@@ -52,7 +52,7 @@ export function Field({
     <>
       {label}
       {required ? (
-        <span aria-hidden className="ml-0.5 text-vermilion-300">
+        <span aria-hidden className="ml-0.5 text-orchid-300">
           *
         </span>
       ) : null}

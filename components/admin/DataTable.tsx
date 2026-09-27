@@ -105,7 +105,7 @@ export function DataTable<T>({ rows, columns, rowKey, rowHref, caption, empty, r
                       {col.primary && href ? (
                         <Link
                           href={href}
-                          className="after:absolute after:inset-0 hover:text-vermilion-300 focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-highlight focus-visible:after:ring-inset focus-ring-custom"
+                          className="after:absolute after:inset-0 hover:text-orchid-300 focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-highlight focus-visible:after:ring-inset focus-ring-custom"
                         >
                           {content}
                         </Link>

@@ -37,14 +37,14 @@ export default async function AdminLoginPage({
       <div className="relative w-full max-w-sm">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block rounded-xs font-display text-2xl font-extrabold tracking-tight text-fg">
-            MELOPHILE<span className="text-vermilion-500">.</span>
+            MELOPHILE<span className="text-accent">.</span>
           </Link>
           <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-fg-subtle">Backstage · Admin</p>
         </div>
 
         <div className="rounded-lg border border-line bg-surface p-6 shadow-card sm:p-8">
           <div className="mb-6 flex items-center gap-3">
-            <span className="inline-flex size-9 items-center justify-center rounded-pill border border-line-strong text-vermilion-300">
+            <span className="inline-flex size-9 items-center justify-center rounded-pill border border-line-strong text-orchid-300">
               <LockKeyhole aria-hidden className="size-4" strokeWidth={1.75} />
             </span>
             <div>
@@ -54,10 +54,10 @@ export default async function AdminLoginPage({
           </div>
 
           {!configured ? (
-            <div role="status" className="mb-5 rounded-sm border border-highlight/40 bg-marigold-900/40 px-3 py-2.5 text-sm text-fg">
-              Sign-in isn’t configured yet. Set <code className="font-mono text-xs text-marigold-300">ADMIN_EMAIL</code>,{" "}
-              <code className="font-mono text-xs text-marigold-300">ADMIN_PASSWORD</code> and{" "}
-              <code className="font-mono text-xs text-marigold-300">AUTH_SECRET</code> (32+ characters) in the environment.
+            <div role="status" className="mb-5 rounded-sm border border-warning/40 bg-warning/10 px-3 py-2.5 text-sm text-fg">
+              Sign-in isn’t configured yet. Set <code className="font-mono text-xs text-warning">ADMIN_EMAIL</code>,{" "}
+              <code className="font-mono text-xs text-warning">ADMIN_PASSWORD</code> and{" "}
+              <code className="font-mono text-xs text-warning">AUTH_SECRET</code> (32+ characters) in the environment.
             </div>
           ) : null}
 

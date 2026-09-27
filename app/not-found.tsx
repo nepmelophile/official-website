@@ -25,7 +25,7 @@ export default function NotFound() {
         <Container className="grid items-center gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-8 lg:py-32">
           <div className="lg:col-span-7">
             <p className="flex animate-fade-up items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-              <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+              <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
               Error 404 — track not found
             </p>
             <h1
@@ -59,7 +59,7 @@ export default function NotFound() {
               Followed a broken link?{" "}
               <Link
                 href="/contact"
-                className="text-vermilion-300 underline decoration-vermilion-700 underline-offset-4 transition-colors hover:text-fg hover:decoration-vermilion-300"
+                className="text-orchid-300 underline decoration-orchid-700 underline-offset-4 transition-colors hover:text-fg hover:decoration-orchid-300"
               >
                 Let us know
               </Link>

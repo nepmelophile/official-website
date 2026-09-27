@@ -2,11 +2,11 @@ import { cn } from "@/lib/utils";
 
 export const BUTTON_VARIANTS = {
   primary:
-    "bg-accent text-accent-fg hover:bg-accent-hover hover:shadow-glow active:bg-vermilion-700",
+    "bg-accent text-accent-fg hover:bg-accent-hover hover:shadow-glow active:bg-accent",
   secondary: "border border-line-strong bg-transparent text-fg hover:border-fg hover:bg-surface",
   ghost:
     "rounded-none bg-transparent px-0! text-fg underline decoration-accent decoration-1 underline-offset-[6px] hover:decoration-2 hover:text-paper",
-  marigold: "bg-highlight text-highlight-fg hover:bg-marigold-300 hover:shadow-glow-marigold active:bg-marigold-500",
+  cobalt: "bg-secondary text-secondary-fg hover:bg-secondary-hover hover:shadow-glow-secondary active:bg-cobalt-700",
   danger: "bg-danger text-ink-950 hover:brightness-110",
 } as const;
 

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { VinylGrooves } from "./decor";
 
 export interface CtaBandProps {
-  /** Headline; wrap one phrase in <em> for the serif-italic marigold accent. */
+  /** Headline; wrap one phrase in <em> for the serif-italic brand-gradient accent. */
   title?: ReactNode;
   description?: ReactNode;
   /** Primary action (default "Start a conversation" → /contact). */
@@ -44,14 +44,14 @@ export function CtaBand({
 
       <Container>
         <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">
-          <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-vermilion-500" />
+          <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
           {kicker}
         </p>
         <h2
           id={headingId}
           className={cn(
             "mt-6 max-w-[14ch] font-display text-display-xl font-extrabold tracking-[-0.025em] text-fg [font-stretch:88%]",
-            "[&_em]:block [&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.02em] [&_em]:text-highlight [&_em]:italic [&_em]:[font-stretch:100%]",
+            "[&_em]:block [&_em]:w-fit [&_em]:font-serif [&_em]:font-normal [&_em]:tracking-[-0.02em] [&_em]:text-brand-gradient [&_em]:italic [&_em]:[font-stretch:100%]",
           )}
         >
           {title}
@@ -71,7 +71,7 @@ export function CtaBand({
                 className="group inline-flex min-h-11 items-center gap-2 font-mono text-sm tracking-[0.04em] text-fg-muted transition-colors hover:text-fg"
               >
                 <span className="text-fg-subtle">or email</span>
-                <span className="break-all underline decoration-line-strong underline-offset-[6px] transition-[text-decoration-color] group-hover:decoration-vermilion-500">
+                <span className="break-all underline decoration-line-strong underline-offset-[6px] transition-[text-decoration-color] group-hover:decoration-accent">
                   {email}
                 </span>
               </a>

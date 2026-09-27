@@ -24,7 +24,7 @@ export interface ServiceCardProps {
   className?: string;
 }
 
-/** Numbered service card: surface panel, marigold mono index, title, description, arrow. */
+/** Numbered service card: surface panel, highlight mono index, title, description, arrow. */
 export function ServiceCard({
   service,
   index,
@@ -68,7 +68,7 @@ export function ServiceCard({
             size={24}
             strokeWidth={1.75}
             aria-hidden="true"
-            className="text-fg-subtle transition-[color,transform] duration-300 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-vermilion-300"
+            className="text-fg-subtle transition-[color,transform] duration-300 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-orchid-300"
           />
         </div>
         <Heading className="mt-10 font-display text-display-sm font-bold text-fg md:mt-14">
@@ -86,7 +86,7 @@ export function ServiceCard({
         {service.description ? (
           <p className="mt-3 line-clamp-4 text-fg-muted">{service.description}</p>
         ) : null}
-        <p aria-hidden="true" className={cn(META, "mt-auto pt-8 text-fg transition-colors group-hover:text-vermilion-300")}>
+        <p aria-hidden="true" className={cn(META, "mt-auto pt-8 text-fg transition-colors group-hover:text-orchid-300")}>
           {cta}
         </p>
       </div>

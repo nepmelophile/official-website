@@ -87,13 +87,13 @@ export function TrendingPreview({ resolution, type, rank }: TrendingPreviewProps
         aria-live="polite"
         className={cn(
           "flex items-start gap-2 rounded-sm border px-3 py-2 text-sm",
-          visible ? "border-success/40 bg-success/10 text-fg" : "border-highlight/40 bg-marigold-900/40 text-fg",
+          visible ? "border-success/40 bg-success/10 text-fg" : "border-warning/40 bg-warning/10 text-fg",
         )}
       >
         {visible ? (
           <Eye aria-hidden className="mt-0.5 size-4 shrink-0 text-success" strokeWidth={1.75} />
         ) : (
-          <EyeOff aria-hidden className="mt-0.5 size-4 shrink-0 text-highlight" strokeWidth={1.75} />
+          <EyeOff aria-hidden className="mt-0.5 size-4 shrink-0 text-warning" strokeWidth={1.75} />
         )}
         <span>{visible ? "Will show in the trending strip." : (hiddenReason ?? "Hidden.")}</span>
       </p>

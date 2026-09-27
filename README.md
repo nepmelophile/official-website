@@ -114,8 +114,9 @@ Go to `/admin` and sign in with `ADMIN_EMAIL` and `ADMIN_PASSWORD`. After 8 fail
 | **Articles** | News posts: markdown body with preview, featured image, category, tags, author, publish date, Spotify/YouTube/SoundCloud embeds, related articles and SEO fields. A future publish date schedules the post. **Draft** hides it. |
 | **Artists** | Profile, photo and cover, bio, genres, social links, releases (embedded players), photo and video gallery, milestones, related news, the *Featured* flag and sort order. |
 | **Services** | Name, image, short description, details (markdown), form link (an external form URL or `/contact?service=<slug>`), order and active flag. |
-| **Testimonials** | Quote, name, role, photo, order and active flag. |
-| **Trending** | The homepage ticker. Link an artist (Artist), an artist's latest release (Song) or an article (Update), or turn on *Override display* to write your own title, image and link. The rank is the position; reorder with the arrows. |
+| **Testimonials** | Quote, name, role, photo, an optional source (label and link), order, active and *Featured* flags. Reorder, feature (★) and show/hide from the list. Featured quotes are shown large at the top of `/testimonials`. |
+| **Trending** | The homepage ticker and the `/trending` chart. Link an artist (Artist), an artist's latest release (Song) or an article (Update), or turn on *Override display* to write your own title, image and link. The rank is the position; reorder with the arrows. An optional chart movement (new, up, down, steady) shows an arrow or NEW badge on the chart. |
+| **Trending page** / **Testimonials page** | Page settings (also under *Page settings* on each list): live on/off (off = 404 and removed from the menu, sitemap and homepage links), show in the menu and its label, eyebrow, heading and intro, SEO title, description and share image. Trending adds the number of chart entries, the homepage strip length and the type filter; Testimonials adds the homepage carousel length and the closing call to action. Nothing needs saving for the pages to work: without a saved document they use built-in defaults (live, in the menu). |
 | **Homepage** | Hero headline (wrap one word in `*asterisks*` to accent it), subcopy, image and buttons, impact stats, and the featured articles and artists in the order you choose. |
 | **Contact info** | Email, phone, address, office hours, social links and the map. Paste Google Maps' *Embed a map* `<iframe>` snippet or its URL. |
 | **Messages** | The contact-form inbox, with Unread, Read and Archived views, search, and reply by email. Opening a message marks it read. |
@@ -226,7 +227,8 @@ saves the current form, and you are warned before leaving a form with unsaved ch
 
 ```
 app/
-  (site)/            public pages: home, news, artists, services, contact (header and footer layout)
+  (site)/            public pages: home, news, artists, trending, services, testimonials, contact
+                     (header and footer layout; the menu comes from getNavLinks())
   admin/             /admin: login, then (protected)/ sections with list, new and [id] edit pages
   api/imagekit/auth  signed upload parameters (admin only)
   sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx, not-found.tsx, globals.css (tokens)
@@ -241,7 +243,7 @@ lib/
   revalidate.ts      on-demand revalidation helpers
   site.ts, embeds.ts, images.ts, serialize.ts, utils.ts, constants.ts
 models/              Mongoose models (Article, Artist, Service, Testimonial, TrendingItem,
-                     HomepageSettings, ContactInfo, ContactMessage)
+                     HomepageSettings, PageSettings, ContactInfo, ContactMessage)
 types/content.ts     serialisable DTOs shared by server and client
 proxy.ts             optimistic /admin gate (Next 16 "proxy", formerly middleware)
 scripts/seed.ts      sample content

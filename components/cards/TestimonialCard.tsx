@@ -14,7 +14,7 @@ export interface TestimonialCardProps {
   className?: string;
 }
 
-/** Serif-italic pull quote with vermilion opening mark, avatar, name and designation. */
+/** Serif-italic pull quote with accent (orchid) opening mark, avatar, name and designation. */
 export function TestimonialCard({ testimonial, size = "md", framed = true, className }: TestimonialCardProps) {
   const initial = testimonial.name.trim().charAt(0).toUpperCase() || "M";
   return (
@@ -28,7 +28,7 @@ export function TestimonialCard({ testimonial, size = "md", framed = true, class
       <span
         aria-hidden="true"
         className={cn(
-          "block font-serif leading-[0.6] text-vermilion-500 select-none",
+          "block font-serif leading-[0.6] text-accent select-none",
           size === "lg" ? "text-[7rem] md:text-[9rem]" : "text-7xl",
         )}
       >

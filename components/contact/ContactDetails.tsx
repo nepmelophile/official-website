@@ -13,7 +13,7 @@ export interface ContactDetailsProps {
 
 const META = "font-mono text-xs uppercase tracking-[0.14em]";
 const BIG_LINK =
-  "font-display text-2xl leading-tight font-bold text-fg wrap-anywhere underline decoration-accent/70 decoration-2 underline-offset-[6px] transition-colors duration-150 hover:text-vermilion-300 hover:decoration-vermilion-300 md:text-[1.75rem]";
+  "font-display text-2xl leading-tight font-bold text-fg wrap-anywhere underline decoration-accent/70 decoration-2 underline-offset-[6px] transition-colors duration-150 hover:text-orchid-300 hover:decoration-orchid-300 md:text-[1.75rem]";
 
 /** `tel:` href from a human-formatted number ("+977 1-5550123" → "tel:+97715550123"). */
 export function telHref(phone: string): string {
@@ -66,7 +66,7 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
             href={mapsSearchUrl(info.address)}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(META, "mt-2 inline-flex min-h-11 items-center text-fg-muted underline-offset-4 transition-colors hover:text-vermilion-300 hover:underline")}
+            className={cn(META, "mt-2 inline-flex min-h-11 items-center text-fg-muted underline-offset-4 transition-colors hover:text-orchid-300 hover:underline")}
           >
             Open in Google Maps<span className="sr-only"> (opens in a new tab)</span>
           </a>
@@ -91,7 +91,7 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
             {rows.map(({ key, label, icon: Icon, content }) => (
               <div key={key} className="grid gap-2 border-b border-line py-5 sm:grid-cols-[7.5rem_1fr] sm:gap-6">
                 <dt className={cn(META, "flex items-center gap-2 pt-1 text-fg-subtle")}>
-                  <Icon size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-vermilion-400" />
+                  <Icon size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-orchid-400" />
                   {label}
                 </dt>
                 <dd className="min-w-0">{content}</dd>

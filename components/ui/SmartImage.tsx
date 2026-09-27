@@ -70,7 +70,7 @@ export function SmartImage({
             className="select-none font-display text-[clamp(2.5rem,45cqw,12rem)] leading-none font-extrabold tracking-[-0.06em] text-ink-700 [font-stretch:85%]"
           >
             {monogram}
-            <span className="text-vermilion-900">.</span>
+            <span className="text-orchid-900">.</span>
           </span>
         </div>
       )}

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, SlidersHorizontal } from "lucide-react";
 import { ButtonLink, DataTable, ListToolbar, PageHeader, StatusBadge, type DataTableColumn } from "@/components/admin";
 import { TrendingCard } from "@/components/cards/TrendingCard";
+import { Movement } from "@/components/trending/Movement";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { paramValue, parseListParams, type RawSearchParams } from "@/lib/admin/list";
+import { getAdminPageSettings } from "@/lib/admin/queries/page-settings";
 import { listAdminTrending, type TrendingRefOptions } from "@/lib/admin/queries/trending";
 import { requireAdmin } from "@/lib/auth";
-import { TRENDING_LIMIT, TRENDING_TYPE_LABELS, TRENDING_TYPES } from "@/lib/constants";
+import { PAGE_PATHS, TRENDING_TYPE_LABELS, TRENDING_TYPES } from "@/lib/constants";
 import type { TrendingItemDTO } from "@/types/content";
 import { buildRefLookup, HIDDEN_LABELS, resolveTrending, type TrendingResolution } from "./resolve";
 import { TrendingRowActions } from "./TrendingRowActions";
@@ -19,28 +21,33 @@ interface TrendingRow {
   resolution: TrendingResolution;
   /** Name for labels: resolved title, else the linked document, else a fallback. */
   label: string;
-  /** Would show, but outside the first TRENDING_LIMIT showable items (the public query's cut-off). */
+  /** Would show, but outside the homepage strip's first N showable items (the public query's cut-off). */
   beyondLimit: boolean;
+  /** 1-based position among the showable items (the number /trending displays). */
+  position?: number;
   /** Rendered in the public strip right now. */
   live: boolean;
 }
 
-function buildRows(items: readonly TrendingItemDTO[], options: TrendingRefOptions): TrendingRow[] {
+function buildRows(items: readonly TrendingItemDTO[], options: TrendingRefOptions, stripLimit: number): TrendingRow[] {
   const lookup = buildRefLookup(options);
   // Mirrors getTrending: hidden items (off, unresolved) are skipped first, then the list is cut.
   let shownSeen = 0;
   return items.map((item) => {
     const resolution = resolveTrending(item, lookup);
     let beyondLimit = false;
+    let position: number | undefined;
     if (resolution.visible) {
-      beyondLimit = shownSeen >= TRENDING_LIMIT;
+      beyondLimit = shownSeen >= stripLimit;
       shownSeen += 1;
+      position = shownSeen;
     }
     return {
       item,
       resolution,
       label: resolution.display.title ?? resolution.linked?.label ?? `Untitled ${TRENDING_TYPE_LABELS[item.type].toLowerCase()}`,
       beyondLimit,
+      position,
       live: resolution.visible && !beyondLimit,
     };
   });
@@ -62,10 +69,18 @@ function filterRows(rows: readonly TrendingRow[], q: string, type: string, statu
   });
 }
 
-function VisibilityBadge({ row }: { row: TrendingRow }) {
+interface Limits {
+  /** Items in the homepage strip. */
+  strip: number;
+  /** Entries on /trending, or null while the page is off. */
+  chart: number | null;
+}
+
+function VisibilityBadge({ row, limits }: { row: TrendingRow; limits: Limits }) {
   const { resolution } = row;
   if (row.live) return <StatusBadge status="active">Live</StatusBadge>;
   const code = resolution.hiddenCode;
+  const chartOnly = !code && row.position !== undefined && limits.chart !== null && row.position <= limits.chart;
   const badge =
     code === "inactive" ? (
       <StatusBadge status="inactive">Off</StatusBadge>
@@ -73,15 +88,19 @@ function VisibilityBadge({ row }: { row: TrendingRow }) {
       <StatusBadge status="new">{HIDDEN_LABELS[code]}</StatusBadge>
     ) : code ? (
       <StatusBadge status="featured">{HIDDEN_LABELS[code]}</StatusBadge>
+    ) : chartOnly ? (
+      <StatusBadge status="read">Chart only</StatusBadge>
     ) : (
-      <StatusBadge status="draft">Beyond top {TRENDING_LIMIT}</StatusBadge>
+      <StatusBadge status="draft">Beyond top {Math.max(limits.strip, limits.chart ?? 0)}</StatusBadge>
     );
   const reason =
     code && code !== "inactive"
       ? resolution.hiddenReason
-      : !code && row.beyondLimit
-        ? `Only the first ${TRENDING_LIMIT} showable items are shown. Move it up or switch another item off.`
-        : undefined;
+      : chartOnly
+        ? `Listed on ${PAGE_PATHS.trending} (#${String(row.position).padStart(2, "0")}); the homepage strip shows the first ${limits.strip}.`
+        : !code && row.beyondLimit
+          ? `Only the first ${limits.strip} showable items are in the homepage strip${limits.chart !== null ? ` and ${limits.chart} on ${PAGE_PATHS.trending}` : ""}. Move it up or switch another item off.`
+          : undefined;
   return (
     <span className="flex flex-col items-start gap-1">
       {badge}
@@ -114,9 +133,13 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
   const type = (TRENDING_TYPES as readonly string[]).includes(typeRaw) ? typeRaw : "";
   const filtering = Boolean(q || status || type);
 
-  const { items, options, error } = await listAdminTrending();
+  const [{ items, options, error }, { value: page }] = await Promise.all([
+    listAdminTrending(),
+    getAdminPageSettings("trending"),
+  ]);
+  const limits: Limits = { strip: page.homepageLimit, chart: page.enabled ? page.pageLimit : null };
   // Live/limit status is computed on the full ranked list, then the table is filtered.
-  const rows = buildRows(items, options);
+  const rows = buildRows(items, options, limits.strip);
   const visibleRows = filtering ? filterRows(rows, q, type, status) : rows;
   const liveRows = rows.filter((r) => r.live);
   const activeCount = items.filter((i) => i.active).length;
@@ -125,10 +148,13 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
     {
       key: "rank",
       header: "#",
-      className: "w-14",
+      className: "w-20",
       cell: (r) => (
-        <span className={r.live ? "font-mono text-sm font-medium text-highlight" : "font-mono text-sm text-fg-subtle"}>
-          #{String(r.item.rank).padStart(2, "0")}
+        <span className="flex items-center gap-2">
+          <span className={r.live ? "font-mono text-sm font-medium text-highlight" : "font-mono text-sm text-fg-subtle"}>
+            #{String(r.item.rank).padStart(2, "0")}
+          </span>
+          <Movement movement={r.item.movement} />
         </span>
       ),
     },
@@ -156,7 +182,7 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
       ),
     },
     { key: "source", header: "Source", hideBelow: "md", cell: (r) => <SourceCell row={r} /> },
-    { key: "visibility", header: "On site", cell: (r) => <VisibilityBadge row={r} /> },
+    { key: "visibility", header: "On site", cell: (r) => <VisibilityBadge row={r} limits={limits} /> },
     {
       key: "actions",
       header: <span className="sr-only">Actions</span>,
@@ -179,9 +205,19 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
       <PageHeader
         title="Trending"
         count={items.length}
-        description={`The ● TRENDING strip under the homepage hero. The first ${TRENDING_LIMIT} active items that resolve are shown in this order; links to drafts or scheduled articles stay hidden until they go live.`}
+        description={`The ● TRENDING strip under the homepage hero and the ${PAGE_PATHS.trending} chart. Active items that resolve are shown in this order: the first ${limits.strip} in the strip${limits.chart !== null ? `, the first ${limits.chart} on the chart` : ""}. Links to drafts or scheduled articles stay hidden until they go live.`}
         action={{ href: "/admin/trending/new", label: "New trending item" }}
       >
+        <StatusBadge status={page.enabled ? "active" : "inactive"}>
+          {page.enabled ? `${PAGE_PATHS.trending} live` : `${PAGE_PATHS.trending} off`}
+        </StatusBadge>
+        <ButtonLink
+          href="/admin/trending/settings"
+          variant="secondary"
+          icon={<SlidersHorizontal aria-hidden className="size-4" strokeWidth={1.75} />}
+        >
+          Page settings
+        </ButtonLink>
         <ButtonLink
           href="/"
           target="_blank"
@@ -203,7 +239,7 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
         <section aria-labelledby="trending-now-heading" className="mb-6 overflow-hidden rounded-md border border-line bg-bg-alt">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-2.5">
             <h2 id="trending-now-heading" className="flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-fg">
-              <span aria-hidden className="size-2 animate-pulse-dot rounded-pill bg-vermilion-500" />
+              <span aria-hidden className="size-2 animate-pulse-dot rounded-pill bg-accent" />
               On the homepage now
             </h2>
             <p className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-fg-subtle tabular-nums">
@@ -291,7 +327,7 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
         <p className="mt-3 text-xs text-fg-subtle">
           Use the arrows to reorder; positions are renumbered 1…{rows.length} automatically. The switch shows or hides an
           item without deleting it.{" "}
-          <Link href="/admin/trending/new" className="text-vermilion-300 underline-offset-4 hover:underline">
+          <Link href="/admin/trending/new" className="text-orchid-300 underline-offset-4 hover:underline">
             Add another item
           </Link>
           .

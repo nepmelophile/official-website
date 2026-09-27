@@ -8,7 +8,7 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { cn } from "@/lib/utils";
 import type { SocialLink } from "@/types/content";
-import { HEADER_CTA, navCurrent, SITE_NAV } from "./nav";
+import { HEADER_CTA, navCurrent, SITE_NAV, type NavItem } from "./nav";
 
 const noopSubscribe = () => () => {};
 
@@ -24,6 +24,8 @@ function useIsClient(): boolean {
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export interface MobileNavProps {
+  /** Menu links (from getNavLinks); defaults to the static base list. */
+  links?: readonly NavItem[];
   socialLinks?: SocialLink[];
   email?: string;
 }
@@ -34,7 +36,7 @@ export interface MobileNavProps {
  * focus returns to the toggle. Rendered in a portal because the sticky header's backdrop
  * filter would otherwise become the containing block of the fixed overlay.
  */
-export function MobileNav({ socialLinks, email }: MobileNavProps) {
+export function MobileNav({ links = SITE_NAV, socialLinks, email }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isClient = useIsClient();
@@ -82,7 +84,7 @@ export function MobileNav({ socialLinks, email }: MobileNavProps) {
       }
     };
     const onResize = () => {
-      if (window.matchMedia("(min-width: 48rem)").matches) setOpen(false);
+      if (window.matchMedia("(min-width: 64rem)").matches) setOpen(false);
     };
 
     document.addEventListener("keydown", onKeyDown);
@@ -102,7 +104,7 @@ export function MobileNav({ socialLinks, email }: MobileNavProps) {
       aria-modal="true"
       aria-label="Site menu"
       hidden={!open}
-      className="bg-glow fixed inset-0 z-50 flex flex-col overflow-y-auto bg-bg md:hidden"
+      className="bg-glow fixed inset-0 z-50 flex flex-col overflow-y-auto bg-bg lg:hidden"
     >
       <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-gutter">
         <span className="font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">Menu</span>
@@ -118,7 +120,7 @@ export function MobileNav({ socialLinks, email }: MobileNavProps) {
 
       <nav aria-label="Mobile" className="flex-1 px-gutter pt-8 pb-10">
         <ol className="flex flex-col">
-          {SITE_NAV.map((item, i) => {
+          {links.map((item, i) => {
             const current = navCurrent(pathname, item.href);
             return (
               <li
@@ -138,7 +140,7 @@ export function MobileNav({ socialLinks, email }: MobileNavProps) {
                   <span className="w-8 shrink-0 font-mono text-xs font-normal tracking-[0.14em] text-fg-subtle">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className={cn(current && "underline decoration-vermilion-500 decoration-4 underline-offset-8")}>
+                  <span className={cn(current && "underline decoration-accent decoration-4 underline-offset-8")}>
                     {item.label}
                   </span>
                 </Link>
@@ -176,7 +178,7 @@ export function MobileNav({ socialLinks, email }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen(true)}
-        className="inline-flex size-11 items-center justify-center rounded-pill border border-line-strong text-fg transition-colors hover:border-fg md:hidden"
+        className="inline-flex size-11 items-center justify-center rounded-pill border border-line-strong text-fg transition-colors hover:border-fg lg:hidden"
       >
         <Menu size={20} strokeWidth={1.75} aria-hidden="true" />
         <span className="sr-only">Open menu</span>

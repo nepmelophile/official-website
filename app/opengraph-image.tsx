@@ -13,15 +13,16 @@ export const alt = `${SITE_NAME} — ${SITE_TAGLINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const INK_950 = "#0b0a09";
-const PAPER = "#f5eee3";
-const INK_100 = "#eae2d6";
-const INK_300 = "#aea498";
-const INK_400 = "#948b81";
-const INK_600 = "#403a35";
-const INK_800 = "#221f1c";
-const VERMILION = "#e8391f";
-const MARIGOLD = "#ffba3b";
+const INK_950 = "#0a090f";
+const PAPER = "#f0eff5";
+const INK_100 = "#e3e2eb";
+const INK_300 = "#a8a5b5";
+const INK_400 = "#8e8c9c";
+const INK_600 = "#3b3946";
+const INK_800 = "#201e28";
+const ORCHID = "#dd44dd";
+const ORCHID_900 = "#431242";
+const BRAND_GRADIENT = "linear-gradient(120deg, #dd44dd 0%, #3d4cf5 100%)";
 
 const WORDMARK = SITE_NAME.toUpperCase();
 const KICKER = "Live from Kathmandu";
@@ -100,7 +101,7 @@ function Grooves() {
           strokeWidth={i % 4 === 0 ? 2 : 1.25}
         />
       ))}
-      <circle cx="410" cy="410" r="56" fill="#3a120b" />
+      <circle cx="410" cy="410" r="56" fill={ORCHID_900} />
       <circle cx="410" cy="410" r="9" fill={INK_950} />
     </svg>
   );
@@ -133,7 +134,7 @@ export default async function OpenGraphImage() {
           padding: "60px 72px 56px",
           backgroundColor: INK_950,
           backgroundImage:
-            "radial-gradient(circle at 8% 0%, rgba(232,57,31,0.34), transparent 52%), radial-gradient(circle at 96% 100%, rgba(255,186,59,0.16), transparent 46%)",
+            "radial-gradient(circle at 8% 0%, rgba(221,68,221,0.3), transparent 52%), radial-gradient(circle at 96% 100%, rgba(61,76,245,0.28), transparent 46%)",
           color: PAPER,
         }}
       >
@@ -141,7 +142,7 @@ export default async function OpenGraphImage() {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", ...mono, color: INK_300 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ width: 12, height: 12, borderRadius: 9999, backgroundColor: VERMILION }} />
+            <div style={{ width: 12, height: 12, borderRadius: 9999, backgroundColor: ORCHID }} />
             {KICKER}
           </div>
           <div style={{ display: "flex" }}>{SECTIONS}</div>
@@ -167,7 +168,7 @@ export default async function OpenGraphImage() {
                 marginLeft: 10,
                 marginBottom: 16,
                 borderRadius: 9999,
-                backgroundColor: VERMILION,
+                backgroundImage: BRAND_GRADIENT,
               }}
             />
           </div>
@@ -183,7 +184,18 @@ export default async function OpenGraphImage() {
             }}
           >
             <span style={{ whiteSpace: "pre" }}>{TAGLINE.before}</span>
-            <span style={{ fontStyle: "italic", color: MARIGOLD }}>{TAGLINE.accent}</span>
+            <span
+              style={{
+                fontStyle: "italic",
+                color: "transparent",
+                backgroundImage: BRAND_GRADIENT,
+                backgroundClip: "text",
+                paddingRight: 6,
+                marginRight: -6,
+              }}
+            >
+              {TAGLINE.accent}
+            </span>
             <span>{TAGLINE.after}</span>
           </div>
         </div>
