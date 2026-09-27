@@ -23,7 +23,7 @@ export function ArticleTags({ tags, className }: ArticleTagsProps) {
           return (
             <li key={tag}>
               <Tag href={slug ? hrefWithQuery("/news", { tag: slug }) : undefined}>
-                <span aria-hidden="true" className="text-orchid-400">
+                <span aria-hidden="true" className="text-highlight">
                   #
                 </span>
                 {tag}

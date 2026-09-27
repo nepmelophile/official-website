@@ -6,9 +6,9 @@ export type BadgeStatus = "published" | "draft" | "active" | "inactive" | "new" 
 const STYLES: Record<BadgeStatus, { label: string; className: string; dot?: string }> = {
   published: { label: "Published", className: "border-success/40 text-success", dot: "bg-success" },
   active: { label: "Active", className: "border-success/40 text-success", dot: "bg-success" },
-  draft: { label: "Draft", className: "border-line-strong text-fg-subtle", dot: "bg-ink-400" },
-  inactive: { label: "Inactive", className: "border-line text-fg-subtle", dot: "bg-ink-500" },
-  new: { label: "New", className: "border-accent/40 text-orchid-300", dot: "bg-accent" },
+  draft: { label: "Draft", className: "border-line-strong text-fg-subtle", dot: "bg-fg-subtle" },
+  inactive: { label: "Inactive", className: "border-line text-fg-subtle", dot: "bg-fg-faint" },
+  new: { label: "New", className: "border-accent/40 text-link", dot: "bg-accent" },
   read: { label: "Read", className: "border-line-strong text-fg-muted" },
   archived: { label: "Archived", className: "border-line text-fg-subtle" },
   featured: { label: "Featured", className: "border-highlight/40 text-highlight" },

@@ -5,7 +5,7 @@
 
 /** Text-like inputs, selects and textareas. Add `aria-invalid` for the error state. */
 export const inputClass =
-  "block w-full rounded-sm border border-line bg-surface-raised px-3 py-2 text-sm text-fg outline-none transition-colors duration-150 placeholder:text-ink-500 hover:border-line-strong focus:border-accent focus:ring-2 focus:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-60 aria-[invalid=true]:border-danger aria-[invalid=true]:focus:ring-danger/30 focus-ring-custom";
+  "block w-full rounded-sm border border-line bg-surface-raised px-3 py-2 text-sm text-fg outline-none transition-colors duration-150 placeholder:text-fg-faint hover:border-line-strong focus:border-accent focus:ring-2 focus:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-60 aria-[invalid=true]:border-danger aria-[invalid=true]:focus:ring-danger/30 focus-ring-custom";
 
 export const labelClass = "block text-sm font-medium text-fg";
 export const hintClass = "text-xs text-fg-subtle";

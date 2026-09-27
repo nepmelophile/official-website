@@ -92,7 +92,7 @@ export function ListenButton({ track, className }: ListenButtonProps) {
         "inline-flex size-11 shrink-0 items-center justify-center rounded-pill border transition-[background-color,border-color,color,box-shadow] duration-150",
         active
           ? "border-secondary bg-secondary text-secondary-fg shadow-glow-secondary"
-          : "border-line-strong text-secondary-soft hover:border-secondary-soft hover:bg-cobalt-950",
+          : "border-line-strong text-secondary-soft hover:border-secondary-soft hover:bg-secondary-tint",
         className,
       )}
     >

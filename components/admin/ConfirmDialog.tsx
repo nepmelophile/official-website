@@ -59,7 +59,7 @@ export function ConfirmDialog({
         // Click on the backdrop (the dialog element itself) closes it.
         if (e.target === e.currentTarget && !pending) onCancel();
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-lg border border-line-strong bg-surface p-0 text-fg shadow-lift backdrop:bg-ink-950/75 backdrop:backdrop-blur-sm"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-lg border border-line-strong bg-surface p-0 text-fg shadow-lift backdrop:bg-ink-950/75 light:backdrop:bg-ink-950/40 backdrop:backdrop-blur-sm"
     >
       <div className="space-y-4 p-6">
         <h2 id={titleId} className="font-display text-xl font-bold tracking-tight">

@@ -100,7 +100,7 @@ export function TagInput({
                 onClick={() => remove(index)}
                 disabled={disabled}
                 aria-label={`Remove ${tag}`}
-                className="inline-flex size-5 items-center justify-center rounded-xs text-fg-subtle hover:bg-ink-700 hover:text-fg"
+                className="inline-flex size-5 items-center justify-center rounded-xs text-fg-subtle hover:bg-line hover:text-fg"
               >
                 <X aria-hidden className="size-3" strokeWidth={2} />
               </button>
@@ -124,7 +124,7 @@ export function TagInput({
           autoComplete="off"
           aria-invalid={error ? true : undefined}
           aria-describedby={fieldDescribedBy(fieldId, fullHint, error)}
-          className="min-w-32 flex-1 bg-transparent px-1 py-1 text-sm text-fg outline-none placeholder:text-ink-500 disabled:cursor-not-allowed focus-ring-custom"
+          className="min-w-32 flex-1 bg-transparent px-1 py-1 text-sm text-fg outline-none placeholder:text-fg-faint disabled:cursor-not-allowed focus-ring-custom"
         />
         {available?.length ? (
           <datalist id={`${fieldId}-list`}>

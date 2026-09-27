@@ -51,7 +51,7 @@ export function ArtistAchievements({ achievements, index, tone = "alt" }: Artist
                   <time dateTime={String(achievement.year)}>{achievement.year}</time>
                 ) : (
                   <>
-                    <span aria-hidden="true" className="text-ink-600">
+                    <span aria-hidden="true" className="text-line-strong">
                       —
                     </span>
                     <span className="sr-only">Undated</span>

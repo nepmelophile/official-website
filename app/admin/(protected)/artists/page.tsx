@@ -52,7 +52,7 @@ function Avatar({ src, alt, name }: { src?: string; alt?: string; name: string }
           className="object-cover"
         />
       ) : (
-        <span aria-hidden className="flex size-full items-center justify-center font-display text-sm font-extrabold text-ink-500">
+        <span aria-hidden className="flex size-full items-center justify-center font-display text-sm font-extrabold text-fg-faint">
           {name.trim().charAt(0).toUpperCase() || "M"}
         </span>
       )}

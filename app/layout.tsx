@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_DOMAIN, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { ThemeSync } from "@/components/ui/ThemeToggle";
 import { siteUrl } from "@/lib/site";
+import { THEME_COLORS, THEME_INIT_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({
@@ -74,22 +76,40 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Browser chrome follows the OS scheme (a meta tag cannot see the stored choice). The CSS
+ * `color-scheme` on <html> (globals.css) is what native controls and scrollbars actually use.
+ */
 export const viewport: Viewport = {
-  themeColor: "#0a090f",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: THEME_COLORS.light },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLORS.dark },
+  ],
+  colorScheme: "dark light",
 };
 
 /**
  * Bare html/body shell shared by the public site and /admin. Public chrome (header, footer,
  * skip link) lives in app/(site)/layout.tsx so it never renders on /admin routes.
+ *
+ * Theme: the inline script in <head> runs while the HTML is parsed, before the first paint, and
+ * sets <html data-theme> from localStorage (see lib/theme.ts and the Next guide "Preventing
+ * flash before hydration"). suppressHydrationWarning covers that one attribute on <html>.
  */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${display.variable} ${sans.variable} ${serif.variable} ${mono.variable}`}
+      suppressHydrationWarning
     >
-      <body className="bg-bg font-sans text-fg antialiased">{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="bg-bg font-sans text-fg antialiased">
+        <ThemeSync />
+        {children}
+      </body>
     </html>
   );
 }

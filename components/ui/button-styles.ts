@@ -5,9 +5,9 @@ export const BUTTON_VARIANTS = {
     "bg-accent text-accent-fg hover:bg-accent-hover hover:shadow-glow active:bg-accent",
   secondary: "border border-line-strong bg-transparent text-fg hover:border-fg hover:bg-surface",
   ghost:
-    "rounded-none bg-transparent px-0! text-fg underline decoration-accent decoration-1 underline-offset-[6px] hover:decoration-2 hover:text-paper",
+    "rounded-none bg-transparent px-0! text-fg underline decoration-accent decoration-1 underline-offset-[6px] hover:decoration-2",
   cobalt: "bg-secondary text-secondary-fg hover:bg-secondary-hover hover:shadow-glow-secondary active:bg-cobalt-700",
-  danger: "bg-danger text-ink-950 hover:brightness-110",
+  danger: "bg-danger text-danger-fg hover:brightness-110",
 } as const;
 
 export const BUTTON_SIZES = {

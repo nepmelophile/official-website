@@ -67,7 +67,7 @@ export function Pagination({
           </span>
         </Link>
       ) : (
-        <span aria-disabled="true" className={cn(STEP, "border-line text-ink-500")}>
+        <span aria-disabled="true" className={cn(STEP, "border-line text-fg-faint")}>
           <ArrowLeft size={16} strokeWidth={1.75} aria-hidden="true" />
           Prev
         </span>
@@ -101,7 +101,7 @@ export function Pagination({
               )}
             </li>
           ) : (
-            <li key={slot} aria-hidden="true" className="px-1 font-mono text-sm text-ink-500">
+            <li key={slot} aria-hidden="true" className="px-1 font-mono text-sm text-fg-faint">
               …
             </li>
           ),
@@ -116,7 +116,7 @@ export function Pagination({
           <ArrowRight size={16} strokeWidth={1.75} aria-hidden="true" />
         </Link>
       ) : (
-        <span aria-disabled="true" className={cn(STEP, "border-line text-ink-500")}>
+        <span aria-disabled="true" className={cn(STEP, "border-line text-fg-faint")}>
           Next
           <ArrowRight size={16} strokeWidth={1.75} aria-hidden="true" />
         </span>

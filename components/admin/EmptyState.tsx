@@ -14,8 +14,8 @@ export function EmptyState({ title, description, action, icon }: EmptyStateProps
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-md border border-dashed border-line-strong px-6 py-14 text-center">
       {icon ?? (
-        <span aria-hidden className="font-display text-5xl font-extrabold leading-none text-ink-700">
-          M<span className="text-orchid-700">.</span>
+        <span aria-hidden className="font-display text-5xl font-extrabold leading-none text-line">
+          M<span className="text-accent/60">.</span>
         </span>
       )}
       <p className="font-display text-lg font-bold text-fg">{title}</p>

@@ -112,3 +112,8 @@ export function revalidateContact(): void {
 export function revalidateAll(): void {
   safeRevalidate("/", "layout");
 }
+
+/** Branding (logos) shows in the header, footer and admin on every page. */
+export function revalidateBranding(): void {
+  safeRevalidate("/", "layout");
+}

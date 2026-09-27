@@ -43,7 +43,7 @@ function ServiceDetails({ details, serviceName }: { details: string; serviceName
         <summary
           className={cn(
             META,
-            "flex min-h-13 cursor-pointer list-none items-center justify-between gap-4 text-fg transition-colors hover:text-orchid-300 [&::-webkit-details-marker]:hidden",
+            "flex min-h-13 cursor-pointer list-none items-center justify-between gap-4 text-fg transition-colors hover:text-link [&::-webkit-details-marker]:hidden",
           )}
         >
           <span>
@@ -123,7 +123,7 @@ export function ServiceFeature({ service, index, total, reverse = false, preload
             {service.name}
           </h2>
           {service.description ? (
-            <p className="mt-6 max-w-prose text-lg/relaxed text-ink-200 md:text-xl/relaxed">{service.description}</p>
+            <p className="mt-6 max-w-prose text-lg/relaxed text-fg-soft md:text-xl/relaxed">{service.description}</p>
           ) : null}
 
           <ServiceDetails details={service.details ?? ""} serviceName={service.name} />

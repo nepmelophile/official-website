@@ -16,7 +16,7 @@ export interface EmptyStateProps {
 
 function Grooves() {
   return (
-    <svg viewBox="0 0 120 120" className="size-24 text-ink-700" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 120 120" className="size-24 text-line" fill="none" aria-hidden="true">
       {[56, 46, 38, 30, 22].map((r) => (
         <circle key={r} cx="60" cy="60" r={r} stroke="currentColor" strokeWidth="1.25" />
       ))}

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { isAuthConfigured, safeAdminRedirect } from "@/lib/admin/session";
 import { getSession } from "@/lib/auth";
+import { getBrandAssets } from "@/lib/queries/brand";
 import { LoginForm } from "./LoginForm";
 
 export const metadata: Metadata = { title: "Sign in" };
@@ -20,6 +22,7 @@ export default async function AdminLoginPage({
   if (await getSession()) redirect(next);
 
   const configured = isAuthConfigured();
+  const brand = await getBrandAssets();
 
   return (
     <main
@@ -29,22 +32,22 @@ export default async function AdminLoginPage({
       {/* Oversized wordmark as quiet texture */}
       <p
         aria-hidden
-        className="pointer-events-none absolute -bottom-[0.18em] left-1/2 -translate-x-1/2 select-none font-display text-[clamp(6rem,22vw,20rem)] font-extrabold leading-none tracking-[-0.05em] whitespace-nowrap text-ink-900"
+        className="pointer-events-none absolute -bottom-[0.18em] left-1/2 -translate-x-1/2 select-none font-display text-[clamp(6rem,22vw,20rem)] font-extrabold leading-none tracking-[-0.05em] whitespace-nowrap text-bg-alt"
       >
         MELOPHILE
       </p>
 
       <div className="relative w-full max-w-sm">
         <div className="mb-8 text-center">
-          <Link href="/" className="inline-block rounded-xs font-display text-2xl font-extrabold tracking-tight text-fg">
-            MELOPHILE<span className="text-accent">.</span>
+          <Link href="/" className="inline-flex justify-center rounded-xs" aria-label="Melophile — back to the site">
+            <BrandLogo brand={brand} height={44} decorative eager />
           </Link>
           <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-fg-subtle">Backstage · Admin</p>
         </div>
 
         <div className="rounded-lg border border-line bg-surface p-6 shadow-card sm:p-8">
           <div className="mb-6 flex items-center gap-3">
-            <span className="inline-flex size-9 items-center justify-center rounded-pill border border-line-strong text-orchid-300">
+            <span className="inline-flex size-9 items-center justify-center rounded-pill border border-line-strong text-link">
               <LockKeyhole aria-hidden className="size-4" strokeWidth={1.75} />
             </span>
             <div>

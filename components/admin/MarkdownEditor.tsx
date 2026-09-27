@@ -164,7 +164,7 @@ export function MarkdownEditor({
                 }}
                 className={cn(
                   "min-h-8 rounded-xs px-3 text-xs font-semibold transition-colors duration-150",
-                  tab === t ? "bg-ink-700 text-fg" : "text-fg-muted hover:text-fg",
+                  tab === t ? "bg-line text-fg" : "text-fg-muted hover:text-fg",
                 )}
               >
                 {t === "write" ? "Write" : "Preview"}
@@ -181,7 +181,7 @@ export function MarkdownEditor({
                   aria-label={format.label}
                   disabled={disabled}
                   onClick={() => applyFormat(format)}
-                  className="inline-flex size-8 items-center justify-center rounded-xs text-fg-muted transition-colors duration-150 hover:bg-ink-700 hover:text-fg disabled:opacity-40"
+                  className="inline-flex size-8 items-center justify-center rounded-xs text-fg-muted transition-colors duration-150 hover:bg-line hover:text-fg disabled:opacity-40"
                 >
                   {format.icon}
                 </button>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 function Grooves() {
   return (
-    <svg viewBox="0 0 200 200" fill="none" aria-hidden="true" className="size-full text-ink-700">
+    <svg viewBox="0 0 200 200" fill="none" aria-hidden="true" className="size-full text-line">
       {[96, 84, 72, 60, 48, 36].map((r) => (
         <circle key={r} cx="100" cy="100" r={r} stroke="currentColor" strokeWidth="1.25" />
       ))}

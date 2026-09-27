@@ -168,7 +168,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
         columns={columns}
         rowKey={({ message }) => message.id}
         rowHref={({ message }) => detailHref(message.id)}
-        rowClassName={({ message }) => (message.status === "new" ? "bg-orchid-900/15" : undefined)}
+        rowClassName={({ message }) => (message.status === "new" ? "bg-accent-tint/15" : undefined)}
         empty={q ? { title: "No matches", description: "Try a different search, or look in another folder." } : EMPTY_TEXT[view]}
       />
 

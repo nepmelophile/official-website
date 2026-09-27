@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 /** Public form control styling (docs/visual-design.md → Forms). */
 export const CONTROL =
-  "block min-h-12 w-full rounded-sm border border-line bg-surface-raised px-4 py-3 text-base text-fg outline-hidden transition-[border-color,box-shadow] duration-150 placeholder:text-ink-500 hover:border-line-strong focus:border-accent focus:ring-2 focus:ring-accent/30 aria-invalid:border-danger aria-invalid:focus:ring-danger/30";
+  "block min-h-12 w-full rounded-sm border border-line bg-surface-raised px-4 py-3 text-base text-fg outline-hidden transition-[border-color,box-shadow] duration-150 placeholder:text-fg-faint hover:border-line-strong focus:border-accent focus:ring-2 focus:ring-accent/30 aria-invalid:border-danger aria-invalid:focus:ring-danger/30";
 
 export interface ControlA11yProps {
   id: string;

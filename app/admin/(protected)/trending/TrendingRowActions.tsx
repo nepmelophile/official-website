@@ -80,7 +80,7 @@ export function TrendingRowActions({ id, label, active, isFirst, isLast }: Trend
           aria-hidden
           className={cn(
             "inline-block size-4 rounded-pill transition-transform duration-150",
-            active ? "translate-x-6 bg-accent-fg" : "translate-x-1 bg-ink-300",
+            active ? "translate-x-6 bg-accent-fg" : "translate-x-1 bg-fg-muted",
           )}
         />
       </button>

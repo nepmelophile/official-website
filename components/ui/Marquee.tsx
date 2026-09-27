@@ -13,7 +13,7 @@ export interface MarqueeProps {
   durationSeconds?: number;
   /** Scroll left-to-right instead. */
   reverse?: boolean;
-  /** Node between items (default a ✦ in ink-600). Pass null for none. */
+  /** Node between items (default a ✦ in line-strong). Pass null for none. */
   separator?: ReactNode;
   /** Show the pause/play button (default true). WCAG 2.2.2 — keep it on for auto-moving content. */
   showControl?: boolean;
@@ -23,7 +23,7 @@ export interface MarqueeProps {
 }
 
 const DEFAULT_SEPARATOR = (
-  <span aria-hidden="true" className="text-ink-600">
+  <span aria-hidden="true" className="text-line-strong">
     ✦
   </span>
 );

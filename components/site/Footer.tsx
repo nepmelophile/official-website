@@ -3,6 +3,7 @@ import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { SITE_DESCRIPTION, SITE_DOMAIN, SITE_NAME } from "@/lib/constants";
+import { getBrandAssets } from "@/lib/queries/brand";
 import { getNavLinks } from "@/lib/queries/nav";
 import { getSiteChromeContactInfo } from "@/lib/queries/settings";
 import { HEADER_CTA } from "./nav";
@@ -17,7 +18,7 @@ function telHref(phone: string): string {
 
 /** Public footer: contact details and socials from ContactInfo, nav, copyright. */
 export async function Footer() {
-  const [contact, links] = await Promise.all([getSiteChromeContactInfo(), getNavLinks()]);
+  const [contact, links, brand] = await Promise.all([getSiteChromeContactInfo(), getNavLinks(), getBrandAssets()]);
   const year = new Date().getFullYear();
 
   return (
@@ -29,7 +30,7 @@ export async function Footer() {
       <Container className="relative pt-16 pb-10 md:pt-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <Wordmark size="lg" asLink={false} />
+            <Wordmark size="lg" asLink={false} brand={brand} />
             <p className="mt-6 font-serif text-2xl text-fg italic md:text-3xl">
               The sound of <span className="text-highlight">Nepal</span>, amplified.
             </p>

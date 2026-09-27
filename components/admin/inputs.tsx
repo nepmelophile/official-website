@@ -330,7 +330,7 @@ export function DateInput({
           <button
             type="button"
             onClick={() => onChange(new Date().toISOString())}
-            className="rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-orchid-300 hover:text-fg"
+            className="rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-link hover:text-fg"
           >
             {mode === "datetime" ? "Now" : "Today"}
           </button>
@@ -346,7 +346,7 @@ export function DateInput({
         disabled={disabled}
         aria-invalid={error ? true : undefined}
         aria-describedby={fieldDescribedBy(fieldId, fullHint, error)}
-        className={cn(inputClass, "[color-scheme:dark] tabular-nums")}
+        className={cn(inputClass, "tabular-nums")}
       />
     </Field>
   );
@@ -504,7 +504,7 @@ export function Toggle({ label, description, checked, onChange, disabled, error,
             aria-hidden
             className={cn(
               "inline-block size-4 rounded-pill transition-transform duration-150",
-              checked ? "translate-x-6 bg-accent-fg" : "translate-x-1 bg-ink-300",
+              checked ? "translate-x-6 bg-accent-fg" : "translate-x-1 bg-fg-muted",
             )}
           />
         </button>
@@ -551,7 +551,7 @@ export function StatusSelect({ value, onChange, label = "Status", hint, error, d
                 selected
                   ? status === "published"
                     ? "bg-success/15 text-success"
-                    : "bg-ink-700 text-fg"
+                    : "bg-line text-fg"
                   : "text-fg-muted hover:text-fg",
                 disabled && "cursor-not-allowed opacity-50",
               )}
@@ -567,7 +567,7 @@ export function StatusSelect({ value, onChange, label = "Status", hint, error, d
               />
               <span
                 aria-hidden
-                className={cn("size-2 rounded-pill", status === "published" ? "bg-success" : "bg-ink-400")}
+                className={cn("size-2 rounded-pill", status === "published" ? "bg-success" : "bg-fg-subtle")}
               />
               {STATUS_LABELS[status]}
             </label>

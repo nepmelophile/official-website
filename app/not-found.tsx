@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-const DIGIT = "font-display text-[clamp(7rem,4rem+16vw,17rem)] leading-[0.8] font-extrabold tracking-[-0.06em] text-ink-700 [font-stretch:80%]";
+const DIGIT = "font-display text-[clamp(7rem,4rem+16vw,17rem)] leading-[0.8] font-extrabold tracking-[-0.06em] text-line [font-stretch:80%]";
 
 /**
  * Branded 404 for unmatched URLs and notFound() calls (missing or unpublished articles and
@@ -59,7 +59,7 @@ export default function NotFound() {
               Followed a broken link?{" "}
               <Link
                 href="/contact"
-                className="text-orchid-300 underline decoration-orchid-700 underline-offset-4 transition-colors hover:text-fg hover:decoration-orchid-300"
+                className="text-link underline decoration-accent/60 underline-offset-4 transition-colors hover:text-fg hover:decoration-link"
               >
                 Let us know
               </Link>
@@ -69,7 +69,7 @@ export default function NotFound() {
 
           <div aria-hidden="true" className="flex animate-fade-up items-center justify-center gap-2 [animation-delay:200ms] lg:col-span-5 lg:justify-end">
             <span className={DIGIT}>4</span>
-            <VinylGrooves className="size-[clamp(6rem,3.5rem+13vw,14rem)] shrink-0 text-ink-600" />
+            <VinylGrooves className="size-[clamp(6rem,3.5rem+13vw,14rem)] shrink-0 text-line-strong" />
             <span className={DIGIT}>4</span>
           </div>
         </Container>

@@ -115,7 +115,7 @@ export function ImagePreview({
               <span className="px-2 text-center text-xs">Preview unavailable — check the URL</span>
             </>
           ) : (
-            <span aria-hidden className="font-display text-4xl font-extrabold text-ink-700">
+            <span aria-hidden className="font-display text-4xl font-extrabold text-line">
               M
             </span>
           )}
@@ -226,20 +226,20 @@ export function ImageField({
         onDrop={onDrop}
         className={cn(
           "space-y-3 rounded-sm border bg-bg-alt p-3 transition-colors duration-150",
-          dragging ? "border-accent bg-orchid-900/40" : shownError ? "border-danger/60" : "border-line",
+          dragging ? "border-accent bg-accent-tint/40" : shownError ? "border-danger/60" : "border-line",
         )}
       >
         <div className="relative">
           <ImagePreview src={current.url} alt={current.alt} aspect={aspect} />
           {uploader.uploading ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-sm bg-ink-950/80 p-4">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-sm bg-bg/80 p-4">
               <div
                 role="progressbar"
                 aria-label="Upload progress"
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={uploader.progress}
-                className="h-1.5 w-full max-w-56 overflow-hidden rounded-pill bg-ink-700"
+                className="h-1.5 w-full max-w-56 overflow-hidden rounded-pill bg-line"
               >
                 <div className="h-full bg-accent transition-[width] duration-150" style={{ width: `${uploader.progress}%` }} />
               </div>

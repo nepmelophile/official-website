@@ -82,7 +82,7 @@ export function ArtistAbout({ artist, index, tone = "default" }: ArtistAboutProp
                 <Fact label="Latest release">
                   <a
                     href="#artist-releases"
-                    className="font-medium underline decoration-accent decoration-1 underline-offset-4 transition-colors hover:text-orchid-300"
+                    className="font-medium underline decoration-accent decoration-1 underline-offset-4 transition-colors hover:text-link"
                   >
                     {latest.title}
                   </a>

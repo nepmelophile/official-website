@@ -75,7 +75,7 @@ export function ArtistHero({ artist }: ArtistHeroProps) {
                     Artists
                   </Link>
                 </li>
-                <li aria-hidden="true" className="text-ink-600">
+                <li aria-hidden="true" className="text-line-strong">
                   /
                 </li>
                 <li aria-current="page" className="min-w-0 truncate text-fg-muted">
@@ -89,7 +89,7 @@ export function ArtistHero({ artist }: ArtistHeroProps) {
             </h1>
 
             {artist.shortBio ? (
-              <p className="mt-5 max-w-2xl font-serif text-2xl/snug text-ink-200 italic md:mt-6 md:text-3xl/snug">
+              <p className="mt-5 max-w-2xl font-serif text-2xl/snug text-fg-soft italic md:mt-6 md:text-3xl/snug">
                 {artist.shortBio}
               </p>
             ) : null}
@@ -98,7 +98,7 @@ export function ArtistHero({ artist }: ArtistHeroProps) {
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
                 {artist.location ? (
                   <p className={cn(META, "flex items-center gap-2 text-fg-muted")}>
-                    <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="text-orchid-400" />
+                    <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="text-highlight" />
                     <span className="sr-only">Based in </span>
                     {artist.location}
                   </p>

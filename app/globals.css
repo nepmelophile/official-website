@@ -2,9 +2,46 @@
 @plugin "@tailwindcss/typography";
 
 /*
+ * Themes (docs/visual-design.md, "Themes"). <html data-theme> is "light" | "dark" | "system",
+ * set before first paint by THEME_INIT_SCRIPT (lib/theme.ts); no attribute (no JS) = system.
+ *
+ * `light:` matches when the light theme is active: data-theme="light", or the OS prefers light
+ * and the user has not forced dark. `dark:` is redefined to the mirror image. Components should
+ * almost never need either: the semantic tokens below flip on their own. Both variants skip
+ * fixed-dark islands (an element with data-theme="dark", e.g. the photo lightbox).
+ */
+@custom-variant light {
+  &:where([data-theme="light"], [data-theme="light"] *):not(:where([data-theme="dark"] *)) {
+    @slot;
+  }
+  @media (prefers-color-scheme: light) {
+    &:where(:root:not([data-theme="dark"]), :root:not([data-theme="dark"]) *):not(:where([data-theme="dark"] *)) {
+      @slot;
+    }
+  }
+}
+
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+/*
  * Melophile design tokens. Values MUST stay identical to docs/visual-design.md.
  * `static` makes Tailwind always emit these as CSS variables on :root so they can be
  * used from plain CSS / inline styles as well as via utilities.
+ *
+ * The values here are the DARK theme (the default). The light theme overrides the semantic
+ * aliases (and a few extras) in `@layer base` below. Every semantic colour is a literal, and
+ * colour utilities read it through var(--color-*), so a later override on :root flips them all.
+ * Shadows are the exception: Tailwind inlines shadow values into the utility, so their colours
+ * are var() references to the `--elevation-*` values, which the light theme overrides.
  */
 @theme static {
   /*
@@ -55,25 +92,34 @@
   --color-danger: #fe674c;
   --color-info: #4cd1ee;
 
-  /* ---- Semantic aliases ---- */
+  /* Text on a `danger` fill (destructive buttons). */
+  --color-danger-fg: #0a090f;
+
+  /* ---- Semantic aliases (dark theme values; light overrides in @layer base) ---- */
   --color-bg: #0a090f;
   --color-bg-alt: #121117;
   --color-surface: #18161e;
   --color-surface-raised: #201e28;
+  --color-skeleton: #18161e;
   --color-line: #2b2934;
   --color-line-strong: #3b3946;
   --color-fg: #f0eff5;
+  --color-fg-soft: #cac9d6;
   --color-fg-muted: #a8a5b5;
   --color-fg-subtle: #8e8c9c;
+  --color-fg-faint: #585665;
   --color-accent: #dd44dd;
   --color-accent-hover: #e46fe3;
   --color-accent-fg: #160716;
+  --color-accent-tint: #431242;
   --color-secondary: #3d4cf5;
   --color-secondary-hover: #313cd2;
   --color-secondary-fg: #ffffff;
   --color-secondary-soft: #7288fb;
+  --color-secondary-tint: #0c1336;
   --color-highlight: #e46fe3;
   --color-highlight-fg: #160716;
+  --color-link: #f3a1f0;
 
   /* ---- Type scale (fluid display sizes) ---- */
   --text-display-2xl: clamp(3.5rem, 1.6rem + 8vw, 10rem);
@@ -108,8 +154,13 @@
   --radius-pill: 9999px;
 
   /* ---- Shadows ---- */
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 24px 48px -28px rgb(0 0 0 / 0.9);
-  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.06) inset, 0 32px 64px -24px rgb(0 0 0 / 0.95);
+  /* Colours of the card/lift shadows (theme-dependent; no utilities are generated for these). */
+  --elevation-card-edge: rgb(255 255 255 / 0.04);
+  --elevation-card-drop: rgb(0 0 0 / 0.9);
+  --elevation-lift-edge: rgb(255 255 255 / 0.06);
+  --elevation-lift-drop: rgb(0 0 0 / 0.95);
+  --shadow-card: 0 1px 0 0 var(--elevation-card-edge) inset, 0 24px 48px -28px var(--elevation-card-drop);
+  --shadow-lift: 0 1px 0 0 var(--elevation-lift-edge) inset, 0 32px 64px -24px var(--elevation-lift-drop);
   --shadow-glow: 0 0 0 1px rgb(221 68 221 / 0.45), 0 18px 50px -18px rgb(221 68 221 / 0.55);
   --shadow-glow-secondary: 0 0 0 1px rgb(61 76 245 / 0.5), 0 18px 50px -18px rgb(61 76 245 / 0.6);
 
@@ -174,6 +225,95 @@
 }
 
 @layer base {
+  /*
+   * ---- Light theme ----
+   * Overrides of the dark defaults in @theme. `@variant light` expands to both the
+   * [data-theme="light"] selector and the prefers-color-scheme: light (System) media query, so
+   * the values are written once. Values MUST stay identical to docs/visual-design.md ("Themes").
+   * Brand fills (accent, accent-hover, accent-fg, secondary, secondary-hover, secondary-fg) and
+   * the raw palette never change.
+   */
+  :root {
+    @variant light {
+      color-scheme: light;
+
+      --color-bg: #f6f5fa;
+      --color-bg-alt: #eeedf4;
+      --color-surface: #fcfbfe;
+      --color-surface-raised: #ffffff;
+      --color-skeleton: #e9e7ef;
+      --color-line: #dddbe5;
+      --color-line-strong: #c4c1ce;
+      --color-fg: #16141e;
+      --color-fg-soft: #383644;
+      --color-fg-muted: #52505f;
+      --color-fg-subtle: #63616f;
+      --color-fg-faint: #9e9ca9;
+      --color-accent-tint: #fecbfb;
+      --color-secondary-soft: #313cd2;
+      --color-secondary-tint: #e1e7fe;
+      --color-highlight: #a12aa2;
+      --color-highlight-fg: #ffffff;
+      --color-link: #932694;
+
+      --color-success: #04673f;
+      --color-warning: #8a5809;
+      --color-danger: #be260b;
+      --color-info: #0b6c80;
+      --color-danger-fg: #ffffff;
+
+      --elevation-card-edge: rgb(255 255 255 / 0.7);
+      --elevation-card-drop: rgb(22 20 30 / 0.16);
+      --elevation-lift-edge: rgb(255 255 255 / 0.8);
+      --elevation-lift-drop: rgb(22 20 30 / 0.26);
+
+      --glow-orchid-alpha: 0.12;
+      --glow-cobalt-alpha: 0.12;
+    }
+  }
+
+  /*
+   * ---- Fixed-dark islands ----
+   * data-theme="dark" on any element re-establishes the dark values for its subtree (the photo
+   * lightbox uses it, so it stays a dark viewer in the light theme). Same values as @theme.
+   */
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-bg: var(--color-ink-950);
+    --color-bg-alt: var(--color-ink-900);
+    --color-surface: var(--color-ink-850);
+    --color-surface-raised: var(--color-ink-800);
+    --color-skeleton: var(--color-ink-850);
+    --color-line: var(--color-ink-700);
+    --color-line-strong: var(--color-ink-600);
+    --color-fg: var(--color-paper);
+    --color-fg-soft: var(--color-ink-200);
+    --color-fg-muted: var(--color-ink-300);
+    --color-fg-subtle: var(--color-ink-400);
+    --color-fg-faint: var(--color-ink-500);
+    --color-accent-tint: var(--color-orchid-900);
+    --color-secondary-soft: var(--color-cobalt-400);
+    --color-secondary-tint: var(--color-cobalt-950);
+    --color-highlight: var(--color-orchid-400);
+    --color-highlight-fg: var(--color-accent-fg);
+    --color-link: var(--color-orchid-300);
+
+    --color-success: #4cc38a;
+    --color-warning: #fbbf24;
+    --color-danger: #fe674c;
+    --color-info: #4cd1ee;
+    --color-danger-fg: var(--color-ink-950);
+
+    --elevation-card-edge: rgb(255 255 255 / 0.04);
+    --elevation-card-drop: rgb(0 0 0 / 0.9);
+    --elevation-lift-edge: rgb(255 255 255 / 0.06);
+    --elevation-lift-drop: rgb(0 0 0 / 0.95);
+
+    --glow-orchid-alpha: 0.16;
+    --glow-cobalt-alpha: 0.2;
+  }
+
   html {
     color-scheme: dark;
     background-color: var(--color-bg);
@@ -203,6 +343,20 @@
     opacity: 0.07;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * On paper, white noise in `overlay` mode disappears, so the light theme uses the same noise in
+   * ink (black) and multiplies it in, a little weaker.
+   */
+  body {
+    @variant light {
+      &::before {
+        opacity: 0.06;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0 0.12 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+    }
   }
 
   /* :has() hides it from the first server-rendered paint in /admin (no client flash). */
@@ -240,7 +394,7 @@
 
   input::placeholder,
   textarea::placeholder {
-    color: var(--color-ink-500);
+    color: var(--color-fg-faint);
   }
 
   hr {
@@ -264,11 +418,14 @@
 }
 
 @layer components {
-  /* Soft orchid + cobalt radial glow for heroes and CTA bands. */
+  /*
+   * Soft orchid + cobalt radial glow for heroes and CTA bands. The alphas are variables so the
+   * light theme can tone the glow down on paper (0.12 / 0.12 instead of 0.16 / 0.2).
+   */
   .bg-glow {
     background-image:
-      radial-gradient(60% 55% at 12% 8%, rgb(221 68 221 / 0.16), transparent 70%),
-      radial-gradient(50% 50% at 92% 96%, rgb(61 76 245 / 0.2), transparent 70%);
+      radial-gradient(60% 55% at 12% 8%, rgb(221 68 221 / var(--glow-orchid-alpha, 0.16)), transparent 70%),
+      radial-gradient(50% 50% at 92% 96%, rgb(61 76 245 / var(--glow-cobalt-alpha, 0.2)), transparent 70%);
   }
 
   /* Marquee track: duplicate children once; the track translates -50%. */
@@ -293,26 +450,6 @@
     }
   }
 
-  /* Markdown prose colours (use with `prose prose-invert prose-melophile`). */
-  .prose-melophile {
-    --tw-prose-invert-body: var(--color-fg-muted);
-    --tw-prose-invert-headings: var(--color-fg);
-    --tw-prose-invert-lead: var(--color-ink-200);
-    --tw-prose-invert-links: var(--color-orchid-300);
-    --tw-prose-invert-bold: var(--color-fg);
-    --tw-prose-invert-counters: var(--color-fg-subtle);
-    --tw-prose-invert-bullets: var(--color-accent);
-    --tw-prose-invert-hr: var(--color-line);
-    --tw-prose-invert-quotes: var(--color-fg);
-    --tw-prose-invert-quote-borders: var(--color-accent);
-    --tw-prose-invert-captions: var(--color-fg-subtle);
-    --tw-prose-invert-code: var(--color-cobalt-300);
-    --tw-prose-invert-pre-code: var(--color-ink-100);
-    --tw-prose-invert-pre-bg: var(--color-surface);
-    --tw-prose-invert-th-borders: var(--color-line-strong);
-    --tw-prose-invert-td-borders: var(--color-line);
-  }
-
   .prose-melophile :where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
@@ -329,6 +466,39 @@
   .prose-melophile :where(a):not(:where(.not-prose, .not-prose *)) {
     text-underline-offset: 4px;
     text-decoration-thickness: 1px;
+  }
+}
+
+/*
+ * Markdown prose colours (use with `prose prose-invert prose-melophile`). `prose-invert` reads
+ * the --tw-prose-invert-* variables; pointing them at semantic tokens makes prose follow the
+ * theme. Unlayered on purpose: the plugin's `.prose` rule (utilities layer) sets defaults for
+ * these same variables, and a cascade layer beats specificity, so inside @layer components
+ * they would silently lose.
+ */
+.prose-melophile {
+  --tw-prose-invert-body: var(--color-fg-muted);
+  --tw-prose-invert-headings: var(--color-fg);
+  --tw-prose-invert-lead: var(--color-fg-soft);
+  --tw-prose-invert-links: var(--color-link);
+  --tw-prose-invert-bold: var(--color-fg);
+  --tw-prose-invert-counters: var(--color-fg-subtle);
+  --tw-prose-invert-bullets: var(--color-accent);
+  --tw-prose-invert-hr: var(--color-line);
+  --tw-prose-invert-quotes: var(--color-fg);
+  --tw-prose-invert-quote-borders: var(--color-accent);
+  --tw-prose-invert-captions: var(--color-fg-subtle);
+  --tw-prose-invert-kbd: var(--color-fg);
+  --tw-prose-invert-code: var(--color-cobalt-300);
+  --tw-prose-invert-pre-code: var(--color-ink-100);
+  --tw-prose-invert-pre-bg: var(--color-surface);
+  --tw-prose-invert-th-borders: var(--color-line-strong);
+  --tw-prose-invert-td-borders: var(--color-line);
+
+  /* The two raw tints above are light-on-dark only. */
+  @variant light {
+    --tw-prose-invert-code: var(--color-secondary-soft);
+    --tw-prose-invert-pre-code: var(--color-fg);
   }
 }
 
@@ -352,7 +522,7 @@
 
 /*
  * The same gradient clipped to text. LARGE text only (≥ 24px, or ≥ 19px bold): the cobalt end
- * is 3.3:1 on bg. The inline padding, cancelled by an equal negative margin, keeps italic
+ * is 3.35:1 on the dark bg and the orchid start 3.26:1 on the light bg. The inline padding, cancelled by an equal negative margin, keeps italic
  * overhangs inside the painted area without moving anything.
  */
 @utility text-brand-gradient {

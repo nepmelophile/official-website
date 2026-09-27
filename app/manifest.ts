@@ -17,11 +17,10 @@ export default function manifest(): MetadataRoute.Manifest {
     dir: "ltr",
     categories: ["music", "news", "entertainment"],
     icons: [
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/apple-icon", sizes: "180x180", type: "image/png", purpose: "any" },
-      { src: "/pwa-icon/192", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/pwa-icon/512", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "/pwa-icon/512", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/brand/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/brand/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/brand/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/apple-icon.png", sizes: "180x180", type: "image/png", purpose: "any" },
     ],
     shortcuts: [
       { name: "Latest news", short_name: "News", url: "/news" },

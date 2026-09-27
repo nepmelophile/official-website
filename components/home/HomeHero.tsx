@@ -45,7 +45,7 @@ export function HomeHero({ settings }: HomeHeroProps) {
 
   return (
     <section aria-labelledby="home-hero-title" className="bg-glow relative isolate overflow-hidden border-b border-line bg-bg">
-      <VinylGrooves className="absolute top-[-27rem] right-[-31rem] -z-10 size-[56rem] text-ink-800 md:top-[-22rem] md:right-[-18rem] md:size-[72rem]" />
+      <VinylGrooves className="absolute top-[-27rem] right-[-31rem] -z-10 size-[56rem] text-line/70 md:top-[-22rem] md:right-[-18rem] md:size-[72rem]" />
 
       <Container className="relative pt-8 pb-14 md:pt-12 md:pb-20 lg:pb-24">
         <div className={cn(META, "flex animate-fade-up items-center justify-between gap-4 text-fg-subtle")}>
@@ -93,9 +93,10 @@ export function HomeHero({ settings }: HomeHeroProps) {
                 className="aspect-[4/3] rounded-xl border border-line sm:aspect-[16/10]"
                 imgClassName="transition-transform duration-700 ease-out-expo hover:scale-[1.03]"
               />
+              {/* Sinks the photo into the dark page. On paper the same fade reads as fog, so it is dark-only. */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-xl bg-linear-to-t from-bg/70 via-bg/10 to-transparent"
+                className="pointer-events-none absolute inset-0 rounded-xl bg-linear-to-t from-bg/70 via-bg/10 to-transparent light:hidden"
               />
               <RecordSticker className="absolute -top-10 right-4 size-28 sm:size-32 lg:-top-14 lg:-left-14 lg:right-auto lg:size-36" />
             </div>

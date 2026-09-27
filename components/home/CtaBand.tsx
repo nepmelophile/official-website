@@ -40,7 +40,7 @@ export function CtaBand({
       aria-labelledby={headingId}
       className={cn("bg-glow relative isolate overflow-hidden border-t border-line bg-bg py-section", className)}
     >
-      <VinylGrooves className="absolute bottom-[-30rem] left-1/2 -z-10 size-[60rem] -translate-x-1/2 text-ink-800 md:bottom-[-34rem] md:size-[72rem] lg:left-auto lg:right-[-18rem] lg:translate-x-0" />
+      <VinylGrooves className="absolute bottom-[-30rem] left-1/2 -z-10 size-[60rem] -translate-x-1/2 text-line/70 md:bottom-[-34rem] md:size-[72rem] lg:left-auto lg:right-[-18rem] lg:translate-x-0" />
 
       <Container>
         <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle">

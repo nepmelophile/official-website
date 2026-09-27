@@ -44,7 +44,7 @@ function StatTile({ tile }: { tile: Tile }) {
             <dd className="font-mono tabular-nums text-fg">{tile.count.live}</dd>
           </div>
           <div className="flex items-center gap-1.5">
-            <span aria-hidden className="size-1.5 rounded-pill bg-ink-400" />
+            <span aria-hidden className="size-1.5 rounded-pill bg-fg-subtle" />
             <dt className="text-fg-subtle">{tile.hiddenLabel}</dt>
             <dd className="font-mono tabular-nums text-fg">{tile.count.hidden}</dd>
           </div>
@@ -95,9 +95,9 @@ export default async function AdminDashboardPage() {
         {tiles.map((tile) => (
           <StatTile key={tile.href} tile={tile} />
         ))}
-        <li className="group relative flex flex-col justify-between gap-6 rounded-md border border-accent/40 bg-orchid-900/30 p-5 transition-colors duration-150 hover:border-accent">
+        <li className="group relative flex flex-col justify-between gap-6 rounded-md border border-accent/40 bg-accent-tint/30 p-5 transition-colors duration-150 hover:border-accent">
           <div className="flex items-start justify-between gap-3">
-            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-orchid-300">
+            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-link">
               <Link href="/admin/messages?status=new" className="after:absolute after:inset-0 hover:text-fg">
                 New messages
               </Link>
@@ -137,7 +137,7 @@ export default async function AdminDashboardPage() {
                   key={message.id}
                   className={cn(
                     "relative flex items-start gap-4 px-4 py-3 transition-colors duration-150 hover:bg-surface",
-                    message.status === "new" && "bg-orchid-900/15",
+                    message.status === "new" && "bg-accent-tint/15",
                   )}
                 >
                   <div className="min-w-0 flex-1">
@@ -145,7 +145,7 @@ export default async function AdminDashboardPage() {
                       <Link
                         href={`/admin/messages/${message.id}`}
                         className={cn(
-                          "after:absolute after:inset-0 hover:text-orchid-300",
+                          "after:absolute after:inset-0 hover:text-link",
                           message.status === "new" ? "font-semibold text-fg" : "text-fg",
                         )}
                       >

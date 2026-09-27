@@ -37,3 +37,9 @@ export const articleSchema = z.object({
 
 export type ArticleInput = z.infer<typeof articleSchema>;
 export type ArticleFormValues = z.input<typeof articleSchema>;
+
+/** On/off value for the inline list toggles (visible on site, featured on the homepage). */
+export const articleFlagSchema = z.boolean({ error: "Invalid value" });
+
+/** Direction for the inline up / down reorder arrows. */
+export const articleMoveSchema = z.enum(["up", "down"], { error: "Invalid direction" });

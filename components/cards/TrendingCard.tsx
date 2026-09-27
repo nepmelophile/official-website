@@ -64,7 +64,8 @@ export function TrendingCard({ item, variant = "ticker", headingLevel: Heading =
             className="aspect-square rounded-md"
             imgClassName="transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
           />
-          <span className="absolute top-2 left-2 rounded-xs bg-ink-950/85 px-2 py-1 font-mono text-sm font-semibold text-highlight">
+          {/* Fixed-dark scrim on the photo, so the label keeps the fixed light orchid in both themes. */}
+          <span className="absolute top-2 left-2 rounded-xs bg-ink-950/85 px-2 py-1 font-mono text-sm font-semibold text-orchid-400">
             {rankLabel(item.rank)}
           </span>
         </div>
@@ -105,7 +106,7 @@ export function TrendingCard({ item, variant = "ticker", headingLevel: Heading =
         imgClassName="transition-transform duration-500 ease-out-expo group-hover:scale-110"
       />
       <span className="flex min-w-0 flex-col leading-tight">
-        <Heading className="max-w-[18rem] truncate font-display text-base font-semibold text-fg transition-colors group-hover:text-orchid-300">
+        <Heading className="max-w-[18rem] truncate font-display text-base font-semibold text-fg transition-colors group-hover:text-link">
           {title}
         </Heading>
         <span className="max-w-[18rem] truncate text-xs text-fg-subtle">

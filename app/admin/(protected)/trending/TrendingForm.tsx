@@ -120,7 +120,7 @@ function TypePicker({ value, onChange, error }: { value: TrendingType; onChange:
               key={type}
               className={cn(
                 "flex min-h-11 cursor-pointer items-start gap-3 rounded-sm border px-3 py-2.5 transition-colors duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-highlight",
-                selected ? "border-accent bg-orchid-900/40 text-fg" : "border-line bg-surface-raised text-fg-muted hover:border-line-strong hover:text-fg",
+                selected ? "border-accent bg-accent-tint/40 text-fg" : "border-line bg-surface-raised text-fg-muted hover:border-line-strong hover:text-fg",
               )}
             >
               <input
@@ -131,7 +131,7 @@ function TypePicker({ value, onChange, error }: { value: TrendingType; onChange:
                 onChange={() => onChange(type)}
                 className="sr-only"
               />
-              <Icon aria-hidden className={cn("mt-0.5 size-4 shrink-0", selected ? "text-orchid-300" : "text-fg-subtle")} strokeWidth={1.75} />
+              <Icon aria-hidden className={cn("mt-0.5 size-4 shrink-0", selected ? "text-link" : "text-fg-subtle")} strokeWidth={1.75} />
               <span className="min-w-0">
                 <span className="block text-sm font-semibold">{TRENDING_TYPE_LABELS[type]}</span>
                 <span className="block text-xs text-fg-subtle">{description}</span>
@@ -307,7 +307,7 @@ export function TrendingForm({ item, options, defaults = {}, loadError }: Trendi
               {linkedInfo.state !== "missing" ? (
                 <Link
                   href={linkedInfo.adminHref}
-                  className="inline-flex items-center gap-1 text-orchid-300 underline-offset-4 hover:underline"
+                  className="inline-flex items-center gap-1 text-link underline-offset-4 hover:underline"
                 >
                   <Pencil aria-hidden className="size-3.5" strokeWidth={1.75} />
                   Edit {linkedInfo.kind}

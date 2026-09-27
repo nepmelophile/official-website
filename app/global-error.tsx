@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { SITE_NAME } from "@/lib/constants";
+import { THEME_ATTRIBUTE, THEME_STORAGE_KEY } from "@/lib/theme";
 import "./globals.css";
 
 interface GlobalErrorProps {
@@ -20,8 +21,19 @@ export default function GlobalError({ error, retry }: GlobalErrorProps) {
     console.error(error);
   }, [error]);
 
+  // This document replaces the root layout (and its no-flash script), so re-apply the stored
+  // theme here. No stored choice leaves the attribute off, which CSS treats as System.
+  useEffect(() => {
+    try {
+      const mode = localStorage.getItem(THEME_STORAGE_KEY);
+      if (mode === "light" || mode === "dark") document.documentElement.setAttribute(THEME_ATTRIBUTE, mode);
+    } catch {
+      // Storage unavailable: follow the OS preference.
+    }
+  }, []);
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-glow flex min-h-dvh flex-col bg-bg font-sans text-fg antialiased">
         <title>{`Something went wrong · ${SITE_NAME}`}</title>
         <main className="mx-auto flex w-full max-w-content flex-1 flex-col justify-center px-gutter py-20">

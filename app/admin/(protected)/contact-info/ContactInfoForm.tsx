@@ -115,7 +115,7 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
           </ul>
           <p className="text-xs text-fg-subtle">
             Messages sent through the contact form land in the{" "}
-            <Link href="/admin/messages" className="text-orchid-300 underline-offset-4 hover:underline">
+            <Link href="/admin/messages" className="text-link underline-offset-4 hover:underline">
               inbox
             </Link>
             .

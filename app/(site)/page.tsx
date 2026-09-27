@@ -53,7 +53,7 @@ function organizationJsonLd(contact: ContactInfoDTO): Record<string, unknown> {
     url: siteUrl,
     slogan: SITE_TAGLINE,
     description: SITE_DESCRIPTION,
-    logo: { "@type": "ImageObject", url: absoluteUrl("/apple-icon"), width: 180, height: 180 },
+    logo: { "@type": "ImageObject", url: absoluteUrl("/brand/logo-on-light.png"), width: 779, height: 196 },
     areaServed: { "@type": "Country", name: "Nepal" },
   };
   if (contact.email) organization.email = contact.email;

@@ -16,12 +16,16 @@ import {
   MessageSquareQuote,
   MicVocal,
   Newspaper,
+  Palette,
   Quote,
   TrendingUp,
   X,
 } from "lucide-react";
 import { logoutAction } from "@/app/admin/actions";
+import { BrandLogo } from "@/components/site/BrandLogo";
+import { ThemeSwitch } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
+import type { BrandAssetsDTO } from "@/types/content";
 
 interface NavItem {
   href: string;
@@ -56,6 +60,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
       { href: "/admin/trending/settings", label: "Trending page", icon: <ChartNoAxesColumnIncreasing {...iconProps} /> },
       { href: "/admin/testimonials/settings", label: "Testimonials page", icon: <MessageSquareQuote {...iconProps} /> },
       { href: "/admin/contact-info", label: "Contact info", icon: <Contact {...iconProps} /> },
+      { href: "/admin/branding", label: "Branding", icon: <Palette {...iconProps} /> },
       { href: "/admin/messages", label: "Messages", icon: <Inbox {...iconProps} />, badge: "messages" },
     ],
   },
@@ -83,14 +88,19 @@ function activeHref(pathname: string): string | undefined {
 export interface AdminSidebarProps {
   email: string;
   unreadMessages: number;
+  /** Logo files (getBrandAssets()); the bundled files are used when omitted. */
+  brand?: BrandAssetsDTO;
 }
 
-function Wordmark() {
+function Wordmark({ brand, stacked = false }: { brand?: BrandAssetsDTO; stacked?: boolean }) {
   return (
-    <Link href="/admin" className="group inline-flex items-baseline gap-2 rounded-xs">
-      <span className="font-display text-lg font-extrabold tracking-tight text-fg">
-        MELOPHILE<span className="text-accent">.</span>
-      </span>
+    <Link
+      href="/admin"
+      className={cn("group inline-flex shrink-0 rounded-xs", stacked ? "flex-col items-start gap-1.5" : "items-center gap-2.5")}
+      aria-label="Melophile admin — dashboard"
+    >
+      {/* Desktop: the logo gets the full sidebar width (the lettering is small relative to the mark). */}
+      <BrandLogo brand={brand} height={stacked ? 40 : 28} decorative eager />
       <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-fg-subtle group-hover:text-fg-muted">
         Admin
       </span>
@@ -140,6 +150,7 @@ function NavContent({ pathname, unread, email, onNavigate }: { pathname: string;
       </nav>
 
       <div className="space-y-1 border-t border-line px-3 py-4">
+        <ThemeSwitch size="sm" hideLabel className="px-0.5 pb-2" />
         <a
           href="/"
           target="_blank"
@@ -171,7 +182,7 @@ function NavContent({ pathname, unread, email, onNavigate }: { pathname: string;
  * Admin navigation: fixed sidebar on ≥ lg; top bar + slide-over drawer below lg
  * (Esc / backdrop / link click closes it; focus moves into the drawer and back to the toggle).
  */
-export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
+export function AdminSidebar({ email, unreadMessages, brand }: AdminSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const drawerId = useId();
@@ -199,7 +210,7 @@ export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
     <>
       {/* Mobile top bar */}
       <div className="sticky top-0 z-40 flex h-14 items-center justify-between gap-3 border-b border-line bg-bg-alt/95 px-4 backdrop-blur-md lg:hidden">
-        <Wordmark />
+        <Wordmark brand={brand} />
         <button
           ref={toggleRef}
           type="button"
@@ -219,7 +230,7 @@ export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
       {/* Mobile drawer */}
       <div className={cn("fixed inset-0 z-50 lg:hidden", open ? "visible" : "invisible")} aria-hidden={!open}>
         <div
-          className={cn("absolute inset-0 bg-ink-950/70 transition-opacity duration-300", open ? "opacity-100" : "opacity-0")}
+          className={cn("absolute inset-0 bg-ink-950/70 transition-opacity duration-300 light:bg-ink-950/35", open ? "opacity-100" : "opacity-0")}
           onClick={() => setOpen(false)}
         />
         <div
@@ -234,7 +245,7 @@ export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
           )}
         >
           <div className="flex h-14 items-center justify-between border-b border-line px-4">
-            <Wordmark />
+            <Wordmark brand={brand} />
             <button
               ref={closeRef}
               type="button"
@@ -251,8 +262,8 @@ export function AdminSidebar({ email, unreadMessages }: AdminSidebarProps) {
 
       {/* Desktop sidebar */}
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-line bg-bg-alt lg:flex">
-        <div className="flex h-16 items-center border-b border-line px-6">
-          <Wordmark />
+        <div className="flex items-center border-b border-line px-6 py-4">
+          <Wordmark brand={brand} stacked />
         </div>
         <NavContent pathname={pathname} unread={unreadMessages} email={email} />
       </aside>

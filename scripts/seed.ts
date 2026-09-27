@@ -722,8 +722,14 @@ async function main(): Promise<void> {
 
   // Articles (two passes: insert, then wire up related ids by slug).
   // `related` is seed-only metadata (strict schema drops it); ids are wired up below.
+  // Manual order 1…n, newest first (the admin can rearrange with the up / down arrows).
+  const orderBySlug = new Map(
+    [...articles]
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .map((a, i) => [a.slug, i + 1]),
+  );
   const insertedArticles = await Article.insertMany(
-    articles.map((a) => ({ ...a, related: undefined, relatedArticleIds: [] as Types.ObjectId[] })),
+    articles.map((a) => ({ ...a, related: undefined, relatedArticleIds: [] as Types.ObjectId[], order: orderBySlug.get(a.slug) })),
   );
   const articleIdBySlug = new Map<string, Types.ObjectId>(insertedArticles.map((a) => [a.slug, a._id]));
   const idsFor = (slugs: string[] | undefined) =>

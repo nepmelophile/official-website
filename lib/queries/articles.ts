@@ -3,7 +3,7 @@ import { cache } from "react";
 import type { QueryFilter } from "mongoose";
 import { ARTICLE_CATEGORIES, HOME_LATEST_NEWS_COUNT, NEWS_PAGE_SIZE, RELATED_ARTICLES_COUNT } from "@/lib/constants";
 import { connectToDatabase, isDbConfigured } from "@/lib/db";
-import { Article, type ArticleDoc, type ArticleLean } from "@/models/Article";
+import { ARTICLE_DISPLAY_SORT, Article, type ArticleDoc, type ArticleLean } from "@/models/Article";
 import { serializeArticle, serializeArticleSummary, toIso } from "@/lib/serialize";
 import type { ArticleDTO, ArticleSummary, Paginated } from "@/types/content";
 import { isObjectIdString, looseMatch, orderByIds, safeQuery } from "./safe";
@@ -44,7 +44,7 @@ const queryPublishedArticles = cache(
         Article.countDocuments(filter),
         Article.find(filter)
           .select(SUMMARY_FIELDS)
-          .sort({ publishedAt: -1, _id: -1 })
+          .sort(ARTICLE_DISPLAY_SORT)
           .skip((page - 1) * size)
           .limit(size)
           .lean<ArticleLean[]>(),
@@ -72,12 +72,12 @@ export async function getPublishedArticles({
   return queryPublishedArticles(category?.trim() ?? "", tag?.trim() ?? "", safePage, size);
 }
 
-/** Latest published articles (home page "Latest news"). */
+/** Published articles in display order — the admin's manual order, then newest (home page "Latest news" top-up). */
 export const getLatestArticles = cache(async (limit: number = HOME_LATEST_NEWS_COUNT): Promise<ArticleSummary[]> => {
   return safeQuery("getLatestArticles", [], async () => {
     const docs = await Article.find(publishedFilter())
       .select(SUMMARY_FIELDS)
-      .sort({ publishedAt: -1, _id: -1 })
+      .sort(ARTICLE_DISPLAY_SORT)
       .limit(limit)
       .lean<ArticleLean[]>();
     return docs.map(serializeArticleSummary);

@@ -41,7 +41,7 @@ export function Movement({ movement, size = "sm", className }: MovementProps) {
     <span
       className={cn(
         "inline-flex items-center gap-1 font-mono uppercase leading-none tracking-[0.14em]",
-        movement === "up" ? "text-accent" : "text-fg-subtle",
+        movement === "up" ? "text-highlight" : "text-fg-subtle",
         size === "lg" ? "text-xs" : "text-[0.625rem]",
         className,
       )}

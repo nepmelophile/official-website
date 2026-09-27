@@ -1,10 +1,12 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE_DOMAIN, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 
 /*
- * Default social card (1200×630), generated with next/og in the brand colours and — when
- * Google Fonts is reachable at build time — the brand typefaces (Bricolage Grotesque,
- * Instrument Serif, JetBrains Mono), subset to the exact glyphs used. If a font cannot be
+ * Default social card (1200×630), generated with next/og in the brand colours with the client's
+ * logo (public/brand/logo-on-dark.png) and — when Google Fonts is reachable at build time — the
+ * brand typefaces (Instrument Serif, JetBrains Mono), subset to the exact glyphs used. If a font cannot be
  * fetched the card still renders with the bundled fallback font. Pages with their own share
  * image (articles, artists) override it.
  */
@@ -24,7 +26,6 @@ const ORCHID = "#dd44dd";
 const ORCHID_900 = "#431242";
 const BRAND_GRADIENT = "linear-gradient(120deg, #dd44dd 0%, #3d4cf5 100%)";
 
-const WORDMARK = SITE_NAME.toUpperCase();
 const KICKER = "Live from Kathmandu";
 const SECTIONS = "News / Artists / Services";
 const FOOT_LEFT = SITE_DOMAIN;
@@ -57,8 +58,7 @@ async function loadFonts(): Promise<FontSpec[] | null> {
   const monoText = unique(`${KICKER}${SECTIONS}${FOOT_LEFT}${FOOT_RIGHT}`.toUpperCase() + FOOT_LEFT);
   const serifText = unique(TAGLINE.before + TAGLINE.after);
 
-  const [display, serif, serifItalic, mono] = await Promise.all([
-    loadGoogleFont("Bricolage+Grotesque", ":opsz,wdth,wght@96,75,800", WORDMARK),
+  const [serif, serifItalic, mono] = await Promise.all([
     loadGoogleFont("Instrument+Serif", "", serifText),
     loadGoogleFont("Instrument+Serif", ":ital@1", TAGLINE.accent),
     loadGoogleFont("JetBrains+Mono", ":wght@500", monoText),
@@ -66,9 +66,8 @@ async function loadFonts(): Promise<FontSpec[] | null> {
 
   // All or nothing: the fonts are glyph subsets, so mixing them with the fallback would
   // leave gaps. Returning null makes ImageResponse use its bundled default font instead.
-  if (!display || !serif || !serifItalic || !mono) return null;
+  if (!serif || !serifItalic || !mono) return null;
   return [
-    { name: "Bricolage", data: display, weight: 800, style: "normal" },
     { name: "Instrument", data: serif, weight: 400, style: "normal" },
     { name: "Instrument", data: serifItalic, weight: 400, style: "italic" },
     { name: "JetBrains", data: mono, weight: 500, style: "normal" },
@@ -108,8 +107,8 @@ function Grooves() {
 }
 
 export default async function OpenGraphImage() {
-  const fonts = await loadFonts();
-  const displayFont = fonts ? "Bricolage" : undefined;
+  const [fonts, logo] = await Promise.all([loadFonts(), readFile(join(process.cwd(), "public/brand/logo-on-dark.png"))]);
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
   const serifFont = fonts ? "Instrument" : undefined;
   const monoFont = fonts ? "JetBrains" : undefined;
 
@@ -149,29 +148,8 @@ export default async function OpenGraphImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              ...family(displayFont),
-              fontWeight: 800,
-              fontSize: displayFont ? 212 : 150,
-              letterSpacing: displayFont ? -2 : -5,
-              lineHeight: 0.82,
-            }}
-          >
-            {WORDMARK}
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                marginLeft: 10,
-                marginBottom: 16,
-                borderRadius: 9999,
-                backgroundImage: BRAND_GRADIENT,
-              }}
-            />
-          </div>
+          {/* The client's logo (white lettering for the dark card), embedded as a data URL. */}
+          <img src={logoSrc} alt="" width={880} height={221} style={{ width: 880, height: 221, marginLeft: -6 }} />
           <div
             style={{
               display: "flex",

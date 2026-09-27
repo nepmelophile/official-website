@@ -13,7 +13,8 @@ const META = "font-mono text-xs uppercase tracking-[0.14em]";
 
 /**
  * Lazy map iframe (allow-listed src only), tinted to sit in the dark theme (inverted + hue-rotated so the
- * pin stays red), with the address and a "Get directions" link underneath.
+ * pin stays red; the light theme shows the map untouched), with the address and a "Get directions"
+ * link underneath.
  */
 export function ContactMap({ src, address, className }: ContactMapProps) {
   return (
@@ -25,14 +26,14 @@ export function ContactMap({ src, address, className }: ContactMapProps) {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
-          className="block h-80 w-full border-0 [filter:invert(0.9)_hue-rotate(180deg)_saturate(0.6)_brightness(0.95)] md:h-[28rem]"
+          className="block h-80 w-full border-0 [filter:invert(0.9)_hue-rotate(180deg)_saturate(0.6)_brightness(0.95)] light:[filter:none] md:h-[28rem]"
         />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-line ring-inset" />
       </div>
       {address ? (
         <figcaption className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <span className={cn(META, "flex items-start gap-2 text-fg-muted")}>
-            <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="mt-px shrink-0 text-orchid-400" />
+            <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="mt-px shrink-0 text-highlight" />
             {address}
           </span>
           <a
@@ -41,7 +42,7 @@ export function ContactMap({ src, address, className }: ContactMapProps) {
             rel="noopener noreferrer"
             className={cn(
               META,
-              "group inline-flex min-h-11 items-center gap-2 self-start text-fg transition-colors hover:text-orchid-300 sm:self-auto",
+              "group inline-flex min-h-11 items-center gap-2 self-start text-fg transition-colors hover:text-link sm:self-auto",
             )}
           >
             Get directions

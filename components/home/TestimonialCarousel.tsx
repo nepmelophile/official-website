@@ -88,7 +88,7 @@ export function TestimonialCarousel({ testimonials, heading, label = "Testimonia
             </button>
             <p className="ml-2 font-mono text-sm tracking-[0.14em] text-fg-muted tabular-nums">
               <span className="text-highlight">{pad(active + 1)}</span>
-              <span aria-hidden="true" className="px-1.5 text-ink-600">
+              <span aria-hidden="true" className="px-1.5 text-line-strong">
                 /
               </span>
               <span className="sr-only"> of </span>
@@ -145,7 +145,7 @@ export function TestimonialCarousel({ testimonials, heading, label = "Testimonia
                     aria-hidden="true"
                     className={cn(
                       "block h-0.5 w-full rounded-pill transition-colors duration-300",
-                      i === active ? "bg-accent" : "bg-line-strong group-hover:bg-ink-400",
+                      i === active ? "bg-accent" : "bg-line-strong group-hover:bg-fg-subtle",
                     )}
                   />
                   <span className="sr-only">

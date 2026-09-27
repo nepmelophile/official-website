@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import type { BrandAssetsDTO } from "@/types/content";
+import { BrandLogo } from "./BrandLogo";
 
 export interface WordmarkProps {
   className?: string;
@@ -8,28 +10,19 @@ export interface WordmarkProps {
   size?: "sm" | "lg";
   /** Render as a link to "/" (default true). */
   asLink?: boolean;
+  /** Logo files from getBrandAssets(); falls back to the bundled /public/brand files. */
+  brand?: BrandAssetsDTO;
 }
 
-/** "MELOPHILE●" wordmark with a brand-gradient (orchid → cobalt) dot. */
-export function Wordmark({ className, size = "sm", asLink = true }: WordmarkProps) {
-  const mark = (
-    <span
-      className={cn(
-        "inline-flex items-baseline font-display leading-none font-extrabold tracking-[-0.03em] text-fg uppercase [font-stretch:85%]",
-        size === "sm" ? "text-[1.375rem]" : "text-display-xl",
-      )}
-    >
-      {SITE_NAME}
-      <span
-        aria-hidden="true"
-        className={cn(
-          "inline-block rounded-pill bg-brand-gradient",
-          size === "sm" ? "ml-0.5 size-[0.3em]" : "ml-[0.04em] size-[0.18em]",
-        )}
-      />
-    </span>
-  );
-  if (!asLink) return <span className={className}>{mark}</span>;
+/** The Melophile logo (theme-aware image), optionally linking home. */
+export function Wordmark({ className, size = "sm", asLink = true, brand }: WordmarkProps) {
+  const mark =
+    size === "sm" ? (
+      <BrandLogo brand={brand} height={30} className="lg:h-9" decorative={asLink} eager />
+    ) : (
+      <BrandLogo brand={brand} height={56} className="md:h-[4.5rem]" decorative={asLink} />
+    );
+  if (!asLink) return <span className={cn("inline-flex", className)}>{mark}</span>;
   return (
     <Link href="/" className={cn("inline-flex min-h-11 items-center", className)} aria-label={`${SITE_NAME} — home`}>
       {mark}

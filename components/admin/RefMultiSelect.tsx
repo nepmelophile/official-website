@@ -239,7 +239,7 @@ export function RefMultiSelect({
                   onMouseEnter={() => setActive(index)}
                   className={cn(
                     "cursor-pointer px-3 py-2",
-                    index === activeIndex ? "bg-ink-700 text-fg" : "text-fg-muted",
+                    index === activeIndex ? "bg-line text-fg" : "text-fg-muted",
                   )}
                 >
                   <p className="truncate text-sm">{option.label}</p>

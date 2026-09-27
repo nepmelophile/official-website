@@ -60,9 +60,9 @@ export function NewsHero({ copy, categories, categorySlug, tagSlug, tagLabel, to
           {tagSlug && tagLabel ? (
             <Link
               href={hrefWithQuery("/news", { category: categorySlug })}
-              className="group inline-flex min-h-11 items-center gap-2 rounded-pill border border-accent bg-orchid-900 pr-3 pl-4 font-mono text-xs uppercase tracking-[0.14em] text-orchid-300 transition-colors duration-150 hover:border-orchid-400"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-pill border border-accent bg-accent-tint pr-3 pl-4 font-mono text-xs uppercase tracking-[0.14em] text-link transition-colors duration-150 hover:border-highlight"
             >
-              <span aria-hidden="true" className="text-orchid-400">
+              <span aria-hidden="true" className="text-highlight">
                 #
               </span>
               {tagLabel}

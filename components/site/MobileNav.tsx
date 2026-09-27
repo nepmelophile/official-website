@@ -6,6 +6,7 @@ import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore }
 import { createPortal } from "react-dom";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { SocialLinks } from "@/components/ui/SocialLinks";
+import { ThemeSwitch } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 import type { SocialLink } from "@/types/content";
 import { HEADER_CTA, navCurrent, SITE_NAV, type NavItem } from "./nav";
@@ -21,7 +22,20 @@ function useIsClient(): boolean {
   );
 }
 
-const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/**
+ * Elements Tab can reach, in order. A radio group is one tab stop: its checked radio, or its
+ * first radio while none is checked.
+ */
+function tabStops(panel: HTMLElement): HTMLElement[] {
+  return Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => {
+    if (!(el instanceof HTMLInputElement) || el.type !== "radio") return true;
+    if (el.checked) return true;
+    const group = Array.from(panel.querySelectorAll<HTMLInputElement>("input[type=radio]")).filter((r) => r.name === el.name);
+    return group[0] === el && !group.some((r) => r.checked);
+  });
+}
 
 export interface MobileNavProps {
   /** Menu links (from getNavLinks); defaults to the static base list. */
@@ -70,7 +84,7 @@ export function MobileNav({ links = SITE_NAV, socialLinks, email }: MobileNavPro
         return;
       }
       if (event.key !== "Tab" || !panel) return;
-      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const focusable = tabStops(panel);
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -166,6 +180,8 @@ export function MobileNav({ links = SITE_NAV, socialLinks, email }: MobileNavPro
           ) : null}
           <SocialLinks links={socialLinks} owner="Melophile" size="sm" />
         </div>
+
+        <ThemeSwitch className="mt-10 max-w-sm" />
       </nav>
     </div>
   );

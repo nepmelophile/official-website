@@ -327,7 +327,7 @@ export default async function TrendingPage({ searchParams }: { searchParams: Pro
         <p className="mt-3 text-xs text-fg-subtle">
           Use the arrows to reorder; positions are renumbered 1…{rows.length} automatically. The switch shows or hides an
           item without deleting it.{" "}
-          <Link href="/admin/trending/new" className="text-orchid-300 underline-offset-4 hover:underline">
+          <Link href="/admin/trending/new" className="text-link underline-offset-4 hover:underline">
             Add another item
           </Link>
           .

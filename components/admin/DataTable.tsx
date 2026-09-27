@@ -17,7 +17,7 @@ export interface DataTableColumn<T> {
   interactive?: boolean;
   align?: "left" | "right" | "center";
   /** Hide the column below this breakpoint. */
-  hideBelow?: "sm" | "md" | "lg";
+  hideBelow?: "sm" | "md" | "lg" | "xl" | "2xl";
   className?: string;
   headerClassName?: string;
 }
@@ -40,6 +40,8 @@ const HIDE: Record<NonNullable<DataTableColumn<unknown>["hideBelow"]>, string> =
   sm: "hidden sm:table-cell",
   md: "hidden md:table-cell",
   lg: "hidden lg:table-cell",
+  xl: "hidden xl:table-cell",
+  "2xl": "hidden 2xl:table-cell",
 };
 
 const ALIGN = { left: "text-left", right: "text-right", center: "text-center" } as const;
@@ -105,7 +107,7 @@ export function DataTable<T>({ rows, columns, rowKey, rowHref, caption, empty, r
                       {col.primary && href ? (
                         <Link
                           href={href}
-                          className="after:absolute after:inset-0 hover:text-orchid-300 focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-highlight focus-visible:after:ring-inset focus-ring-custom"
+                          className="after:absolute after:inset-0 hover:text-link focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-highlight focus-visible:after:ring-inset focus-ring-custom"
                         >
                           {content}
                         </Link>

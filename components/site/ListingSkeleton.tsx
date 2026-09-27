@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui/Container";
 
-const shimmer = "animate-pulse rounded-md bg-surface";
+const shimmer = "animate-pulse rounded-md bg-skeleton";
 
 /**
  * Skeleton for public listing pages (page heading + card grid). Used by the loading.tsx of the

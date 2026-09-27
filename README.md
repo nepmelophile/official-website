@@ -111,13 +111,14 @@ Go to `/admin` and sign in with `ADMIN_EMAIL` and `ADMIN_PASSWORD`. After 8 fail
 | Section | What you manage |
 |---|---|
 | **Dashboard** | Live and hidden counts for every section, new messages and quick links. |
-| **Articles** | News posts: markdown body with preview, featured image, category, tags, author, publish date, Spotify/YouTube/SoundCloud embeds, related articles and SEO fields. A future publish date schedules the post. **Draft** hides it. |
+| **Articles** | News posts: markdown body with preview, featured image, category, tags, author, publish date, Spotify/YouTube/SoundCloud embeds, related articles and SEO fields. A future publish date schedules the post. **Draft** hides it. In the list, the ↑/↓ arrows set the order used on /news and the homepage (new posts start at the top), the ★ features a post on the homepage, and the switch publishes or hides it. |
 | **Artists** | Profile, photo and cover, bio, genres, social links, releases (embedded players), photo and video gallery, milestones, related news, the *Featured* flag and sort order. |
 | **Services** | Name, image, short description, details (markdown), form link (an external form URL or `/contact?service=<slug>`), order and active flag. |
 | **Testimonials** | Quote, name, role, photo, an optional source (label and link), order, active and *Featured* flags. Reorder, feature (★) and show/hide from the list. Featured quotes are shown large at the top of `/testimonials`. |
 | **Trending** | The homepage ticker and the `/trending` chart. Link an artist (Artist), an artist's latest release (Song) or an article (Update), or turn on *Override display* to write your own title, image and link. The rank is the position; reorder with the arrows. An optional chart movement (new, up, down, steady) shows an arrow or NEW badge on the chart. |
 | **Trending page** / **Testimonials page** | Page settings (also under *Page settings* on each list): live on/off (off = 404 and removed from the menu, sitemap and homepage links), show in the menu and its label, eyebrow, heading and intro, SEO title, description and share image. Trending adds the number of chart entries, the homepage strip length and the type filter; Testimonials adds the homepage carousel length and the closing call to action. Nothing needs saving for the pages to work: without a saved document they use built-in defaults (live, in the menu). |
 | **Homepage** | Hero headline (wrap one word in `*asterisks*` to accent it), subcopy, image and buttons, impact stats, and the featured articles and artists in the order you choose. |
+| **Branding** | The logo (a white-lettering version for the dark theme, a dark-lettering one for light, and the mark on its own). Files live on ImageKit; clearing a field falls back to the bundled files in `public/brand/`. |
 | **Contact info** | Email, phone, address, office hours, social links and the map. Paste Google Maps' *Embed a map* `<iframe>` snippet or its URL. |
 | **Messages** | The contact-form inbox, with Unread, Read and Archived views, search, and reply by email. Opening a message marks it read. |
 

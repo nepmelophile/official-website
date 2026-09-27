@@ -113,7 +113,7 @@ export function ArticleCard({
             ) : null}
             <span
               aria-hidden="true"
-              className={cn(META, "ml-auto inline-flex items-center gap-2 text-fg transition-colors group-hover:text-orchid-300")}
+              className={cn(META, "ml-auto inline-flex items-center gap-2 text-fg transition-colors group-hover:text-link")}
             >
               Read story
               <ArrowRight size={16} strokeWidth={1.75} className="transition-transform duration-300 ease-out-expo group-hover:translate-x-1" />

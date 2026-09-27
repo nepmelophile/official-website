@@ -21,11 +21,23 @@ export interface ArticleDoc extends TimestampsDoc {
   status: ContentStatus;
   embeds: ArticleEmbedDoc[];
   relatedArticleIds: Types.ObjectId[];
+  /**
+   * Manual position (admin up/down arrows): lower first. Missing on articles that predate
+   * ordering — they sort first by publish date until the first create/move numbers them all.
+   */
+  order?: number;
   metaTitle?: string;
   metaDescription?: string;
 }
 
 export type ArticleLean = Lean<ArticleDoc>;
+
+/**
+ * Display order everywhere articles are listed (admin "Position", /news, home top-up): the
+ * manual `order` first, then newest first. Unnumbered legacy articles (order missing = null)
+ * sort ahead of numbered ones, which keeps the old date order until ordering is first used.
+ */
+export const ARTICLE_DISPLAY_SORT = { order: 1, publishedAt: -1, _id: -1 } as const;
 
 const EmbedSchema = new Schema<ArticleEmbedDoc>(
   {
@@ -49,6 +61,7 @@ const ArticleSchema = new Schema<ArticleDoc>(
     status: { type: String, enum: CONTENT_STATUSES, default: "draft", required: true },
     embeds: { type: [EmbedSchema], default: [] },
     relatedArticleIds: [{ type: Schema.Types.ObjectId, ref: "Article" }],
+    order: { type: Number },
     metaTitle: { type: String, trim: true },
     metaDescription: { type: String, trim: true },
   },
@@ -56,6 +69,7 @@ const ArticleSchema = new Schema<ArticleDoc>(
 );
 
 ArticleSchema.index({ status: 1, publishedAt: -1 });
+ArticleSchema.index({ status: 1, order: 1, publishedAt: -1 });
 ArticleSchema.index({ status: 1, category: 1, publishedAt: -1 });
 ArticleSchema.index({ tags: 1 });
 

@@ -169,7 +169,7 @@ export function ArtistGallery({ images, label }: ArtistGalleryProps) {
                 ) : null}
                 <span
                   aria-hidden="true"
-                  className="absolute top-3 right-3 inline-flex size-9 items-center justify-center rounded-pill bg-ink-950/70 text-fg opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+                  className="absolute top-3 right-3 inline-flex size-9 items-center justify-center rounded-pill bg-ink-950/70 text-paper opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
                 >
                   <Maximize2 size={16} strokeWidth={1.75} />
                 </span>
@@ -179,8 +179,10 @@ export function ArtistGallery({ images, label }: ArtistGalleryProps) {
         })}
       </ul>
 
+      {/* A photo viewer stays dark in both themes: data-theme="dark" makes it a fixed-dark island. */}
       <dialog
         ref={dialogRef}
+        data-theme="dark"
         aria-label={`${label} — photo viewer`}
         onClose={handleClose}
         onKeyDown={handleKeyDown}

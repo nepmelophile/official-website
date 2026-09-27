@@ -85,7 +85,7 @@ export function SectionHeading({
       {action ? (
         <Link
           href={action.href}
-          className="group inline-flex min-h-11 shrink-0 items-center gap-2 self-start font-mono text-xs uppercase tracking-[0.14em] text-fg transition-colors hover:text-orchid-300 md:self-end"
+          className="group inline-flex min-h-11 shrink-0 items-center gap-2 self-start font-mono text-xs uppercase tracking-[0.14em] text-fg transition-colors hover:text-link md:self-end"
         >
           <span className="bg-[linear-gradient(currentColor,currentColor)] bg-size-[0%_1px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-300 ease-out-expo group-hover:bg-size-[100%_1px]">
             {action.label}

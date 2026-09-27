@@ -46,7 +46,7 @@ export function SmartImage({
   const altText = decorative ? "" : ((typeof image === "object" && image?.alt?.trim()) || alt);
 
   return (
-    <div className={cn("@container relative overflow-hidden bg-surface", className)}>
+    <div className={cn("@container relative overflow-hidden bg-skeleton", className)}>
       {src ? (
         <Image
           src={src}
@@ -63,14 +63,14 @@ export function SmartImage({
           role={decorative ? undefined : "img"}
           aria-label={decorative ? undefined : altText}
           aria-hidden={decorative ? true : undefined}
-          className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,var(--color-ink-800),var(--color-surface)_70%)]"
+          className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,var(--color-surface-raised),var(--color-skeleton)_70%)]"
         >
           <span
             aria-hidden="true"
-            className="select-none font-display text-[clamp(2.5rem,45cqw,12rem)] leading-none font-extrabold tracking-[-0.06em] text-ink-700 [font-stretch:85%]"
+            className="select-none font-display text-[clamp(2.5rem,45cqw,12rem)] leading-none font-extrabold tracking-[-0.06em] text-line [font-stretch:85%]"
           >
             {monogram}
-            <span className="text-orchid-900">.</span>
+            <span className="text-accent-tint">.</span>
           </span>
         </div>
       )}

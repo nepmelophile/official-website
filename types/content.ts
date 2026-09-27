@@ -328,3 +328,17 @@ export interface ContactMessageDTO extends Timestamps {
   message: string;
   status: ContactMessageStatus;
 }
+
+/* ------------------------------------------------------------------ */
+/* Branding                                                            */
+/* ------------------------------------------------------------------ */
+
+export interface BrandAssetsDTO {
+  /** Full logo for dark backgrounds (light lettering). */
+  logoOnDark: MediaRef;
+  /** Full logo for light backgrounds (dark lettering). */
+  logoOnLight: MediaRef;
+  /** The note mark on its own — compact spots and icons. */
+  logoMark: MediaRef;
+  updatedAt?: string;
+}

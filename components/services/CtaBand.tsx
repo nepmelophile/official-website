@@ -49,7 +49,7 @@ export function CtaBand({
     <Section tone={tone} bordered aria-labelledby={id} className={cn("overflow-hidden", className)}>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-28 -bottom-44 size-[30rem] text-ink-700 opacity-70 md:-right-16 md:-bottom-56 md:size-[38rem]"
+        className="pointer-events-none absolute -right-28 -bottom-44 size-[30rem] text-line opacity-70 md:-right-16 md:-bottom-56 md:size-[38rem]"
       >
         <Rings />
       </div>

@@ -75,7 +75,7 @@ export function SlugInput({
           <button
             type="button"
             onClick={() => setAuto(true)}
-            className="inline-flex items-center gap-1 rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-orchid-300 hover:text-fg"
+            className="inline-flex items-center gap-1 rounded-xs px-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-link hover:text-fg"
           >
             <RefreshCw aria-hidden className="size-3" strokeWidth={1.75} /> Regenerate
           </button>

@@ -8,7 +8,7 @@ import { ARTICLE_CATEGORIES } from "@/lib/constants";
 import { connectToDatabase, isDbConfigured } from "@/lib/db";
 import { serializeArticle, serializeMedia, toId, toIso } from "@/lib/serialize";
 import { escapeRegExp, formatDate } from "@/lib/utils";
-import { Article, type ArticleDoc, type ArticleLean } from "@/models/Article";
+import { ARTICLE_DISPLAY_SORT, Article, type ArticleDoc, type ArticleLean } from "@/models/Article";
 import type { ArticleDTO, ContentStatus, MediaRef } from "@/types/content";
 
 /*
@@ -44,14 +44,16 @@ export interface AdminListResult<T> {
   error?: string;
 }
 
-export const ADMIN_ARTICLE_SORTS = ["published", "updated", "title"] as const;
+export const ADMIN_ARTICLE_SORTS = ["position", "published", "updated", "title"] as const;
 export type AdminArticleSort = (typeof ADMIN_ARTICLE_SORTS)[number];
 
 export function parseArticleSort(value: string | undefined | null): AdminArticleSort {
-  return (ADMIN_ARTICLE_SORTS as readonly string[]).includes(value ?? "") ? (value as AdminArticleSort) : "published";
+  return (ADMIN_ARTICLE_SORTS as readonly string[]).includes(value ?? "") ? (value as AdminArticleSort) : "position";
 }
 
 const SORTS: Record<AdminArticleSort, Record<string, 1 | -1>> = {
+  /** Manual order (up / down arrows) — the same order the public /news listing uses. */
+  position: ARTICLE_DISPLAY_SORT,
   published: { publishedAt: -1, _id: -1 },
   updated: { updatedAt: -1, _id: -1 },
   title: { title: 1, _id: 1 },
@@ -99,7 +101,7 @@ export async function listAdminArticles({
   q = "",
   status = "",
   category = "",
-  sort = "published",
+  sort = "position",
   page = 1,
   pageSize = ADMIN_PAGE_SIZE,
 }: AdminArticleListParams = {}): Promise<AdminListResult<AdminArticleRow>> {

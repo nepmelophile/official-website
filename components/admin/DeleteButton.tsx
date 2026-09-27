@@ -4,8 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import type { ActionResult } from "@/lib/admin/types";
+import { cn } from "@/lib/utils";
 import { Button, type ButtonSize, type ButtonVariant } from "./Button";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { iconButtonClass } from "./styles";
 import { useToast } from "./Toast";
 
 export interface DeleteButtonProps {
@@ -29,7 +31,7 @@ export interface DeleteButtonProps {
   onDeleted?: () => void;
   variant?: ButtonVariant;
   size?: ButtonSize;
-  /** Render only the trash icon (for table rows); label becomes the aria-label. */
+  /** Render only the trash icon as a 36px square matching the other row buttons; label becomes the aria-label. `size`/`variant` are ignored. */
   iconOnly?: boolean;
   disabled?: boolean;
   className?: string;
@@ -80,25 +82,37 @@ export function DeleteButton({
 
   return (
     <>
-      <Button
-        variant={variant}
-        size={size}
-        disabled={disabled}
-        onClick={() => {
-          setError(undefined);
-          setOpen(true);
-        }}
-        aria-label={iconOnly ? `${label} ${itemLabel}` : undefined}
-        title={iconOnly ? label : undefined}
-        className={
-          variant === "ghost"
-            ? `text-danger hover:bg-danger/10 hover:text-danger ${iconOnly ? "size-9 px-0 py-0" : ""} ${className ?? ""}`
-            : className
-        }
-        icon={<Trash2 aria-hidden className="size-4" strokeWidth={1.75} />}
-      >
-        {iconOnly ? null : label}
-      </Button>
+      {iconOnly ? (
+        // Same 36px bordered square as the other row buttons (iconButtonClass), in danger red.
+        // (Routing it through <Button> left the pill padding in place, which squeezed the icon.)
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={() => {
+            setError(undefined);
+            setOpen(true);
+          }}
+          aria-label={`${label} ${itemLabel}`}
+          title={label}
+          className={cn(iconButtonClass, "text-danger hover:border-danger/60 hover:bg-danger/10 hover:text-danger", className)}
+        >
+          <Trash2 aria-hidden className="size-4" strokeWidth={1.75} />
+        </button>
+      ) : (
+        <Button
+          variant={variant}
+          size={size}
+          disabled={disabled}
+          onClick={() => {
+            setError(undefined);
+            setOpen(true);
+          }}
+          className={variant === "ghost" ? cn("text-danger hover:bg-danger/10 hover:text-danger", className) : className}
+          icon={<Trash2 aria-hidden className="size-4" strokeWidth={1.75} />}
+        >
+          {label}
+        </Button>
+      )}
       <ConfirmDialog
         open={open}
         title={`Delete “${itemLabel}”?`}

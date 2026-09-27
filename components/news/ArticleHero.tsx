@@ -63,7 +63,7 @@ export function ArticleHero({ article, readingMinutes, titleId, listen }: Articl
               </li>
               {article.category && categoryHref ? (
                 <>
-                  <li aria-hidden="true" className="text-ink-600">
+                  <li aria-hidden="true" className="text-line-strong">
                     /
                   </li>
                   <li>
@@ -92,7 +92,7 @@ export function ArticleHero({ article, readingMinutes, titleId, listen }: Articl
           </h1>
 
           {article.excerpt ? (
-            <p className="mt-6 max-w-3xl text-lg/relaxed text-ink-200 md:mt-8 md:text-xl/relaxed">{article.excerpt}</p>
+            <p className="mt-6 max-w-3xl text-lg/relaxed text-fg-soft md:mt-8 md:text-xl/relaxed">{article.excerpt}</p>
           ) : null}
 
           <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-line pt-6 md:mt-12">
