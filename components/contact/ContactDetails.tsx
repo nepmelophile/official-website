@@ -49,10 +49,27 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
       label: "Phone",
       icon: Phone,
       content: (
-        <a href={telHref(info.phone)} className={BIG_LINK}>
-          {info.phone} {info.secondaryPhone ? ` / ${info.secondaryPhone}` : ""}{" "}
-          {info.tertiaryPhone ? ` / ${info.tertiaryPhone}` : ""}
-        </a>
+        <div className="flex flex-col gap-1">
+          <a href={telHref(info.phone)} className={BIG_LINK}>
+            {info.phone}{" "}
+          </a>
+          {info.secondaryPhone && (
+            <>
+              <hr className="my-1 border-line" />
+              <a href={telHref(info.secondaryPhone)} className={BIG_LINK}>
+                {info.secondaryPhone}
+              </a>
+            </>
+          )}
+          {info.tertiaryPhone && (
+            <>
+              <hr className="my-1 border-line" />
+              <a href={telHref(info.tertiaryPhone)} className={BIG_LINK}>
+                {info.tertiaryPhone}
+              </a>
+            </>
+          )}
+        </div>
       ),
     });
   }
