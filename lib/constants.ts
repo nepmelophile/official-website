@@ -1,4 +1,8 @@
-import type { ContactInfoDTO, HomepageSettingsDTO, PageSettingsMap } from "@/types/content";
+import type {
+  ContactInfoDTO,
+  HomepageSettingsDTO,
+  PageSettingsMap,
+} from "@/types/content";
 
 /* ------------------------------------------------------------------ */
 /* Site identity                                                       */
@@ -25,7 +29,14 @@ export const NAV_LINKS = [
 export const CONTENT_STATUSES = ["draft", "published"] as const;
 
 /** Suggested article categories (free text is still allowed in the admin). */
-export const ARTICLE_CATEGORIES = ["News", "Release", "Interview", "Event", "Feature", "Industry"] as const;
+export const ARTICLE_CATEGORIES = [
+  "News",
+  "Release",
+  "Interview",
+  "Event",
+  "Feature",
+  "Industry",
+] as const;
 
 export const SOCIAL_PLATFORMS = [
   "spotify",
@@ -39,7 +50,10 @@ export const SOCIAL_PLATFORMS = [
   "website",
 ] as const;
 
-export const SOCIAL_PLATFORM_LABELS: Record<(typeof SOCIAL_PLATFORMS)[number], string> = {
+export const SOCIAL_PLATFORM_LABELS: Record<
+  (typeof SOCIAL_PLATFORMS)[number],
+  string
+> = {
   spotify: "Spotify",
   youtube: "YouTube",
   instagram: "Instagram",
@@ -52,7 +66,10 @@ export const SOCIAL_PLATFORM_LABELS: Record<(typeof SOCIAL_PLATFORMS)[number], s
 };
 
 export const RELEASE_TYPES = ["single", "ep", "album"] as const;
-export const RELEASE_TYPE_LABELS: Record<(typeof RELEASE_TYPES)[number], string> = {
+export const RELEASE_TYPE_LABELS: Record<
+  (typeof RELEASE_TYPES)[number],
+  string
+> = {
   single: "Single",
   ep: "EP",
   album: "Album",
@@ -60,13 +77,19 @@ export const RELEASE_TYPE_LABELS: Record<(typeof RELEASE_TYPES)[number], string>
 
 export const ARTIST_MEDIA_TYPES = ["image", "video"] as const;
 export const TRENDING_TYPES = ["artist", "song", "update"] as const;
-export const TRENDING_TYPE_LABELS: Record<(typeof TRENDING_TYPES)[number], string> = {
+export const TRENDING_TYPE_LABELS: Record<
+  (typeof TRENDING_TYPES)[number],
+  string
+> = {
   artist: "Artist",
   song: "Song",
   update: "Update",
 };
 /** Plural labels for the /trending type filter chips. */
-export const TRENDING_TYPE_PLURALS: Record<(typeof TRENDING_TYPES)[number], string> = {
+export const TRENDING_TYPE_PLURALS: Record<
+  (typeof TRENDING_TYPES)[number],
+  string
+> = {
   artist: "Artists",
   song: "Songs",
   update: "Updates",
@@ -74,7 +97,10 @@ export const TRENDING_TYPE_PLURALS: Record<(typeof TRENDING_TYPES)[number], stri
 
 /** Chart arrows on /trending (optional per item). */
 export const TRENDING_MOVEMENTS = ["new", "up", "down", "steady"] as const;
-export const TRENDING_MOVEMENT_LABELS: Record<(typeof TRENDING_MOVEMENTS)[number], string> = {
+export const TRENDING_MOVEMENT_LABELS: Record<
+  (typeof TRENDING_MOVEMENTS)[number],
+  string
+> = {
   new: "New entry",
   up: "Moving up",
   down: "Moving down",
@@ -143,6 +169,8 @@ export const DEFAULT_HOMEPAGE_SETTINGS: HomepageSettingsDTO = {
 export const DEFAULT_CONTACT_INFO: ContactInfoDTO = {
   email: "hello@melophilenp.com",
   phone: "+977 1-5550123",
+  secondaryPhone: "+977 1-5550124",
+  tertiaryPhone: "+977 1-5550125",
   address: "Jhamsikhel, Lalitpur, Nepal",
   mapEmbedUrl: undefined,
   officeHours: "Sun–Fri, 10:00–18:00 NPT",

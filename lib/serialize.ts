@@ -12,7 +12,10 @@ import type { HomepageSettingsLean } from "@/models/HomepageSettings";
 import type { PageSettingsLean } from "@/models/PageSettings";
 import type { ServiceLean } from "@/models/Service";
 import type { MediaRefDoc, SocialLinkDoc } from "@/models/shared";
-import type { TestimonialLean, TestimonialSourceDoc } from "@/models/Testimonial";
+import type {
+  TestimonialLean,
+  TestimonialSourceDoc,
+} from "@/models/Testimonial";
 import type { TrendingItemLean } from "@/models/TrendingItem";
 import type {
   ArticleDTO,
@@ -41,7 +44,9 @@ export function toId(value: IdLike | null | undefined): string {
 }
 
 /** Array of ObjectIds → string[] (drops empties). */
-export function toIds(values: readonly (IdLike | null | undefined)[] | null | undefined): string[] {
+export function toIds(
+  values: readonly (IdLike | null | undefined)[] | null | undefined,
+): string[] {
   return (values ?? []).map(toId).filter(Boolean);
 }
 
@@ -52,20 +57,28 @@ export function toIso(value: Date | string | null | undefined): string {
   return Number.isNaN(date.getTime()) ? "" : date.toISOString();
 }
 
-function optionalIso(value: Date | string | null | undefined): string | undefined {
+function optionalIso(
+  value: Date | string | null | undefined,
+): string | undefined {
   return toIso(value) || undefined;
 }
 
 /** Remove keys whose value is undefined/null/"" so optional DTO fields stay absent. */
-function optional<T extends string | number>(value: T | null | undefined): T | undefined {
+function optional<T extends string | number>(
+  value: T | null | undefined,
+): T | undefined {
   if (value === null || value === undefined) return undefined;
   if (typeof value === "string" && value.trim() === "") return undefined;
   return value;
 }
 
 export function serializeMedia(media: MediaRefDoc): MediaRef;
-export function serializeMedia(media: MediaRefDoc | null | undefined): MediaRef | undefined;
-export function serializeMedia(media: MediaRefDoc | null | undefined): MediaRef | undefined {
+export function serializeMedia(
+  media: MediaRefDoc | null | undefined,
+): MediaRef | undefined;
+export function serializeMedia(
+  media: MediaRefDoc | null | undefined,
+): MediaRef | undefined {
   if (!media?.url) return undefined;
   const out: MediaRef = { url: media.url };
   if (media.alt) out.alt = media.alt;
@@ -78,8 +91,12 @@ function requiredMedia(media: MediaRefDoc | null | undefined): MediaRef {
   return serializeMedia(media) ?? { url: "" };
 }
 
-export function serializeSocialLinks(links: readonly SocialLinkDoc[] | null | undefined): SocialLink[] {
-  return (links ?? []).filter((l) => l?.url).map((l) => ({ platform: l.platform, url: l.url }));
+export function serializeSocialLinks(
+  links: readonly SocialLinkDoc[] | null | undefined,
+): SocialLink[] {
+  return (links ?? [])
+    .filter((l) => l?.url)
+    .map((l) => ({ platform: l.platform, url: l.url }));
 }
 
 /* ------------------------------------------------------------------ */
@@ -185,7 +202,9 @@ export function serializeService(doc: ServiceLean): ServiceDTO {
   };
 }
 
-function serializeTestimonialSource(source: TestimonialSourceDoc | null | undefined): TestimonialSource | undefined {
+function serializeTestimonialSource(
+  source: TestimonialSourceDoc | null | undefined,
+): TestimonialSource | undefined {
   const label = source?.label?.trim();
   if (!label) return undefined;
   const url = optional(source?.url);
@@ -232,13 +251,18 @@ export function serializeTrendingItem(doc: TrendingItemLean): TrendingItemDTO {
 /* Singletons & messages                                               */
 /* ------------------------------------------------------------------ */
 
-export function serializeHomepageSettings(doc: HomepageSettingsLean): HomepageSettingsDTO {
+export function serializeHomepageSettings(
+  doc: HomepageSettingsLean,
+): HomepageSettingsDTO {
   return {
     id: toId(doc._id),
     heroHeadline: doc.heroHeadline,
     heroSubcopy: doc.heroSubcopy ?? "",
     heroImage: serializeMedia(doc.heroImage),
-    heroCtas: (doc.heroCtas ?? []).map((c) => ({ label: c.label, href: c.href })),
+    heroCtas: (doc.heroCtas ?? []).map((c) => ({
+      label: c.label,
+      href: c.href,
+    })),
     impactStats: (doc.impactStats ?? []).map((s) => ({
       label: s.label,
       value: s.value,
@@ -251,12 +275,20 @@ export function serializeHomepageSettings(doc: HomepageSettingsLean): HomepageSe
 }
 
 /** A stored whole number ≥ 1, else the fallback. */
-function positiveInt(value: number | null | undefined, fallback: number): number {
-  return typeof value === "number" && Number.isInteger(value) && value >= 1 ? value : fallback;
+function positiveInt(
+  value: number | null | undefined,
+  fallback: number,
+): number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 1
+    ? value
+    : fallback;
 }
 
 /** Common page fields merged over the page's defaults ("" is kept for eyebrow/intro: it means "none"). */
-function pageSettingsBase<T extends PageSettingsDTO>(doc: PageSettingsLean, defaults: T) {
+function pageSettingsBase<T extends PageSettingsDTO>(
+  doc: PageSettingsLean,
+  defaults: T,
+) {
   return {
     id: toId(doc._id),
     enabled: doc.enabled ?? defaults.enabled,
@@ -272,7 +304,9 @@ function pageSettingsBase<T extends PageSettingsDTO>(doc: PageSettingsLean, defa
   };
 }
 
-export function serializeTrendingPageSettings(doc: PageSettingsLean): TrendingPageSettingsDTO {
+export function serializeTrendingPageSettings(
+  doc: PageSettingsLean,
+): TrendingPageSettingsDTO {
   const defaults = DEFAULT_PAGE_SETTINGS.trending;
   return {
     ...pageSettingsBase(doc, defaults),
@@ -283,7 +317,9 @@ export function serializeTrendingPageSettings(doc: PageSettingsLean): TrendingPa
   };
 }
 
-export function serializeTestimonialsPageSettings(doc: PageSettingsLean): TestimonialsPageSettingsDTO {
+export function serializeTestimonialsPageSettings(
+  doc: PageSettingsLean,
+): TestimonialsPageSettingsDTO {
   const defaults = DEFAULT_PAGE_SETTINGS.testimonials;
   return {
     ...pageSettingsBase(doc, defaults),
@@ -296,7 +332,9 @@ export function serializeTestimonialsPageSettings(doc: PageSettingsLean): Testim
 }
 
 export function serializePageSettings(doc: PageSettingsLean): PageSettingsDTO {
-  return doc.page === "trending" ? serializeTrendingPageSettings(doc) : serializeTestimonialsPageSettings(doc);
+  return doc.page === "trending"
+    ? serializeTrendingPageSettings(doc)
+    : serializeTestimonialsPageSettings(doc);
 }
 
 export function serializeContactInfo(doc: ContactInfoLean): ContactInfoDTO {
@@ -304,6 +342,8 @@ export function serializeContactInfo(doc: ContactInfoLean): ContactInfoDTO {
     id: toId(doc._id),
     email: doc.email,
     phone: doc.phone ?? "",
+    secondaryPhone: doc.secondaryPhone ?? "",
+    tertiaryPhone: doc.tertiaryPhone ?? "",
     address: doc.address ?? "",
     mapEmbedUrl: optional(doc.mapEmbedUrl),
     officeHours: optional(doc.officeHours),
@@ -312,7 +352,9 @@ export function serializeContactInfo(doc: ContactInfoLean): ContactInfoDTO {
   };
 }
 
-export function serializeContactMessage(doc: ContactMessageLean): ContactMessageDTO {
+export function serializeContactMessage(
+  doc: ContactMessageLean,
+): ContactMessageDTO {
   return {
     id: toId(doc._id),
     name: doc.name,

@@ -85,7 +85,15 @@ export interface ArticleDTO extends Timestamps {
 /** Lightweight article shape for listings/cards (no body). */
 export type ArticleSummary = Pick<
   ArticleDTO,
-  "id" | "title" | "slug" | "featuredImage" | "excerpt" | "category" | "tags" | "author" | "publishedAt"
+  | "id"
+  | "title"
+  | "slug"
+  | "featuredImage"
+  | "excerpt"
+  | "category"
+  | "tags"
+  | "author"
+  | "publishedAt"
 >;
 
 /* ------------------------------------------------------------------ */
@@ -137,7 +145,14 @@ export interface ArtistDTO extends Timestamps {
 /** Lightweight artist shape for listings/cards. */
 export type ArtistSummary = Pick<
   ArtistDTO,
-  "id" | "name" | "slug" | "photo" | "shortBio" | "genres" | "location" | "featured"
+  | "id"
+  | "name"
+  | "slug"
+  | "photo"
+  | "shortBio"
+  | "genres"
+  | "location"
+  | "featured"
 >;
 
 /* ------------------------------------------------------------------ */
@@ -295,7 +310,9 @@ export interface TestimonialsPageSettingsDTO extends PageSettingsBase {
   ctaHref: string;
 }
 
-export type PageSettingsDTO = TrendingPageSettingsDTO | TestimonialsPageSettingsDTO;
+export type PageSettingsDTO =
+  | TrendingPageSettingsDTO
+  | TestimonialsPageSettingsDTO;
 
 /** Settings for every managed page, keyed by page. */
 export interface PageSettingsMap {
@@ -307,6 +324,8 @@ export interface ContactInfoDTO {
   id?: string;
   email: string;
   phone: string;
+  secondaryPhone: string;
+  tertiaryPhone: string;
   address: string;
   mapEmbedUrl?: string;
   officeHours?: string;

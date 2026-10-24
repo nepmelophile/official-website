@@ -1,6 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Hanken_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
-import { SITE_DESCRIPTION, SITE_DOMAIN, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import {
+  Bricolage_Grotesque,
+  Hanken_Grotesk,
+  Instrument_Serif,
+  JetBrains_Mono,
+} from "next/font/google";
+import {
+  SITE_DESCRIPTION,
+  SITE_DOMAIN,
+  SITE_NAME,
+  SITE_TAGLINE,
+} from "@/lib/constants";
 import { ThemeSync } from "@/components/ui/ThemeToggle";
 import { siteUrl } from "@/lib/site";
 import { THEME_COLORS, THEME_INIT_SCRIPT } from "@/lib/theme";
@@ -104,6 +114,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="8b2db126-43c1-4ec2-9ddc-9976cc1d2316"
+        />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="bg-bg font-sans text-fg antialiased">

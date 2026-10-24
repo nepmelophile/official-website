@@ -10,7 +10,8 @@ import { HEADER_CTA } from "./nav";
 import { Wordmark } from "./Wordmark";
 
 const HEADING = "font-mono text-xs uppercase tracking-[0.14em] text-fg-subtle";
-const LINK = "inline-flex min-h-11 items-center text-fg-muted transition-colors duration-150 hover:text-fg sm:min-h-9";
+const LINK =
+  "inline-flex min-h-11 items-center text-fg-muted transition-colors duration-150 hover:text-fg sm:min-h-9";
 
 function telHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
@@ -18,7 +19,11 @@ function telHref(phone: string): string {
 
 /** Public footer: contact details and socials from ContactInfo, nav, copyright. */
 export async function Footer() {
-  const [contact, links, brand] = await Promise.all([getSiteChromeContactInfo(), getNavLinks(), getBrandAssets()]);
+  const [contact, links, brand] = await Promise.all([
+    getSiteChromeContactInfo(),
+    getNavLinks(),
+    getBrandAssets(),
+  ]);
   const year = new Date().getFullYear();
 
   return (
@@ -32,9 +37,12 @@ export async function Footer() {
           <div className="lg:col-span-5">
             <Wordmark size="lg" asLink={false} brand={brand} />
             <p className="mt-6 font-serif text-2xl text-fg italic md:text-3xl">
-              The sound of <span className="text-highlight">Nepal</span>, amplified.
+              The sound of <span className="text-highlight">Nepal</span>,
+              amplified.
             </p>
-            <p className="mt-4 max-w-md text-sm/relaxed text-fg-muted">{SITE_DESCRIPTION}</p>
+            <p className="mt-4 max-w-md text-sm/relaxed text-fg-muted">
+              {SITE_DESCRIPTION}
+            </p>
             <Link
               href={HEADER_CTA.href}
               className="group mt-8 inline-flex min-h-11 items-center gap-2 font-display text-xl font-bold text-fg"
@@ -69,25 +77,73 @@ export async function Footer() {
             <address className="mt-4 flex flex-col gap-1 not-italic">
               {contact.email ? (
                 <a href={`mailto:${contact.email}`} className={`${LINK} gap-3`}>
-                  <Mail size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-subtle" />
+                  <Mail
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="shrink-0 text-fg-subtle"
+                  />
                   <span className="break-all">{contact.email}</span>
                 </a>
               ) : null}
               {contact.phone ? (
                 <a href={telHref(contact.phone)} className={`${LINK} gap-3`}>
-                  <Phone size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-fg-subtle" />
+                  <Phone
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="shrink-0 text-fg-subtle"
+                  />
                   {contact.phone}
+                </a>
+              ) : null}
+              {contact.secondaryPhone ? (
+                <a
+                  href={telHref(contact.secondaryPhone)}
+                  className={`${LINK} gap-3`}
+                >
+                  <Phone
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="shrink-0 text-fg-subtle"
+                  />
+                  {contact.tertiaryPhone}
+                </a>
+              ) : null}
+              {contact.tertiaryPhone ? (
+                <a
+                  href={telHref(contact.tertiaryPhone)}
+                  className={`${LINK} gap-3`}
+                >
+                  <Phone
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="shrink-0 text-fg-subtle"
+                  />
+                  {contact.tertiaryPhone}
                 </a>
               ) : null}
               {contact.address ? (
                 <p className="flex items-start gap-3 py-2 text-fg-muted">
-                  <MapPin size={16} strokeWidth={1.75} aria-hidden="true" className="mt-1 shrink-0 text-fg-subtle" />
+                  <MapPin
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="mt-1 shrink-0 text-fg-subtle"
+                  />
                   {contact.address}
                 </p>
               ) : null}
               {contact.officeHours ? (
                 <p className="flex items-start gap-3 py-2 text-sm text-fg-subtle">
-                  <Clock size={16} strokeWidth={1.75} aria-hidden="true" className="mt-0.5 shrink-0" />
+                  <Clock
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="mt-0.5 shrink-0"
+                  />
                   {contact.officeHours}
                 </p>
               ) : null}
@@ -95,7 +151,11 @@ export async function Footer() {
             {contact.socialLinks.length > 0 ? (
               <div className="mt-6">
                 <h2 className="sr-only">Follow {SITE_NAME}</h2>
-                <SocialLinks links={contact.socialLinks} owner={SITE_NAME} label={`${SITE_NAME} on social media`} />
+                <SocialLinks
+                  links={contact.socialLinks}
+                  owner={SITE_NAME}
+                  label={`${SITE_NAME} on social media`}
+                />
               </div>
             ) : null}
           </div>
@@ -106,8 +166,17 @@ export async function Footer() {
             © {year} {SITE_NAME} · {SITE_DOMAIN}
           </p>
           <p className="flex items-center gap-2">
-            <span aria-hidden="true" className="size-1.5 animate-pulse-dot rounded-pill bg-accent" />
-            Made in Kathmandu, Nepal
+            <span
+              aria-hidden="true"
+              className="size-1.5 animate-pulse-dot rounded-pill bg-accent"
+            />
+            Made by{" "}
+            <a
+              className={`${LINK}`}
+              href="https://prayushadhikari.com.np"
+            >
+              Prayush Adhikari
+            </a>
           </p>
         </div>
       </Container>

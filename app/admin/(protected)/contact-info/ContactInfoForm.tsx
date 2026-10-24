@@ -18,6 +18,8 @@ import { saveContactInfo } from "./actions";
 interface ContactInfoFormValues {
   email: string;
   phone: string;
+  secondaryPhone: string;
+  tertiaryPhone: string;
   address: string;
   mapEmbedUrl: string;
   officeHours: string;
@@ -28,10 +30,15 @@ function toValues(info: ContactInfoDTO): ContactInfoFormValues {
   return {
     email: info.email,
     phone: info.phone,
+    secondaryPhone: info.secondaryPhone,
+    tertiaryPhone: info.tertiaryPhone,
     address: info.address,
     mapEmbedUrl: info.mapEmbedUrl ?? "",
     officeHours: info.officeHours ?? "",
-    socialLinks: info.socialLinks.map((l) => ({ platform: l.platform, url: l.url })),
+    socialLinks: info.socialLinks.map((l) => ({
+      platform: l.platform,
+      url: l.url,
+    })),
   };
 }
 
@@ -49,19 +56,36 @@ function isPreviewableMap(value: string): boolean {
     const url = new URL(value);
     if (url.protocol !== "https:") return false;
     const host = url.hostname.toLowerCase();
-    if (host === "www.google.com" || host === "google.com" || host === "maps.google.com") {
-      return url.pathname.startsWith("/maps/embed") || url.searchParams.get("output") === "embed";
+    if (
+      host === "www.google.com" ||
+      host === "google.com" ||
+      host === "maps.google.com"
+    ) {
+      return (
+        url.pathname.startsWith("/maps/embed") ||
+        url.searchParams.get("output") === "embed"
+      );
     }
-    return (host === "www.openstreetmap.org" || host === "openstreetmap.org") && url.pathname === "/export/embed.html";
+    return (
+      (host === "www.openstreetmap.org" || host === "openstreetmap.org") &&
+      url.pathname === "/export/embed.html"
+    );
   } catch {
     return false;
   }
 }
 
 const PLACES = [
-  { label: "Contact page", detail: "Email, phone, address, hours and the map", href: "/contact" },
+  {
+    label: "Contact page",
+    detail: "Email, phone, address, hours and the map",
+    href: "/contact",
+  },
   { label: "Site footer", detail: "Email and social links, on every page" },
-  { label: "Search engines", detail: "Organisation details in the homepage’s structured data" },
+  {
+    label: "Search engines",
+    detail: "Organisation details in the homepage’s structured data",
+  },
 ];
 
 export interface ContactInfoFormProps {
@@ -70,7 +94,11 @@ export interface ContactInfoFormProps {
   loadError?: string;
 }
 
-export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps) {
+export function ContactInfoForm({
+  info,
+  saved,
+  loadError,
+}: ContactInfoFormProps) {
   const form = useAdminForm({
     initial: toValues(info),
     action: (values) => saveContactInfo(values),
@@ -83,7 +111,11 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
     <FormShell
       title="Contact info"
       description="How people reach Melophile. Changes show on the contact page and in the footer on every page."
-      meta={saved && info.updatedAt ? `Last updated ${formatDate(info.updatedAt, "medium")}` : undefined}
+      meta={
+        saved && info.updatedAt
+          ? `Last updated ${formatDate(info.updatedAt, "medium")}`
+          : undefined
+      }
       backHref="/admin"
       backLabel="Dashboard"
       form={form}
@@ -95,7 +127,9 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
           rel="noopener noreferrer"
           variant="ghost"
           size="sm"
-          icon={<ArrowUpRight aria-hidden className="size-4" strokeWidth={1.75} />}
+          icon={
+            <ArrowUpRight aria-hidden className="size-4" strokeWidth={1.75} />
+          }
         >
           View contact page
         </ButtonLink>
@@ -105,17 +139,27 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
           <ul className="space-y-3 text-sm">
             {PLACES.map((place) => (
               <li key={place.label} className="flex gap-3">
-                <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-pill bg-accent" />
+                <span
+                  aria-hidden
+                  className="mt-1.5 size-1.5 shrink-0 rounded-pill bg-accent"
+                />
                 <span>
-                  <span className="block font-medium text-fg">{place.label}</span>
-                  <span className="block text-xs text-fg-subtle">{place.detail}</span>
+                  <span className="block font-medium text-fg">
+                    {place.label}
+                  </span>
+                  <span className="block text-xs text-fg-subtle">
+                    {place.detail}
+                  </span>
                 </span>
               </li>
             ))}
           </ul>
           <p className="text-xs text-fg-subtle">
             Messages sent through the contact form land in the{" "}
-            <Link href="/admin/messages" className="text-link underline-offset-4 hover:underline">
+            <Link
+              href="/admin/messages"
+              className="text-link underline-offset-4 hover:underline"
+            >
               inbox
             </Link>
             .
@@ -124,13 +168,24 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
       }
     >
       {loadError ? (
-        <p role="alert" className="rounded-md border border-danger/40 bg-danger/10 px-4 py-3 text-sm text-fg">
+        <p
+          role="alert"
+          className="rounded-md border border-danger/40 bg-danger/10 px-4 py-3 text-sm text-fg"
+        >
           {loadError}
         </p>
       ) : !saved ? (
-        <p role="status" className="flex items-start gap-3 rounded-md border border-info/40 bg-info/10 px-4 py-3 text-sm text-fg">
-          <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-info" strokeWidth={1.75} />
-          Nothing has been saved yet, so the site shows the built-in defaults below. Check them and save.
+        <p
+          role="status"
+          className="flex items-start gap-3 rounded-md border border-info/40 bg-info/10 px-4 py-3 text-sm text-fg"
+        >
+          <Info
+            aria-hidden
+            className="mt-0.5 size-4 shrink-0 text-info"
+            strokeWidth={1.75}
+          />
+          Nothing has been saved yet, so the site shows the built-in defaults
+          below. Check them and save.
         </p>
       ) : null}
 
@@ -145,6 +200,36 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
             onChange={setter("email")}
             error={error("email")}
             placeholder="hello@melophilenp.com"
+          />
+          <TextInput
+            label="Phone"
+            type="tel"
+            required
+            value={values.phone}
+            onChange={setter("phone")}
+            error={error("phone")}
+            maxLength={40}
+            placeholder="+977 1-5550123"
+          />
+          <TextInput
+            label="Secondary phone"
+            type="tel"
+            required
+            value={values.secondaryPhone}
+            onChange={setter("secondaryPhone")}
+            error={error("secondaryPhone")}
+            maxLength={40}
+            placeholder="+977 1-5550123"
+          />
+          <TextInput
+            label="Tertiary phone"
+            type="tel"
+            required
+            value={values.tertiaryPhone}
+            onChange={setter("tertiaryPhone")}
+            error={error("tertiaryPhone")}
+            maxLength={40}
+            placeholder="+977 1-5550123"
           />
           <TextInput
             label="Phone"
@@ -178,7 +263,10 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
         />
       </FormSection>
 
-      <FormSection title="Map" description="Optional. Shown on the contact page.">
+      <FormSection
+        title="Map"
+        description="Optional. Shown on the contact page."
+      >
         <TextArea
           label="Map embed"
           optional
@@ -209,8 +297,16 @@ export function ContactInfoForm({ info, saved, loadError }: ContactInfoFormProps
         )}
       </FormSection>
 
-      <FormSection title="Social profiles" description="Shown in the footer and on the contact page, in this order.">
-        <SocialLinksField value={values.socialLinks} onChange={setter("socialLinks")} errorFor={error} label="Links" />
+      <FormSection
+        title="Social profiles"
+        description="Shown in the footer and on the contact page, in this order."
+      >
+        <SocialLinksField
+          value={values.socialLinks}
+          onChange={setter("socialLinks")}
+          errorFor={error}
+          label="Links"
+        />
       </FormSection>
     </FormShell>
   );

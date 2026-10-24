@@ -42,6 +42,7 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
       ),
     });
   }
+
   if (info.phone) {
     rows.push({
       key: "phone",
@@ -49,11 +50,13 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
       icon: Phone,
       content: (
         <a href={telHref(info.phone)} className={BIG_LINK}>
-          {info.phone}
+          {info.phone} {info.secondaryPhone ? ` / ${info.secondaryPhone}` : ""}{" "}
+          {info.tertiaryPhone ? ` / ${info.tertiaryPhone}` : ""}
         </a>
       ),
     });
   }
+
   if (info.address) {
     rows.push({
       key: "address",
@@ -66,9 +69,13 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
             href={mapsSearchUrl(info.address)}
             target="_blank"
             rel="noopener noreferrer"
-            className={cn(META, "mt-2 inline-flex min-h-11 items-center text-fg-muted underline-offset-4 transition-colors hover:text-link hover:underline")}
+            className={cn(
+              META,
+              "mt-2 inline-flex min-h-11 items-center text-fg-muted underline-offset-4 transition-colors hover:text-link hover:underline",
+            )}
           >
-            Open in Google Maps<span className="sr-only"> (opens in a new tab)</span>
+            Open in Google Maps
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </>
       ),
@@ -79,7 +86,9 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
       key: "hours",
       label: "Hours",
       icon: Clock,
-      content: <span className="block text-lg/snug text-fg">{info.officeHours}</span>,
+      content: (
+        <span className="block text-lg/snug text-fg">{info.officeHours}</span>
+      ),
     });
   }
 
@@ -89,9 +98,22 @@ export function ContactDetails({ info, className }: ContactDetailsProps) {
         <address className="not-italic">
           <dl className="border-t border-line">
             {rows.map(({ key, label, icon: Icon, content }) => (
-              <div key={key} className="grid gap-2 border-b border-line py-5 sm:grid-cols-[7.5rem_1fr] sm:gap-6">
-                <dt className={cn(META, "flex items-center gap-2 pt-1 text-fg-subtle")}>
-                  <Icon size={16} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-highlight" />
+              <div
+                key={key}
+                className="grid gap-2 border-b border-line py-5 sm:grid-cols-[7.5rem_1fr] sm:gap-6"
+              >
+                <dt
+                  className={cn(
+                    META,
+                    "flex items-center gap-2 pt-1 text-fg-subtle",
+                  )}
+                >
+                  <Icon
+                    size={16}
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                    className="shrink-0 text-highlight"
+                  />
                   {label}
                 </dt>
                 <dd className="min-w-0">{content}</dd>

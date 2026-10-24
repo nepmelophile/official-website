@@ -1,11 +1,19 @@
 import mongoose, { Schema, type Model } from "mongoose";
-import { SINGLETON_KEY, SocialLinkSchema, type Lean, type SocialLinkDoc, type TimestampsDoc } from "./shared";
+import {
+  SINGLETON_KEY,
+  SocialLinkSchema,
+  type Lean,
+  type SocialLinkDoc,
+  type TimestampsDoc,
+} from "./shared";
 
 export interface ContactInfoDoc extends TimestampsDoc {
   /** Singleton key — always 'default'. */
   key: string;
   email: string;
   phone: string;
+  secondaryPhone: string;
+  tertiaryPhone: string;
   address: string;
   mapEmbedUrl?: string;
   officeHours?: string;
@@ -19,6 +27,8 @@ const ContactInfoSchema = new Schema<ContactInfoDoc>(
     key: { type: String, required: true, unique: true, default: SINGLETON_KEY },
     email: { type: String, required: true, trim: true, lowercase: true },
     phone: { type: String, default: "", trim: true },
+    secondaryPhone: { type: String, default: "", trim: true },
+    tertiaryPhone: { type: String, default: "", trim: true },
     address: { type: String, default: "", trim: true },
     mapEmbedUrl: { type: String, trim: true },
     officeHours: { type: String, trim: true },
