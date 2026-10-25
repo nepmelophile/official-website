@@ -108,7 +108,7 @@ export async function Footer() {
                     aria-hidden="true"
                     className="shrink-0 text-fg-subtle"
                   />
-                  {contact.tertiaryPhone}
+                  {contact.secondaryPhone}
                 </a>
               ) : null}
               {contact.tertiaryPhone ? (
@@ -171,10 +171,7 @@ export async function Footer() {
               className="size-1.5 animate-pulse-dot rounded-pill bg-accent"
             />
             Made by{" "}
-            <a
-              className={`${LINK}`}
-              href="https://prayushadhikari.com.np"
-            >
+            <a className={`${LINK}`} href="https://prayushadhikari.com.np">
               Prayush Adhikari
             </a>
           </p>
